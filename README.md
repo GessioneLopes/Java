@@ -11,6 +11,7 @@ Projeto ordem de serviço desktop java 17
 * Java 17
 * HSQLDB 2.6.1
 * Maven
+* JasperReport 6.1
 
 ##### Observações
 
