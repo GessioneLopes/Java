@@ -86,6 +86,11 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
         jButton7.setForeground(new java.awt.Color(102, 102, 102));
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/fornecedor.png"))); // NOI18N
         jButton7.setText("Fornecedores");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setForeground(new java.awt.Color(102, 102, 102));
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/finace.png"))); // NOI18N
@@ -228,6 +233,11 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
         listagemProdutos.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+       TelaFornecedores tf = new TelaFornecedores(null, rootPaneCheckingEnabled);
+        tf.setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnServico;

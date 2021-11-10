@@ -9,24 +9,24 @@ import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 
 public class MainApp extends javax.swing.JFrame {
-    
+
     private MasterMenuOption masterMenuOption;
     private TelaCadastroServicos cadastroServicos;
     private TelaCadastroEquipamento cadastroEquipamento;
     private TelaCadastroOrdemServico cadastroOrdemServico;
-    
+
     public MainApp() {
         initComponents();
         showMainMenu();
     }
-    
+
     public static JDesktopPane getDesktop() {
         if (Desktop == null) {
             Desktop = new JDesktopPane();
         }
         return Desktop;
     }
-    
+
     private void showMainMenu() {
         if (masterMenuOption == null) {
             masterMenuOption = new MasterMenuOption();
@@ -37,11 +37,11 @@ public class MainApp extends javax.swing.JFrame {
         var screenSize = masterMenuOption.getSize();
         masterMenuOption.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
     }
-    
+
     public Image icone() {
         return (new ImageIcon(getClass().getResource("/imagens/menu-circulado-16.png"))).getImage();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -65,8 +65,6 @@ public class MainApp extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jSeparator4 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
@@ -138,6 +136,11 @@ public class MainApp extends javax.swing.JFrame {
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton3);
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -212,15 +215,6 @@ public class MainApp extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem4);
-        jMenu1.add(jSeparator4);
-
-        jMenuItem5.setText("Cadastro de Usuários");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem5);
         jMenu1.add(jSeparator5);
 
         jMenuItem6.setText("Cadastro de Técnicos");
@@ -302,7 +296,7 @@ public class MainApp extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         var rt = Runtime.getRuntime();
-        
+
         try {
             rt.exec("calc");
         } catch (IOException ex) {
@@ -311,7 +305,7 @@ public class MainApp extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
-        
+
         new Thread(() -> {
             try {
                 Thread.sleep(500);
@@ -321,7 +315,7 @@ public class MainApp extends javax.swing.JFrame {
             } catch (InterruptedException ex) {
                 System.out.println("erro ao centralizar menu master " + ex.getMessage());
             }
-            
+
         }).start();
 
     }//GEN-LAST:event_formWindowStateChanged
@@ -354,18 +348,18 @@ public class MainApp extends javax.swing.JFrame {
         tleq.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        TelaUsuarios tuser = new TelaUsuarios(this, rootPaneCheckingEnabled);
+        tuser.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        TelaFornecedores tf = new TelaFornecedores(this, rootPaneCheckingEnabled);
+        TelaFornecedores tf = new TelaFornecedores(null, rootPaneCheckingEnabled);
         tf.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-       TelaUsuarios tuser = new TelaUsuarios(this, rootPaneCheckingEnabled);
-       tuser.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
-    
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(() -> {
             FlatLightLaf.setup(new FlatIntelliJLaf());
             new MainApp().setVisible(true);
@@ -390,14 +384,12 @@ public class MainApp extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;

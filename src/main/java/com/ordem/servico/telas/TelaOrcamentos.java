@@ -88,6 +88,7 @@ public class TelaOrcamentos extends javax.swing.JInternalFrame implements Retorn
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMaximizable(true);
         setTitle("Orçamentos");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-list-16.png"))); // NOI18N
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

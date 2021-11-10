@@ -30,6 +30,7 @@ public class Produto implements Serializable {
     private String codbar;
     private String obs;
     private String cor;
+    private String nomeFornecedor;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Estoque estoque;
