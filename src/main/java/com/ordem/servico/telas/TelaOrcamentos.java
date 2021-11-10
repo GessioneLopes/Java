@@ -4,10 +4,13 @@ import com.ordem.servico.models.Ordem;
 import com.ordem.servico.repository.OrdemRepository;
 import com.ordem.servico.util.OrdemTipo;
 import com.ordem.servico.util.RetornoUpdate;
+import java.awt.Color;
+import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 public class TelaOrcamentos extends javax.swing.JInternalFrame implements RetornoUpdate {
@@ -60,7 +63,21 @@ public class TelaOrcamentos extends javax.swing.JInternalFrame implements Retorn
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
+        tabela = new javax.swing.JTable(){
+            @Override
+            public Component prepareRenderer(TableCellRenderer r, int row, int column){
+                Component comp = super.prepareRenderer(r, row, column);
+
+                if(row % 2 == 0 && !isCellSelected(row, column)){
+                    comp.setBackground(new Color(238, 238, 238));
+                }else if(!isCellSelected(row, column)){
+                    comp.setBackground(new Color(255, 255, 254));
+                }else{
+                    comp.setBackground(new Color(38, 117, 191));
+                }
+                return comp;
+            }
+        };
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();

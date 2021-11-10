@@ -15,6 +15,8 @@ public class Estoque implements Serializable {
     @Id
     @GeneratedValue
     private long id;
-    private int qtde;
+     private int inicial;
+    private int atual;
+    private int minimo;
 
 }

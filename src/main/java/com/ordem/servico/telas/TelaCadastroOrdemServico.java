@@ -51,6 +51,8 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
     public TelaCadastroOrdemServico() {
         initComponents();
+        
+        retornoUpdate = null;
 
         ordem = new Ordem();
         numberFormat = DecimalFormat.getCurrencyInstance();
@@ -256,7 +258,6 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
         jButton6 = new javax.swing.JButton();
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Ordens");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-circulado-16.png"))); // NOI18N
 
@@ -707,7 +708,10 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             limpar();
 
             new GeraRelatorioUtil().geraViaOrdemServico(idOrdemSalva);
-            retornoUpdate.update(null);
+            
+            if(retornoUpdate != null){
+                retornoUpdate.update(ordem);
+            }
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "Complete o preenchimento dos dados da ordem de serviço", "Incompleta", 0);
@@ -735,7 +739,8 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        TelaListagemProdutos tlp = new TelaListagemProdutos(null, closable, this);
+        TelaListagemProdutos tlp = new TelaListagemProdutos( this);
+        MainApp.getDesktop().add(tlp);
         tlp.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -832,7 +837,9 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
         txtTotalGeral.setText("");
         txtDefeitoEquip.setText("");
         txtCliente.requestFocus();
+        
         listaItens.clear();
+        listaItemsOrdem();
     }
 
     @Override

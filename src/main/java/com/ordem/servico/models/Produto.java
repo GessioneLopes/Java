@@ -19,11 +19,17 @@ public class Produto implements Serializable {
     private String nome;
     private BigDecimal valor;
     private BigDecimal custo;
+    private BigDecimal valorPromo;
+    private Double ajuste;
+    private Double margen;
     private String garantia;
     private String und;
     private String img;
     private String marca;
     private String tamanho;
+    private String codbar;
+    private String obs;
+    private String cor;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Estoque estoque;

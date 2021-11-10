@@ -1,19 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.ordem.servico.models;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import lombok.Data;
 
-/**
- *
- * @author deibi
- */
 @Data
 @Entity
 public class Fornecedor implements Serializable {
@@ -22,8 +17,11 @@ public class Fornecedor implements Serializable {
     @GeneratedValue
     private long id;
     private String nome;
-    private String telefone;
+    private String fone;
     private String email;
     private String cnpj;
+    private String ramo;
+    
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Endereco endereco;
 }

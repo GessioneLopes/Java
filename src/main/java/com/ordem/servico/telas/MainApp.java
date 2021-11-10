@@ -206,10 +206,20 @@ public class MainApp extends javax.swing.JFrame {
         jMenu1.add(jSeparator3);
 
         jMenuItem4.setText("Cadastro de Fornecedores");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
         jMenu1.add(jSeparator4);
 
         jMenuItem5.setText("Cadastro de Usuários");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem5);
         jMenu1.add(jSeparator5);
 
@@ -343,6 +353,16 @@ public class MainApp extends javax.swing.JFrame {
         TelaListagemEquipamentos tleq = new TelaListagemEquipamentos(this, rootPaneCheckingEnabled);
         tleq.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        TelaFornecedores tf = new TelaFornecedores(this, rootPaneCheckingEnabled);
+        tf.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+       TelaUsuarios tuser = new TelaUsuarios(this, rootPaneCheckingEnabled);
+       tuser.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
     
     public static void main(String args[]) {
         

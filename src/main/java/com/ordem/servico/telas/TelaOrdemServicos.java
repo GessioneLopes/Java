@@ -5,10 +5,13 @@ import com.ordem.servico.repository.OrdemRepository;
 import com.ordem.servico.util.GeraRelatorioUtil;
 import com.ordem.servico.util.OrdemTipo;
 import com.ordem.servico.util.RetornoUpdate;
+import java.awt.Color;
+import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 public class TelaOrdemServicos extends javax.swing.JInternalFrame implements RetornoUpdate {
@@ -63,7 +66,21 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
 
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
+        tabela = new javax.swing.JTable(){
+            @Override
+            public Component prepareRenderer(TableCellRenderer r, int row, int column){
+                Component comp = super.prepareRenderer(r, row, column);
+
+                if(row % 2 == 0 && !isCellSelected(row, column)){
+                    comp.setBackground(new Color(238, 238, 238));
+                }else if(!isCellSelected(row, column)){
+                    comp.setBackground(new Color(255, 255, 254));
+                }else{
+                    comp.setBackground(new Color(38, 117, 191));
+                }
+                return comp;
+            }
+        };
         jButton2 = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -93,7 +110,15 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
             new String [] {
                 "Codigo", "Data", "Horario", "Cliente", "Total", "Status", "Tecnico"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tabela);
         if (tabela.getColumnModel().getColumnCount() > 0) {
             tabela.getColumnModel().getColumn(0).setMinWidth(90);
@@ -201,6 +226,7 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
         var desktopSize = MainApp.getDesktop().getSize();
         var screenSize = cadastroOrdemServico.getSize();
         cadastroOrdemServico.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

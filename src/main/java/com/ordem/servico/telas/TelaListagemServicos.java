@@ -1,21 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package com.ordem.servico.telas;
 
 import com.ordem.servico.models.Servico;
 import com.ordem.servico.repository.ServicoRepository;
 import com.ordem.servico.util.OrdemRetornoAdiciona;
+import java.awt.Color;
+import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
-/**
- *
- * @author deibi
- */
+
 public class TelaListagemServicos extends javax.swing.JDialog {
 
     private ServicoRepository servicoRepository;
@@ -66,7 +63,21 @@ public class TelaListagemServicos extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
+        tabela = new javax.swing.JTable(){
+            @Override
+            public Component prepareRenderer(TableCellRenderer r, int row, int column){
+                Component comp = super.prepareRenderer(r, row, column);
+
+                if(row % 2 == 0 && !isCellSelected(row, column)){
+                    comp.setBackground(new Color(238, 238, 238));
+                }else if(!isCellSelected(row, column)){
+                    comp.setBackground(new Color(255, 255, 254));
+                }else{
+                    comp.setBackground(new Color(38, 117, 191));
+                }
+                return comp;
+            }
+        };
         jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);

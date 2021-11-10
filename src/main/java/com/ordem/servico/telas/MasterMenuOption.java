@@ -6,6 +6,7 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
     private TelaCadastroServicos cadastroServicos;
     private TelaOrcamentos telaOrcamentos;
     private TelaOrdemServicos telaOrdemServicos;
+    private TelaListagemProdutos listagemProdutos;
 
     public MasterMenuOption() {
         initComponents();
@@ -49,6 +50,11 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
         jButton3.setForeground(new java.awt.Color(102, 102, 102));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/produto.png"))); // NOI18N
         jButton3.setText("Meus Produtos");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setForeground(new java.awt.Color(102, 102, 102));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/packing-list.png"))); // NOI18N
@@ -207,6 +213,21 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
         var screenSize = telaOrdemServicos.getSize();
         telaOrdemServicos.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (listagemProdutos == null) {
+            listagemProdutos = new TelaListagemProdutos();
+            MainApp.getDesktop().add(listagemProdutos);
+     
+        }
+        listagemProdutos.toFront();
+        listagemProdutos.setVisible(true);
+
+        var desktopSize = MainApp.getDesktop().getSize();
+        var screenSize = listagemProdutos.getSize();
+        listagemProdutos.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnServico;

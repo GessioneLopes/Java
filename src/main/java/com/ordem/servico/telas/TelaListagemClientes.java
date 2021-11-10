@@ -3,9 +3,12 @@ package com.ordem.servico.telas;
 import com.ordem.servico.models.Cliente;
 import com.ordem.servico.repository.ClienteRepository;
 import com.ordem.servico.util.RetornoUpdate;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 public class TelaListagemClientes extends javax.swing.JDialog {
@@ -28,7 +31,21 @@ public class TelaListagemClientes extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaCli = new javax.swing.JTable();
+        tabelaCli = new javax.swing.JTable(){
+            @Override
+            public Component prepareRenderer(TableCellRenderer r, int row, int column){
+                Component comp = super.prepareRenderer(r, row, column);
+
+                if(row % 2 == 0 && !isCellSelected(row, column)){
+                    comp.setBackground(new Color(238, 238, 238));
+                }else if(!isCellSelected(row, column)){
+                    comp.setBackground(new Color(255, 255, 254));
+                }else{
+                    comp.setBackground(new Color(38, 117, 191));
+                }
+                return comp;
+            }
+        };
         txtBuscar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 

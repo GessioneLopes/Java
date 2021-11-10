@@ -49,4 +49,13 @@ public class Ordem implements Serializable {
     @Enumerated(EnumType.STRING)
     private OrdemStatus status;
 
+    public Ordem() {
+    }
+
+    public Ordem(long id) {
+        this.id = id;
+    }
+    
+    
+
 }

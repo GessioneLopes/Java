@@ -3,20 +3,24 @@ package com.ordem.servico.telas;
 import com.ordem.servico.models.Produto;
 import com.ordem.servico.repository.ProdutoRepository;
 import com.ordem.servico.util.OrdemRetornoAdiciona;
+import com.ordem.servico.util.RetornoUpdate;
+import java.awt.Color;
+import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
-public class TelaListagemProdutos extends javax.swing.JDialog {
+public class TelaListagemProdutos extends javax.swing.JInternalFrame implements RetornoUpdate{
 
     private final OrdemRetornoAdiciona ordemRetornoAdiciona;
     private final ProdutoRepository produtoRepository;
 
     private final NumberFormat numberFormat;
 
-    public TelaListagemProdutos(java.awt.Frame parent, boolean modal, TelaCadastroOrdemServico tela) {
-        super(parent, modal);
+    public TelaListagemProdutos(TelaCadastroOrdemServico tela) {
+       
         initComponents();
         numberFormat = DecimalFormat.getCurrencyInstance();
 
@@ -24,6 +28,18 @@ public class TelaListagemProdutos extends javax.swing.JDialog {
         listagemProdutos();
 
         ordemRetornoAdiciona = tela;
+    }
+    
+    public TelaListagemProdutos() {
+       
+        initComponents();
+        numberFormat = DecimalFormat.getCurrencyInstance();
+
+        produtoRepository = new ProdutoRepository();
+        listagemProdutos();
+        
+        ordemRetornoAdiciona = null;
+
     }
 
     private void listagemProdutos() {
@@ -37,7 +53,7 @@ public class TelaListagemProdutos extends javax.swing.JDialog {
 
             row[0] = i.getCodigo();
             row[1] = i.getNome().toUpperCase();
-            row[3] = i.getEstoque().getQtde();
+            row[3] = i.getEstoque().getAtual();
             row[2] = numberFormat.format(i.getValor());
             row[4] = i.getMarca();
             row[5] = i.getTamanho();
@@ -57,9 +73,25 @@ public class TelaListagemProdutos extends javax.swing.JDialog {
 
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
+        tabela = new javax.swing.JTable(){
+            @Override
+            public Component prepareRenderer(TableCellRenderer r, int row, int column){
+                Component comp = super.prepareRenderer(r, row, column);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                if(row % 2 == 0 && !isCellSelected(row, column)){
+                    comp.setBackground(new Color(238, 238, 238));
+                }else if(!isCellSelected(row, column)){
+                    comp.setBackground(new Color(255, 255, 254));
+                }else{
+                    comp.setBackground(new Color(38, 117, 191));
+                }
+                return comp;
+            }
+        };
+        jButton1 = new javax.swing.JButton();
+
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
         jTextField1.setText("jTextField1");
 
@@ -95,15 +127,25 @@ public class TelaListagemProdutos extends javax.swing.JDialog {
             tabela.getColumnModel().getColumn(1).setMaxWidth(320);
         }
 
+        jButton1.setText("Novo Produto");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 797, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -112,11 +154,13 @@ public class TelaListagemProdutos extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
@@ -130,9 +174,20 @@ public class TelaListagemProdutos extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tabelaMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       TelaCadastroProduto tcp = new TelaCadastroProduto(null, rootPaneCheckingEnabled, this);
+       tcp.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Object obj) {
+        listagemProdutos();
+    }
 }
