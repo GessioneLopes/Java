@@ -20,6 +20,15 @@ public class TelaListagemEquipamentos extends javax.swing.JDialog {
 
         retornoUpdate = cadastroOrdemServico;
     }
+    
+    public TelaListagemEquipamentos(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+
+        equipamentoRepository = new EquipamentoRepository();
+        listaEquipamentos();
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

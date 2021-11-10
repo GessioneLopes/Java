@@ -9,24 +9,24 @@ import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 
 public class MainApp extends javax.swing.JFrame {
-
+    
     private MasterMenuOption masterMenuOption;
     private TelaCadastroServicos cadastroServicos;
     private TelaCadastroEquipamento cadastroEquipamento;
     private TelaCadastroOrdemServico cadastroOrdemServico;
-
+    
     public MainApp() {
         initComponents();
         showMainMenu();
     }
-
+    
     public static JDesktopPane getDesktop() {
         if (Desktop == null) {
             Desktop = new JDesktopPane();
         }
         return Desktop;
     }
-
+    
     private void showMainMenu() {
         if (masterMenuOption == null) {
             masterMenuOption = new MasterMenuOption();
@@ -37,11 +37,11 @@ public class MainApp extends javax.swing.JFrame {
         var screenSize = masterMenuOption.getSize();
         masterMenuOption.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
     }
-
+    
     public Image icone() {
         return (new ImageIcon(getClass().getResource("/imagens/menu-circulado-16.png"))).getImage();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -106,10 +106,15 @@ public class MainApp extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         jButton1.setForeground(new java.awt.Color(102, 102, 102));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/equipamento.png"))); // NOI18N
-        jButton1.setText("Equipamento");
+        jButton1.setText("Equipamentos");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton1);
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -287,7 +292,7 @@ public class MainApp extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         var rt = Runtime.getRuntime();
-
+        
         try {
             rt.exec("calc");
         } catch (IOException ex) {
@@ -296,7 +301,7 @@ public class MainApp extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
-
+        
         new Thread(() -> {
             try {
                 Thread.sleep(500);
@@ -306,7 +311,7 @@ public class MainApp extends javax.swing.JFrame {
             } catch (InterruptedException ex) {
                 System.out.println("erro ao centralizar menu master " + ex.getMessage());
             }
-
+            
         }).start();
 
     }//GEN-LAST:event_formWindowStateChanged
@@ -334,8 +339,13 @@ public class MainApp extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        TelaListagemEquipamentos tleq = new TelaListagemEquipamentos(this, rootPaneCheckingEnabled);
+        tleq.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
     public static void main(String args[]) {
-
+        
         java.awt.EventQueue.invokeLater(() -> {
             FlatLightLaf.setup(new FlatIntelliJLaf());
             new MainApp().setVisible(true);

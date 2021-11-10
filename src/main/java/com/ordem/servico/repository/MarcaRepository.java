@@ -10,7 +10,7 @@ public class MarcaRepository extends GenericDao<Marca> {
     public Marca getByNome(String nome) {
         Session session = factory.openSession();
         session.beginTransaction();
-        TypedQuery<Marca> query = session.createQuery("SELECT m FROM Marca m WHERE m.marca = :marca");
+        TypedQuery<Marca> query = session.createQuery("SELECT m FROM Marca m WHERE m.marca = :marca", Marca.class);
        
         query.setMaxResults(1);
         query.setParameter("marca", nome);

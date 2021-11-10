@@ -10,7 +10,7 @@ public class CorRepository extends GenericDao<Cor> {
      public Cor getByNome(String nome) {
         Session session = factory.openSession();
         session.beginTransaction();
-        TypedQuery<Cor> query = session.createQuery("SELECT c FROM Cor c WHERE c.cor = :cor");
+        TypedQuery<Cor> query = session.createQuery("SELECT c FROM Cor c WHERE c.cor = :cor", Cor.class);
        
         query.setMaxResults(1);
         query.setParameter("cor", nome);

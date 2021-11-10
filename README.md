@@ -17,5 +17,7 @@ Projeto ordem de serviço desktop java 17
 
 As classes do projeto podem ser editadas com qualquer IDE. O Uso do netbeans é importante para edição dos formularios swing
 
-O Mysql pode ser facilmente adicionado em substituição do HSQDB. Para isso edite o aquivo Hibernate.cfg.xml e HibernateUitl.java package util do projeto.
+O Mysql pode ser facilmente adicionado em substituição do HSQLDB. Para isso edite o aquivo Hibernate.cfg.xml e HibernateUitl.java package util do projeto.
 # gdmosDesktop
+
+by Deibidson Mesquita
