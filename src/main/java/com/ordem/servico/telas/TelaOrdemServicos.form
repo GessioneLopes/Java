@@ -141,6 +141,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelaMouseClicked"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa; @Override&#xa;    public Component prepareRenderer(TableCellRenderer r, int row, int column){&#xa;        Component comp = super.prepareRenderer(r, row, column);&#xa;&#xa;        if(row % 2 == 0 &amp;&amp; !isCellSelected(row, column)){&#xa;            comp.setBackground(new Color(238, 238, 238));&#xa;        }else if(!isCellSelected(row, column)){&#xa;            comp.setBackground(new Color(255, 255, 254));&#xa;        }else{&#xa;            comp.setBackground(new Color(38, 117, 191));&#xa;        }&#xa;        return comp;&#xa;    }&#xa;}"/>
           </AuxValues>

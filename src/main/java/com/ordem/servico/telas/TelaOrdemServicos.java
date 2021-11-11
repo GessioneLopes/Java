@@ -19,6 +19,7 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
     private OrdemRepository ordemRepository;
     private NumberFormat numberFormat;
     private TelaCadastroOrdemServico cadastroOrdemServico;
+    private RetornoUpdate retornoUpdate;
 
     public TelaOrdemServicos() {
         initComponents();
@@ -28,6 +29,17 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
         ordemRepository = new OrdemRepository();
         listagemOrdens();
     }
+    
+    public TelaOrdemServicos(TelaRecibos recibos) {
+        initComponents();
+
+        retornoUpdate = recibos;
+        numberFormat = DecimalFormat.getCurrencyInstance();
+
+        ordemRepository = new OrdemRepository();
+        listagemOrdens();
+    }
+
 
     private void listagemOrdens() {
         List<Ordem> lista = ordemRepository.lista(Ordem.class);
@@ -117,6 +129,11 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tabela);
@@ -228,6 +245,18 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
         cadastroOrdemServico.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        if (evt.getClickCount() > 1) {
+
+            long codigo = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
+            Ordem ordem = ordemRepository.find(Ordem.class, codigo);
+
+            retornoUpdate.update(ordem);
+            dispose();
+
+        }
+    }//GEN-LAST:event_tabelaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

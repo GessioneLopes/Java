@@ -25,6 +25,16 @@ public class TelaListagemClientes extends javax.swing.JDialog {
         clienteRepository = new ClienteRepository();
         listaClientes();
     }
+    
+     public TelaListagemClientes(TelaRecibos telaRecibos) {
+
+        initComponents();
+
+        retornoUpdate = telaRecibos;
+
+        clienteRepository = new ClienteRepository();
+        listaClientes();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

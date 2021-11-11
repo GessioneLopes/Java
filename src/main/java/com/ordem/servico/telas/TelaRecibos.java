@@ -1,17 +1,17 @@
-
 package com.ordem.servico.telas;
 
+import com.ordem.servico.models.Cliente;
+import com.ordem.servico.models.Ordem;
 import com.ordem.servico.util.GeraRelatorioUtil;
+import com.ordem.servico.util.RetornoUpdate;
+import javax.swing.JOptionPane;
 
-
-public class TelaRecibos extends javax.swing.JDialog {
-
+public class TelaRecibos extends javax.swing.JInternalFrame implements RetornoUpdate {
 
     public TelaRecibos(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+       
         initComponents();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -30,9 +30,11 @@ public class TelaRecibos extends javax.swing.JDialog {
         txtOrdemNr = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setClosable(true);
         setTitle("Novo recibo");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-circulado-16.png"))); // NOI18N
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/print.png"))); // NOI18N
         jButton1.setText("Imprimir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -40,11 +42,18 @@ public class TelaRecibos extends javax.swing.JDialog {
             }
         });
 
+        txtValor.setBackground(new java.awt.Color(246, 255, 246));
+
         jLabel1.setText("Valor Recibo:");
 
         jLabel2.setText("Cliente:");
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-pesquisar-24.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         txtObs.setColumns(20);
         txtObs.setRows(5);
@@ -55,6 +64,11 @@ public class TelaRecibos extends javax.swing.JDialog {
         jLabel4.setText("Ordem N°:");
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-pesquisar-24.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,7 +86,7 @@ public class TelaRecibos extends javax.swing.JDialog {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -82,7 +96,7 @@ public class TelaRecibos extends javax.swing.JDialog {
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtOrdemNr, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
+                                        .addComponent(txtOrdemNr, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))
                                     .addComponent(txtCliente))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,14 +137,30 @@ public class TelaRecibos extends javax.swing.JDialog {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new GeraRelatorioUtil().geraRecibo(txtValor.getText(), txtObs.getText(), txtCliente.getText(), txtOrdemNr.getText());
+        if (!txtValor.getText().isEmpty()) {
+            new GeraRelatorioUtil().geraRecibo(txtValor.getText(), txtObs.getText(), txtCliente.getText(), txtOrdemNr.getText());
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Informe todos os dados","Valor é obrigatório",0);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-  
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        TelaListagemClientes tlc = new TelaListagemClientes(this);
+      
+        tlc.toFront();
+        tlc.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       TelaOrdemServicos tlo = new TelaOrdemServicos(this);
+       MainApp.getDesktop().add(tlo);
+       tlo.toFront();
+       tlo.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -146,4 +176,13 @@ public class TelaRecibos extends javax.swing.JDialog {
     private javax.swing.JTextField txtOrdemNr;
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Object obj) {
+        if (obj instanceof Cliente cliente) {
+            txtCliente.setText(cliente.getNome());
+        } else if (obj instanceof Ordem ordem) {
+            txtOrdemNr.setText(String.valueOf(ordem.getId()));
+        }
+    }
 }
