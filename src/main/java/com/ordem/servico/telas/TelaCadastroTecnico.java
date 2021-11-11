@@ -380,6 +380,9 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
         txtCep.setText("");
         txtFone.setText("");
         txtNome.requestFocus();
+        txtRg.setText("");
+        txtNumero.setText("");
+        txtNome.requestFocus();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

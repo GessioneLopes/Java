@@ -168,6 +168,11 @@ public class MainApp extends javax.swing.JFrame {
         jButton7.setFocusable(false);
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton7);
 
         jButton5.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -357,6 +362,11 @@ public class MainApp extends javax.swing.JFrame {
         TelaFornecedores tf = new TelaFornecedores(null, rootPaneCheckingEnabled);
         tf.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        TelaRecibos rcb = new TelaRecibos(this, rootPaneCheckingEnabled);
+        rcb.setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     public static void main(String args[]) {
 
