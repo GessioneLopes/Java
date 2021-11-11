@@ -10,6 +10,13 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
+    
+    <repositories>
+        <repository>
+            <id>javaxt.com</id>
+            <url>http://www.javaxt.com/maven</url>
+        </repository>
+    </repositories>
       
     <dependencies>
         <dependency>
@@ -48,6 +55,17 @@
             <artifactId>jasperreports</artifactId>
             <version>6.18.1</version>         
         </dependency>
+        
+        <dependency>
+            <groupId>javaxt</groupId>
+            <artifactId>javaxt-core</artifactId>
+            <version>1.10.6</version>
+        </dependency>
+        
+        <!-- =========================================================== -->
+        <!--     Dependencias de Testes - opcionais                                -->
+        <!-- =========================================================== -->   
+   
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -66,6 +84,7 @@
             <version>5.6.0</version>
             <scope>test</scope>
         </dependency>
+        
     </dependencies>
     
     
@@ -87,7 +106,7 @@
                                     <mainClass>com.ordem.servico.telas.MainApp</mainClass>
                                 </transformer>
                             </transformers>
-                             <filters>
+                            <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
                                     <excludes>

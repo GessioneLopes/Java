@@ -3,6 +3,7 @@ package com.ordem.servico.models;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,7 +25,11 @@ public class Produto implements Serializable {
     private Double margen;
     private String garantia;
     private String und;
-    private String img;
+    
+    //@Lob
+    @Column(columnDefinition = "blob")
+    private byte[] img;
+    
     private String marca;
     private String tamanho;
     private String codbar;

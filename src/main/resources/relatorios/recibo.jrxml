@@ -1,29 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD JasperReport//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-
-<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-    <background>
-        <band/>
-    </background>
-    <title>
-        <band height="79"/>
-    </title>
-    <pageHeader>
-        <band height="35"/>
-    </pageHeader>
-    <columnHeader>
-        <band height="61"/>
-    </columnHeader>
-    <detail>
-        <band height="125"/>
-    </detail>
-    <columnFooter>
-        <band height="45"/>
-    </columnFooter>
-    <pageFooter>
-        <band height="54"/>
-    </pageFooter>
-    <summary>
-        <band height="42"/>
-    </summary>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="642a2762-b22c-40bc-becd-45e1ddd94cb9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="VALOR" class="java.lang.String"/>
+	<parameter name="OBS" class="java.lang.String"/>
+	<parameter name="ORDEM" class="java.lang.String"/>
+	<parameter name="CLIENTE" class="java.lang.String"/>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="13" y="0" width="114" height="53" uuid="17028128-4d9e-46de-837e-9f66c8f7aa1c"/>
+				<text><![CDATA[GDMOS]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="424" y="39" width="131" height="20" uuid="99cc5727-ecf5-4c3b-b197-a62907baed11"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="59" width="100" height="20" uuid="3c1f8f56-7479-4a6a-b6a2-99a74d91ca1b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ORDEM}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="59" width="56" height="20" uuid="3563c09b-4da6-4d2a-97db-4da97897b28b"/>
+				<text><![CDATA[Ordem N°:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="13" y="0" width="138" height="35" uuid="a440d70c-f118-4023-a9fa-4f812ee04bc9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="430" y="0" width="125" height="35" uuid="34a5fce9-04ae-420b-903c-f92c41abc993"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{VALOR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="383" y="0" width="47" height="35" uuid="92e88c5e-735b-428e-9516-9a30a16bbdcd"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="74" splitType="Stretch">
+			<textField>
+				<reportElement x="82" y="14" width="473" height="20" uuid="f8ab06e9-a0fb-4154-b99d-ad95dfb1f8dd"/>
+				<textFieldExpression><![CDATA[$P{CLIENTE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="14" width="69" height="20" uuid="255f710f-5bc3-482a-b1e6-371de7dc3db9"/>
+				<text><![CDATA[Recebido de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="34" width="542" height="31" uuid="f966f3c1-29e7-4162-8da6-95509f267b2c"/>
+				<text><![CDATA[Referente a venda de produtos e serviços prestados.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="18" width="542" height="32" uuid="a82bfec5-69bc-4408-b746-acd57751f0cd"/>
+				<textFieldExpression><![CDATA[$P{OBS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="1" width="127" height="23" uuid="186977ef-95ad-4142-b97a-d36d636e49dc"/>
+				<text><![CDATA[Observação:]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="94" splitType="Stretch"/>
+	</pageFooter>
 </jasperReport>

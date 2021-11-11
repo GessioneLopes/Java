@@ -3,10 +3,13 @@ package com.ordem.servico.telas;
 import com.ordem.servico.models.Cor;
 import com.ordem.servico.models.Estoque;
 import com.ordem.servico.models.Fornecedor;
+import com.ordem.servico.models.Marca;
 import com.ordem.servico.models.Produto;
 import com.ordem.servico.repository.CorRepository;
 import com.ordem.servico.repository.FornecedorRepository;
+import com.ordem.servico.repository.MarcaRepository;
 import com.ordem.servico.repository.ProdutoRepository;
+import com.ordem.servico.util.BuscadorFoto;
 import com.ordem.servico.util.RetornoUpdate;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -15,15 +18,21 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
-public class TelaCadastroProduto extends javax.swing.JDialog {
+public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoUpdate{
 
     private final RetornoUpdate processRetorno;
     private long idProduto = 0L;
     private CorRepository corRepository;
 
+    public static String fotoPath = "";
+    private MarcaRepository marcaRepository;
+
     public TelaCadastroProduto(java.awt.Frame parent, boolean modal, TelaListagemProdutos tela) {
         super(parent, modal);
         initComponents();
+        
+        marcaRepository = new MarcaRepository();
+        carregaMarcas();
 
         corRepository = new CorRepository();
         carregaCores();
@@ -67,6 +76,27 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
         txtFornecedor.setModel(new DefaultComboBoxModel<>(nomes));
     }
 
+    public static void mostrarFoto4x4FuncionarioNoFormulario() {
+        javaxt.io.Image image = new javaxt.io.Image(fotoPath);
+
+        image.resize(140, 120);
+        byte[] b = image.getByteArray();
+        foto.setText("");
+        foto.setIcon(new javax.swing.ImageIcon(b));
+    }
+    
+    private void carregaMarcas() {
+        List<Marca> marcas = marcaRepository.lista(Marca.class);
+
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        model.addElement("Selecione");
+
+        for (int i = 0; i < marcas.size(); i++) {
+            model.addElement(marcas.get(i).getMarca().toUpperCase());
+        }
+        txtMarca.setModel(model);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -98,9 +128,12 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
         txtValorVenda = new javax.swing.JFormattedTextField();
         txtValorCusto = new javax.swing.JFormattedTextField();
         jPanel1 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
+        foto = new javax.swing.JLabel();
         txtGarantia = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        txtMarca = new javax.swing.JComboBox<>();
+        btnMarca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Novo produto");
@@ -156,7 +189,7 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setText("Cor do Produto:");
 
-        txtCor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DOURADO", "PRETO", "BRANCO", "AMARELO", "AZUL", "VERMELHO", "ROSA", "CINZA", "BEGE", "VERDE", "MARRON", "MULTICOR", " " }));
+        txtCor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PRETO", "BRANCO", "AMARELO", "AZUL", "VERMELHO", "ROSA", "CINZA", "BEGE", "VERDE", "MARRON", "VIOLETA", "PRATA", "MULTICOR", "DOURADO", " " }));
 
         txtTamanho.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "M", "P", "G", "XG", "XXG" }));
 
@@ -190,30 +223,43 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(224, 220, 220));
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 102, 153));
-        jLabel14.setText("Foto Produto");
+        foto.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        foto.setForeground(new java.awt.Color(0, 102, 153));
+        foto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        foto.setText("Foto Produto");
+        foto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fotoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel14)
-                .addGap(35, 35, 35))
+            .addComponent(foto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jLabel14)
-                .addContainerGap(59, Short.MAX_VALUE))
+            .addComponent(foto, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
         );
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(102, 102, 102));
         jLabel13.setText("Informações de Garantia:");
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel14.setText("Marca:");
+
+        txtMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnMarca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add_orange.png"))); // NOI18N
+        btnMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarcaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -256,11 +302,6 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
                             .addComponent(jLabel3)
                             .addComponent(txtValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel7))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -277,7 +318,15 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
                             .addComponent(txtcodigoBar)
                             .addGroup(panelLayout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(168, 168, 168)))))
+                                .addGap(168, 168, 168))))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel14)
+                            .addComponent(txtMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnMarca)))
                 .addContainerGap())
         );
         panelLayout.setVerticalGroup(
@@ -339,13 +388,18 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
                                     .addComponent(txtTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtUnt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel14))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGap(271, 271, 271)
-                        .addComponent(txtcodigoBar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(txtcodigoBar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(1, 1, 1)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -392,6 +446,13 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
                 eq.setMinimo(1);
 
                 produto.setEstoque(eq);
+
+                if (!"".equals(fotoPath)) {
+                    javaxt.io.Image image = new javaxt.io.Image(fotoPath);
+                    image.resize(110, 120);
+                    byte[] b = image.getByteArray();
+                    produto.setImg(b);
+                }
 
                 new ProdutoRepository().saveOrUpdate(produto);
 
@@ -454,6 +515,19 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtValorVendaFocusLost
 
+    private void fotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fotoMouseClicked
+        if (evt.getClickCount() == 2) {
+            BuscadorFoto bf = new BuscadorFoto(null, true);
+            bf.setVisible(true);
+        }
+    }//GEN-LAST:event_fotoMouseClicked
+
+    private void btnMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcaActionPerformed
+         TelaCadastraMarca tm = new TelaCadastraMarca(null, true, this);
+        tm.setLocation(btnMarca.getLocation());
+        tm.setVisible(true);
+    }//GEN-LAST:event_btnMarcaActionPerformed
+
     private double calculaAjustePrecoVenda(BigDecimal custo, BigDecimal venda) {
 
         BigDecimal diferenca = venda.subtract(custo);
@@ -479,6 +553,8 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMarca;
+    private static javax.swing.JLabel foto;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -500,6 +576,7 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField txtEstoque;
     private javax.swing.JComboBox<String> txtFornecedor;
     private javax.swing.JTextField txtGarantia;
+    private javax.swing.JComboBox<String> txtMarca;
     private javax.swing.JTextField txtObs;
     private javax.swing.JComboBox<String> txtTamanho;
     private javax.swing.JComboBox<String> txtUnt;
@@ -520,5 +597,13 @@ public class TelaCadastroProduto extends javax.swing.JDialog {
         txtajuste.setText("0");
         txtEstoque.setText("");
         txtcodigoBar.setText("");
+    }
+
+    @Override
+    public void update(Object obj) {
+        if(obj instanceof Marca marca){
+            carregaMarcas();
+            txtMarca.setSelectedItem(marca.getMarca());
+        }
     }
 }

@@ -87,5 +87,33 @@ public class GeraRelatorioUtil {
 
         }
     }
+    
+     public void geraRecibo(String valor, String obs, String nomeCliente, String nrOrdem) {
+        InputStream rel = this.getClass().getResourceAsStream("/relatorios/recibo.jasper");
+        try {
+            Map<String, Object> params = new HashMap<>();
+
+            params.put("VALOR", valor);
+            params.put("OBS", obs);
+            params.put("CLIENTE", nomeCliente);
+            params.put("ORDEM", nrOrdem);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
+            jasperPrint.setOrientation(OrientationEnum.PORTRAIT);
+            JasperViewer jv = new JasperViewer(jasperPrint, false);
+
+            jv.setFitPageZoomRatio();
+            jv.setFitWidthZoomRatio();
+
+            jv.setTitle("Recido");
+
+            jv.setVisible(true);
+            jv.toFront();
+
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage() + "\n" + e.getCause());
+
+        }
+    }
 
 }

@@ -18,6 +18,15 @@ public class TelaCadastraMarca extends javax.swing.JDialog {
         marcaRepository = new MarcaRepository();
         retornoUpdate = tela;
     }
+    
+     
+    public TelaCadastraMarca(java.awt.Frame parent, boolean modal, TelaCadastroProduto tela) {
+        super(parent, modal);
+        initComponents();
+        
+        marcaRepository = new MarcaRepository();
+        retornoUpdate = tela;
+    }
 
 
     @SuppressWarnings("unchecked")
