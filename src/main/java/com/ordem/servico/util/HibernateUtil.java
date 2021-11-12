@@ -9,12 +9,14 @@ import com.ordem.servico.models.Equipamento;
 import com.ordem.servico.models.Estoque;
 import com.ordem.servico.models.Fornecedor;
 import com.ordem.servico.models.ItemOrdem;
+import com.ordem.servico.models.ItemVenda;
 import com.ordem.servico.models.Marca;
 import com.ordem.servico.models.Ordem;
 import com.ordem.servico.models.Produto;
 import com.ordem.servico.models.Servico;
 import com.ordem.servico.models.Tecnico;
 import com.ordem.servico.models.Usuario;
+import com.ordem.servico.models.Venda;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
@@ -56,6 +58,8 @@ public class HibernateUtil {
                     .addAnnotatedClass(ItemOrdem.class)
                     .addAnnotatedClass(Usuario.class)
                     .addAnnotatedClass(Empresa.class)
+                    .addAnnotatedClass(Venda.class)
+                    .addAnnotatedClass(ItemVenda.class)
                     .buildMetadata().buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Inicial SessionFactory criafalhou." + ex);

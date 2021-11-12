@@ -7,6 +7,8 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
     private TelaOrcamentos telaOrcamentos;
     private TelaOrdemServicos telaOrdemServicos;
     private TelaListagemProdutos listagemProdutos;
+    private TelaFinanceiro telaFinanceiro;
+    private TelaMinhasVendas telaMinhasVendas;
 
     public MasterMenuOption() {
         initComponents();
@@ -95,10 +97,20 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
         jButton8.setForeground(new java.awt.Color(102, 102, 102));
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/finace.png"))); // NOI18N
         jButton8.setText("Financeiro");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setForeground(new java.awt.Color(102, 102, 102));
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/venda.png"))); // NOI18N
         jButton9.setText("Minhas Vendas");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
@@ -238,6 +250,25 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
        TelaFornecedores tf = new TelaFornecedores(null, rootPaneCheckingEnabled);
         tf.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+          if (telaFinanceiro == null) {
+            telaFinanceiro  = new TelaFinanceiro();
+            MainApp.getDesktop().add(telaFinanceiro );
+        }
+        telaFinanceiro.toFront();
+        telaFinanceiro.setVisible(true);
+
+        var desktopSize = MainApp.getDesktop().getSize();
+        var screenSize = telaFinanceiro .getSize();
+        telaFinanceiro .setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        TelaMinhasVendas tv = new TelaMinhasVendas(null, closable);
+        tv.setVisible(true);
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnServico;
