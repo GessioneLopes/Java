@@ -308,30 +308,32 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        var empresa = new Empresa();
-        empresa.setId(1L);
-        empresa.setCnpj(txtCnpj.getText());
-        empresa.setIe(txtIE.getText());
-        empresa.setNomeEmpresa(txtNome.getText());
+        if (!txtNome.getText().isEmpty() && !txtEmail.getText().isEmpty()) {
+            var empresa = new Empresa();
+            empresa.setId(1L);
+            empresa.setCnpj(txtCnpj.getText());
+            empresa.setIe(txtIE.getText());
+            empresa.setNomeEmpresa(txtNome.getText());
 
-        var endereco = new Endereco();
-        endereco.setBairro(txtBairro.getText().toUpperCase());
-        endereco.setCidade(txtCidade.getText().toUpperCase());
-        endereco.setLogradouro(txtEndereco.getText().toUpperCase());
-        endereco.setNumero(txtNumero.getText());
-        endereco.setUf(txtUf.getSelectedItem().toString());
-        endereco.setCep(txtCep.getText());
-        endereco.setReferencia(txtReferencia.getText());
-        empresa.setEndereco(endereco);
+            var endereco = new Endereco();
+            endereco.setBairro(txtBairro.getText().toUpperCase());
+            endereco.setCidade(txtCidade.getText().toUpperCase());
+            endereco.setLogradouro(txtEndereco.getText().toUpperCase());
+            endereco.setNumero(txtNumero.getText());
+            endereco.setUf(txtUf.getSelectedItem().toString());
+            endereco.setCep(txtCep.getText());
+            endereco.setReferencia(txtReferencia.getText());
+            empresa.setEndereco(endereco);
 
-        empresa.setLogo(fotoPath);
-        empresa.setNire(txtNire.getText());
-        empresa.setAtividade(txtCodigoAt.getText());
+            empresa.setLogo(fotoPath);
+            empresa.setNire(txtNire.getText());
+            empresa.setAtividade(txtCodigoAt.getText());
 
-        empresa.setContato(new Contato(txtFone.getText(), txtEmail.getText(), redeSocial.getText()));
-        empresaRepository.saveOrUpdate(empresa);
+            empresa.setContato(new Contato(txtFone.getText(), txtEmail.getText(), redeSocial.getText()));
+            empresaRepository.saveOrUpdate(empresa);
 
-        JOptionPane.showMessageDialog(rootPane, "Dados salvos com sucesso", "Confirmado", 1);
+            JOptionPane.showMessageDialog(rootPane, "Dados salvos com sucesso", "Confirmado", 1);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtCepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCepFocusLost
@@ -356,6 +358,18 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
                 fotoPath = selectedFile.getAbsolutePath();
+
+                if (!fotoPath.isEmpty() || fotoPath != null) {
+                    try {
+                        javaxt.io.Image image = new javaxt.io.Image(fotoPath);
+
+                        image.resize(185, 130);
+                        txtFoto.setIcon(new ImageIcon(image.getImage()));
+                        txtFoto.setText("");
+                    } catch (NullPointerException ex) {
+                        JOptionPane.showMessageDialog(rootPane, "Imagem inválida", "Erro", 0);
+                    }
+                }
             }
 
         }
@@ -377,6 +391,10 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
             txtNumero.setText(empresa.getEndereco().getNumero());
             txtFone.setText(empresa.getContato().getCelular());
             txtEmail.setText(empresa.getContato().getEmail());
+            txtNire.setText(empresa.getNire());
+            txtCodigoAt.setText(empresa.getAtividade());
+            redeSocial.setText(empresa.getContato().getRedesocial());
+            txtReferencia.setText(empresa.getEndereco().getReferencia());
 
             if (!empresa.getLogo().isEmpty()) {
 

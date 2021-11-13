@@ -1,7 +1,5 @@
 package com.ordem.servico.telas;
 
-import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 import com.ordem.servico.models.Empresa;
 import com.ordem.servico.repository.EmpresaRepository;
 import java.awt.Image;
@@ -41,13 +39,21 @@ public class MainApp extends javax.swing.JFrame {
         var screenSize = masterMenuOption.getSize();
         masterMenuOption.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
     }
-    
-    private void dadosEmpresaCheck(){
-        var empresa = Optional.ofNullable(new EmpresaRepository().find(Empresa.class, 1L));
-        if(empresa != null){
-            var telaEmpresa = new TelaCadastroEmpresa(this, true);
-            telaEmpresa.setVisible(true);
-        }
+
+    private void dadosEmpresaCheck() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                var empresa = Optional.ofNullable(new EmpresaRepository().find(Empresa.class, 1L));
+                if (empresa == null) {
+                    var telaEmpresa = new TelaCadastroEmpresa(this, true);
+                    telaEmpresa.setVisible(true);
+                }
+               
+            } catch (InterruptedException ex) {
+                System.out.println("erro ao checar dados da empresa");
+            }
+        }).start();
     }
 
     public Image icone() {
@@ -414,13 +420,13 @@ public class MainApp extends javax.swing.JFrame {
         emp.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(() -> {
-            FlatLightLaf.setup(new FlatIntelliJLaf());
-            new MainApp().setVisible(true);
-        });
-    }
+//    public static void main(String args[]) {
+//
+//        java.awt.EventQueue.invokeLater(() -> {
+//            FlatLightLaf.setup(new FlatIntelliJLaf());
+//            new MainApp().setVisible(true);
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JDesktopPane Desktop;
