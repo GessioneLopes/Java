@@ -6,7 +6,6 @@ import com.ordem.servico.models.Fornecedor;
 import com.ordem.servico.repository.FornecedorRepository;
 import java.awt.Color;
 import java.awt.Component;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -27,12 +26,12 @@ public class TelaFornecedores extends javax.swing.JDialog {
 
    private void listagem() {
 
-        List<Fornecedor> lista = repository.lista(Fornecedor.class);
+        var lista = repository.lista(Fornecedor.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[5];
+        var row = new Object[5];
         lista.forEach(i -> {
 
             row[0] = i.getId();
@@ -268,7 +267,7 @@ public class TelaFornecedores extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        if(!txtEndereco.getText().isEmpty() && !nome.getText().isEmpty()){
-        Fornecedor f = new Fornecedor();
+        var f = new Fornecedor();
         f.setEmail(email.getText());
         f.setFone(fone.getText());
         f.setNome(nome.getText());
@@ -292,8 +291,8 @@ public class TelaFornecedores extends javax.swing.JDialog {
     }//GEN-LAST:event_txtRamoMouseClicked
 
     private void txtbuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscaKeyTyped
-        DefaultTableModel table = (DefaultTableModel) tabela.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(table);
+        var table = (DefaultTableModel) tabela.getModel();
+        var tr = new TableRowSorter<>(table);
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtbusca.getText().toUpperCase()));
     }//GEN-LAST:event_txtbuscaKeyTyped

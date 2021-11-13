@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -42,12 +41,12 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
 
 
     private void listagemOrdens() {
-        List<Ordem> lista = ordemRepository.lista(Ordem.class);
+        var lista = ordemRepository.lista(Ordem.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[7];
+        var row = new Object[7];
         lista.forEach(i -> {
             if (i.getTipo() == OrdemTipo.ORDEM_SERVICO) {
                 row[0] = i.getId();
@@ -213,8 +212,8 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-        DefaultTableModel table = (DefaultTableModel) tabela.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(table);
+        var table = (DefaultTableModel) tabela.getModel();
+        var tr = new TableRowSorter<>(table);
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBuscar.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscarKeyTyped
@@ -250,7 +249,7 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
         if (evt.getClickCount() > 1) {
 
             long codigo = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
-            Ordem ordem = ordemRepository.find(Ordem.class, codigo);
+            var ordem = ordemRepository.find(Ordem.class, codigo);
 
             retornoUpdate.update(ordem);
             dispose();

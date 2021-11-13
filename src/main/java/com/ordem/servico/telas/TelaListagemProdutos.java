@@ -8,12 +8,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-public class TelaListagemProdutos extends javax.swing.JInternalFrame implements RetornoUpdate{
+public class TelaListagemProdutos extends javax.swing.JInternalFrame implements RetornoUpdate {
 
     private final OrdemRetornoAdiciona ordemRetornoAdiciona;
     private final ProdutoRepository produtoRepository;
@@ -21,7 +20,7 @@ public class TelaListagemProdutos extends javax.swing.JInternalFrame implements 
     private final NumberFormat numberFormat;
 
     public TelaListagemProdutos(TelaCadastroOrdemServico tela) {
-       
+
         initComponents();
         numberFormat = DecimalFormat.getCurrencyInstance();
 
@@ -30,26 +29,26 @@ public class TelaListagemProdutos extends javax.swing.JInternalFrame implements 
 
         ordemRetornoAdiciona = tela;
     }
-    
+
     public TelaListagemProdutos() {
-       
+
         initComponents();
         numberFormat = DecimalFormat.getCurrencyInstance();
 
         produtoRepository = new ProdutoRepository();
         listagemProdutos();
-        
+
         ordemRetornoAdiciona = null;
 
     }
 
     private void listagemProdutos() {
-        List<Produto> lista = produtoRepository.lista(Produto.class);
+        var lista = produtoRepository.lista(Produto.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[6];
+        var row = new Object[6];
         lista.forEach(i -> {
 
             row[0] = i.getCodigo();
@@ -193,7 +192,7 @@ public class TelaListagemProdutos extends javax.swing.JInternalFrame implements 
         if (evt.getClickCount() > 1) {
 
             long codigo = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
-            Produto produto = produtoRepository.find(Produto.class, codigo);
+            var produto = produtoRepository.find(Produto.class, codigo);
             ordemRetornoAdiciona.adiciona(produto);
             dispose();
 
@@ -201,8 +200,8 @@ public class TelaListagemProdutos extends javax.swing.JInternalFrame implements 
     }//GEN-LAST:event_tabelaMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       TelaCadastroProduto tcp = new TelaCadastroProduto(null, rootPaneCheckingEnabled, this);
-       tcp.setVisible(true);
+        var tcp = new TelaCadastroProduto(null, rootPaneCheckingEnabled, this);
+        tcp.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtBuscaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscaFocusGained
@@ -210,8 +209,8 @@ public class TelaListagemProdutos extends javax.swing.JInternalFrame implements 
     }//GEN-LAST:event_txtBuscaFocusGained
 
     private void txtBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyTyped
-          DefaultTableModel table = (DefaultTableModel) tabela.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(table);
+        var table = (DefaultTableModel) tabela.getModel();
+        var tr = new TableRowSorter<>(table);
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBusca.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscaKeyTyped

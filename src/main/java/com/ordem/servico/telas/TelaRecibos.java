@@ -148,14 +148,14 @@ public class TelaRecibos extends javax.swing.JInternalFrame implements RetornoUp
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        TelaListagemClientes tlc = new TelaListagemClientes(this);
+        var tlc = new TelaListagemClientes(this);
       
         tlc.toFront();
         tlc.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       TelaOrdemServicos tlo = new TelaOrdemServicos(this);
+       var tlo = new TelaOrdemServicos(this);
        MainApp.getDesktop().add(tlo);
        tlo.toFront();
        tlo.setVisible(true);

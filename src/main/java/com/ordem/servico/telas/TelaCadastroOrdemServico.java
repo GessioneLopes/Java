@@ -22,7 +22,6 @@ import java.awt.Component;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -114,9 +113,9 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     }
 
     private void carregaTecnicos() {
-        List<Tecnico> tecnicos = tecnicoRepository.lista(Tecnico.class);
+        var tecnicos = tecnicoRepository.lista(Tecnico.class);
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        var model = new DefaultComboBoxModel();
         model.addElement("Selecione");
 
         for (int i = 0; i < tecnicos.size(); i++) {
@@ -127,9 +126,9 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     }
 
     private void carregaStatus() {
-        OrdemStatus[] status = OrdemStatus.values();
+        var status = OrdemStatus.values();
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        var model = new DefaultComboBoxModel();
         for (OrdemStatus sts : status) {
             model.addElement(sts.name());
         }
@@ -137,9 +136,9 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     }
 
     private void carregaTiposOrdem() {
-        OrdemTipo[] status = OrdemTipo.values();
+        var status = OrdemTipo.values();
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        var model = new DefaultComboBoxModel();
         for (OrdemTipo sts : status) {
             model.addElement(sts.name());
         }
@@ -148,10 +147,10 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
     private void listaItemsOrdem() {
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[7];
+        var row = new Object[7];
         listaItens.forEach(i -> {
             row[0] = i.getCodigo();
             row[1] = i.getDescricao();
@@ -676,7 +675,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        TelaListagemClientes tlist = new TelaListagemClientes(this);
+        var tlist = new TelaListagemClientes(this);
         tlist.setVisible(true);
         dataHoraOrdemInicial();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -693,7 +692,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             long idTecnico = Long.valueOf(txtTecnicos.getSelectedItem().toString().split("-")[0]);
             ordem.setTecnico(tecnicoRepository.find(Tecnico.class, idTecnico));
 
-            LocalDate dateOrdem = txtDateOrdem.getCalendar()
+            var dateOrdem = txtDateOrdem.getCalendar()
                     .toInstant()
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate();
@@ -719,13 +718,13 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TelaListagemEquipamentos tleq = new TelaListagemEquipamentos(null, closable, this);
+        var tleq = new TelaListagemEquipamentos(null, closable, this);
         tleq.setVisible(true);
         dataHoraOrdemInicial();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        TelaListagemServicos tsv = new TelaListagemServicos(null, closable, this);
+        var tsv = new TelaListagemServicos(null, closable, this);
         tsv.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -739,7 +738,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        TelaListagemProdutos tlp = new TelaListagemProdutos( this);
+        var tlp = new TelaListagemProdutos( this);
         MainApp.getDesktop().add(tlp);
         tlp.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed

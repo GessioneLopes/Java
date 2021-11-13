@@ -1,4 +1,3 @@
-
 package com.ordem.servico.models;
 
 import java.io.Serializable;
@@ -12,17 +11,22 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Usuario implements Serializable {
+
+    private static final long serialVersionUID = 1423318917319216920L;
+
     @Id
     @GeneratedValue
     private long id;
-    private String nome;
+    private String login;
     private String senha;
     private boolean adm;
+    private String status;
 
-    public Usuario(String nome, String senha, boolean adm) {
-        this.nome = nome;
+    public Usuario(String nome, String senha, boolean adm, String status) {
+        this.login = nome;
         this.senha = senha;
         this.adm = adm;
+        this.status = status;
     }
 
     public Usuario() {

@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -29,12 +28,12 @@ public class TelaOrcamentos extends javax.swing.JInternalFrame implements Retorn
     }
 
     private void listagemOrcamentos() {
-        List<Ordem> lista = ordemRepository.lista(Ordem.class);
+        var lista = ordemRepository.lista(Ordem.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[6];
+        var row = new Object[6];
         lista.forEach(i -> {
             if (i.getTipo() == OrdemTipo.ORCAMENTO) {
                 row[0] = i.getId();
@@ -189,8 +188,8 @@ public class TelaOrcamentos extends javax.swing.JInternalFrame implements Retorn
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-        DefaultTableModel table = (DefaultTableModel) tabela.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(table);
+        var table = (DefaultTableModel) tabela.getModel();
+        var tr = new TableRowSorter<>(table);
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBuscar.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscarKeyTyped

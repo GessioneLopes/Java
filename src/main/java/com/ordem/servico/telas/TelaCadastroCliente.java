@@ -6,7 +6,6 @@ import com.ordem.servico.models.Endereco;
 import com.ordem.servico.repository.ClienteRepository;
 import com.ordem.servico.util.BuscaViaCepUtil;
 import com.ordem.servico.util.RetornoUpdate;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -338,7 +337,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             cliente.setRg(txtRg.getText());
             cliente.setSexo(txtSexo.getSelectedItem().toString());
 
-            LocalDate nascimento = txtDateNascimento.getCalendar()
+            var nascimento = txtDateNascimento.getCalendar()
                     .toInstant()
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate();

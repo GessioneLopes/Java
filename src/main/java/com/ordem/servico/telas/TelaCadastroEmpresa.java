@@ -323,7 +323,7 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
         endereco.setCep(txtCep.getText());
         endereco.setReferencia(txtReferencia.getText());
         empresa.setEndereco(endereco);
-        
+
         empresa.setLogo(fotoPath);
         empresa.setNire(txtNire.getText());
         empresa.setAtividade(txtCodigoAt.getText());
@@ -349,7 +349,7 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
 
     private void txtFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFotoMouseClicked
         if (evt.getClickCount() > 1) {
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            var jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
             int returnValue = jfc.showOpenDialog(null);
 
@@ -363,7 +363,7 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
 
     private void carregaDadosEmpresa() {
 
-        Empresa empresa = empresaRepository.find(Empresa.class, 1L);
+        var empresa = empresaRepository.find(Empresa.class, 1L);
 
         if (empresa != null) {
             txtCidade.setText(empresa.getEndereco().getCidade());
@@ -377,9 +377,9 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
             txtNumero.setText(empresa.getEndereco().getNumero());
             txtFone.setText(empresa.getContato().getCelular());
             txtEmail.setText(empresa.getContato().getEmail());
-            
-            if(!empresa.getLogo().isEmpty()){
-            
+
+            if (!empresa.getLogo().isEmpty()) {
+
                 javaxt.io.Image image = new javaxt.io.Image(empresa.getLogo());
                 image.resize(185, 130);
                 txtFoto.setIcon(new ImageIcon(image.getImage()));
@@ -389,44 +389,6 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
 
     }
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEmpresa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEmpresa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEmpresa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEmpresa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                TelaCadastroEmpresa dialog = new TelaCadastroEmpresa(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

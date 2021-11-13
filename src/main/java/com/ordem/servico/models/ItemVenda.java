@@ -19,10 +19,12 @@ public class ItemVenda implements Serializable {
     @Id
     @GeneratedValue
     private long id;
+    
     private String descr;
     private BigDecimal precoUnit;
     private int qtde;
     private BigDecimal subtotal;
+    private long codigo_interno;
     
     @ManyToOne
     private Venda venda;

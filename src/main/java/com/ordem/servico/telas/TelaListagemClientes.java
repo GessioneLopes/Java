@@ -6,7 +6,6 @@ import com.ordem.servico.util.RetornoUpdate;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -141,8 +140,8 @@ public class TelaListagemClientes extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-        DefaultTableModel table = (DefaultTableModel) tabelaCli.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(table);
+        var table = (DefaultTableModel) tabelaCli.getModel();
+        var tr = new TableRowSorter<>(table);
         tabelaCli.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBuscar.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscarKeyTyped
@@ -151,7 +150,7 @@ public class TelaListagemClientes extends javax.swing.JDialog {
         if (evt.getClickCount() > 1) {
 
             long codigo = (long) tabelaCli.getValueAt(tabelaCli.getSelectedRow(), 0);
-            Cliente cliente = clienteRepository.find(Cliente.class, codigo);
+            var cliente = clienteRepository.find(Cliente.class, codigo);
 
             retornoUpdate.update(cliente);
             dispose();
@@ -162,7 +161,7 @@ public class TelaListagemClientes extends javax.swing.JDialog {
     private void tabelaCliKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelaCliKeyPressed
         if (tabelaCli.getSelectedRow() != -1 && evt.getKeyCode() == KeyEvent.VK_ENTER) {
             long codigo = (long) tabelaCli.getValueAt(tabelaCli.getSelectedRow(), 0);
-            Cliente cliente = clienteRepository.find(Cliente.class, codigo);
+            var cliente = clienteRepository.find(Cliente.class, codigo);
 
             retornoUpdate.update(cliente);
             dispose();
@@ -171,12 +170,12 @@ public class TelaListagemClientes extends javax.swing.JDialog {
 
     private void listaClientes() {
 
-        List<Cliente> lista = clienteRepository.lista(Cliente.class);
+        var lista = clienteRepository.lista(Cliente.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabelaCli.getModel();
+        var modelo = (DefaultTableModel) tabelaCli.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[4];
+        var row = new Object[4];
         lista.forEach(i -> {
 
             row[0] = i.getCodigo();

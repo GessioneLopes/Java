@@ -9,7 +9,6 @@ import java.awt.Component;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -36,9 +35,9 @@ public class TelaCadastroServicos extends javax.swing.JInternalFrame {
     }
 
     private void carregaTecnicos() {
-        List<Tecnico> tecnicos = tecnicoRepository.lista(Tecnico.class);
+        var tecnicos = tecnicoRepository.lista(Tecnico.class);
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        var model = new DefaultComboBoxModel();
         model.addElement("Selecione");
 
         for (int i = 0; i < tecnicos.size(); i++) {
@@ -49,12 +48,12 @@ public class TelaCadastroServicos extends javax.swing.JInternalFrame {
     }
 
     private void listagemServicos() {
-        List<Servico> lista = servicoRepository.lista(Servico.class);
+        var lista = servicoRepository.lista(Servico.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[6];
+        var row = new Object[6];
         lista.forEach(i -> {
 
             row[0] = i.getId();
@@ -353,8 +352,8 @@ public class TelaCadastroServicos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyTyped
-        DefaultTableModel table = (DefaultTableModel) tabela.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(table);
+        var table = (DefaultTableModel) tabela.getModel();
+        var tr = new TableRowSorter<>(table);
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBusca.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscaKeyTyped

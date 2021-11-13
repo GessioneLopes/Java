@@ -8,7 +8,6 @@ import com.ordem.servico.util.BuscaViaCepUtil;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
-import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -28,12 +27,12 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
     }
 
     private void listagemTecnicos() {
-        List<Tecnico> lista = tecnicoRepository.lista(Tecnico.class);
+        var lista = tecnicoRepository.lista(Tecnico.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[4];
+        var row = new Object[4];
         lista.forEach(i -> {
 
             row[0] = i.getCodigo();
@@ -424,8 +423,8 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
     }//GEN-LAST:event_txtCepFocusLost
 
     private void txtBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyTyped
-         DefaultTableModel table = (DefaultTableModel) tabela.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(table);
+        var table = (DefaultTableModel) tabela.getModel();
+        var tr = new TableRowSorter<>(table);
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBusca.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscaKeyTyped

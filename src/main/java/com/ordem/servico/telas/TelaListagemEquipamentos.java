@@ -5,7 +5,6 @@ import com.ordem.servico.repository.EquipamentoRepository;
 import com.ordem.servico.util.RetornoUpdate;
 import java.awt.Color;
 import java.awt.Component;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -172,13 +171,12 @@ public class TelaListagemEquipamentos extends javax.swing.JDialog {
 
     private void listaEquipamentos() {
 
-        List<Equipamento> lista = equipamentoRepository.lista(Equipamento.class
-        );
+        var lista = equipamentoRepository.lista(Equipamento.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[8];
+        var row = new Object[8];
         lista.forEach(i -> {
 
             row[0] = i.getId();

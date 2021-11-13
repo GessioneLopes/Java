@@ -5,7 +5,6 @@ import com.ordem.servico.repository.ClienteRepository;
 import com.ordem.servico.util.RetornoUpdate;
 import java.awt.Color;
 import java.awt.Component;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -23,12 +22,12 @@ public class TelaClientes extends javax.swing.JInternalFrame implements RetornoU
     }
 
     private void listagemClientes() {
-        List<Cliente> lista = clienteRepository.lista(Cliente.class);
+        var lista = clienteRepository.lista(Cliente.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[6];
+        var row = new Object[6];
         lista.forEach(i -> {
 
             row[0] = i.getCodigo();
@@ -174,7 +173,7 @@ public class TelaClientes extends javax.swing.JInternalFrame implements RetornoU
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TelaCadastroCliente tlc = new TelaCadastroCliente(null, closable, this);
+        var tlc = new TelaCadastroCliente(null, closable, this);
         tlc.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -187,8 +186,8 @@ public class TelaClientes extends javax.swing.JInternalFrame implements RetornoU
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyTyped
-        DefaultTableModel table = (DefaultTableModel) tabela.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(table);
+        var table = (DefaultTableModel) tabela.getModel();
+        var tr = new TableRowSorter<>(table);
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBusca.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscaKeyTyped

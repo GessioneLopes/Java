@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -34,12 +33,12 @@ public class TelaListagemServicos extends javax.swing.JDialog {
     }
 
     private void listagemServicos() {
-        List<Servico> lista = servicoRepository.lista(Servico.class);
+        var lista = servicoRepository.lista(Servico.class);
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[6];
+        var row = new Object[6];
         lista.forEach(i -> {
 
             row[0] = i.getId();
@@ -145,7 +144,7 @@ public class TelaListagemServicos extends javax.swing.JDialog {
         if (evt.getClickCount() > 1) {
 
             long codigo = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
-            Servico servico = servicoRepository.find(Servico.class, codigo);
+            var servico = servicoRepository.find(Servico.class, codigo);
             ordemRetornoAdiciona.adiciona(servico);
             dispose();
 

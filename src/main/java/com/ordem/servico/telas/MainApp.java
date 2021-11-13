@@ -2,8 +2,11 @@ package com.ordem.servico.telas;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.ordem.servico.models.Empresa;
+import com.ordem.servico.repository.EmpresaRepository;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Optional;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
@@ -18,6 +21,7 @@ public class MainApp extends javax.swing.JFrame {
     public MainApp() {
         initComponents();
         showMainMenu();
+        dadosEmpresaCheck();
     }
 
     public static JDesktopPane getDesktop() {
@@ -36,6 +40,14 @@ public class MainApp extends javax.swing.JFrame {
         var desktopSize = Desktop.getSize();
         var screenSize = masterMenuOption.getSize();
         masterMenuOption.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
+    }
+    
+    private void dadosEmpresaCheck(){
+        var empresa = Optional.ofNullable(new EmpresaRepository().find(Empresa.class, 1L));
+        if(empresa != null){
+            var telaEmpresa = new TelaCadastroEmpresa(this, true);
+            telaEmpresa.setVisible(true);
+        }
     }
 
     public Image icone() {
@@ -56,6 +68,7 @@ public class MainApp extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        txtUserLogado = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -96,7 +109,7 @@ public class MainApp extends javax.swing.JFrame {
         );
         DesktopLayout.setVerticalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 584, Short.MAX_VALUE)
+            .addGap(0, 582, Short.MAX_VALUE)
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
@@ -193,6 +206,8 @@ public class MainApp extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton5);
 
+        txtUserLogado.setText("jLabel2");
+
         jMenu1.setText("Cadastros");
 
         jMenuItem1.setText("Cadastro de Clientes");
@@ -282,6 +297,8 @@ public class MainApp extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUserLogado)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -292,7 +309,9 @@ public class MainApp extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(Desktop)
                 .addGap(2, 2, 2)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtUserLogado))
                 .addGap(3, 3, 3))
         );
 
@@ -301,7 +320,7 @@ public class MainApp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        TelaCadastroCliente tlc = new TelaCadastroCliente(this, rootPaneCheckingEnabled, null);
+        var tlc = new TelaCadastroCliente(this, rootPaneCheckingEnabled, null);
         tlc.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -370,28 +389,28 @@ public class MainApp extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TelaListagemEquipamentos tleq = new TelaListagemEquipamentos(this, rootPaneCheckingEnabled);
+        var tleq = new TelaListagemEquipamentos(this, rootPaneCheckingEnabled);
         tleq.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        TelaUsuarios tuser = new TelaUsuarios(this, rootPaneCheckingEnabled);
+        var tuser = new TelaUsuarios(this, rootPaneCheckingEnabled);
         tuser.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        TelaFornecedores tf = new TelaFornecedores(null, rootPaneCheckingEnabled);
+        var tf = new TelaFornecedores(null, rootPaneCheckingEnabled);
         tf.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        TelaRecibos rcb = new TelaRecibos(this, rootPaneCheckingEnabled);
+        var rcb = new TelaRecibos(this, rootPaneCheckingEnabled);
         Desktop.add(rcb);
         rcb.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        TelaCadastroEmpresa emp = new TelaCadastroEmpresa(this, rootPaneCheckingEnabled);
+        var emp = new TelaCadastroEmpresa(this, rootPaneCheckingEnabled);
         emp.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
@@ -435,5 +454,6 @@ public class MainApp extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JToolBar jToolBar1;
+    public static javax.swing.JLabel txtUserLogado;
     // End of variables declaration//GEN-END:variables
 }

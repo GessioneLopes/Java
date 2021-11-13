@@ -14,7 +14,6 @@ import com.ordem.servico.util.RetornoUpdate;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -42,9 +41,9 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
     }
 
     private void carregaCores() {
-        List<Cor> cores = corRepository.lista(Cor.class);
+        var cores = corRepository.lista(Cor.class);
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        var model = new DefaultComboBoxModel();
         model.addElement("Selecione");
 
         for (int i = 0; i < cores.size(); i++) {
@@ -65,8 +64,8 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
     }
 
     private void listaNomesFornecedores() {
-        List<Fornecedor> fornecedores = new FornecedorRepository().lista(Fornecedor.class);
-        String[] nomes = new String[fornecedores.size()];
+        var fornecedores = new FornecedorRepository().lista(Fornecedor.class);
+        var nomes = new String[fornecedores.size()];
 
         int count = 0;
         for (Fornecedor it : fornecedores) {
@@ -86,9 +85,9 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
     }
     
     private void carregaMarcas() {
-        List<Marca> marcas = marcaRepository.lista(Marca.class);
+        var marcas = marcaRepository.lista(Marca.class);
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        var model = new DefaultComboBoxModel();
         model.addElement("Selecione");
 
         for (int i = 0; i < marcas.size(); i++) {
@@ -440,7 +439,7 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
                 produto.setCusto(new BigDecimal(String.valueOf(txtValorCusto.getValue())));
                 produto.setMargen(Double.parseDouble(txtajuste.getText().replace(",", ".")));
 
-                Estoque eq = new Estoque();
+                var eq = new Estoque();
                 eq.setInicial(Integer.parseInt(String.valueOf(txtEstoque.getValue())));
                 eq.setAtual(eq.getInicial());
                 eq.setMinimo(1);
@@ -465,7 +464,7 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
             }
         } else {
 
-            Produto produto = new ProdutoRepository().find(Produto.class, idProduto);
+            var produto = new ProdutoRepository().find(Produto.class, idProduto);
             produto.setNome(txtnome.getText().toUpperCase());
             produto.setCodbar(txtcodigoBar.getText());
             produto.setObs(txtObs.getText());
@@ -517,13 +516,13 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
 
     private void fotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fotoMouseClicked
         if (evt.getClickCount() == 2) {
-            BuscadorFoto bf = new BuscadorFoto(null, true);
+            var bf = new BuscadorFoto(null, true);
             bf.setVisible(true);
         }
     }//GEN-LAST:event_fotoMouseClicked
 
     private void btnMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcaActionPerformed
-         TelaCadastraMarca tm = new TelaCadastraMarca(null, true, this);
+        var tm = new TelaCadastraMarca(null, true, this);
         tm.setLocation(btnMarca.getLocation());
         tm.setVisible(true);
     }//GEN-LAST:event_btnMarcaActionPerformed
@@ -539,7 +538,7 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
     }
 
     private void preparaUpdateData(long id) {
-        Produto produto = new ProdutoRepository().find(Produto.class, id);
+        var produto = new ProdutoRepository().find(Produto.class, id);
         txtnome.setText(produto.getNome().toUpperCase());
         txtObs.setText(produto.getObs().toUpperCase());
         txtValorCusto.setValue(produto.getCusto());

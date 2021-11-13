@@ -8,7 +8,7 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
     private TelaOrdemServicos telaOrdemServicos;
     private TelaListagemProdutos listagemProdutos;
     private TelaFinanceiro telaFinanceiro;
-    private TelaMinhasVendas telaMinhasVendas;
+  
 
     public MasterMenuOption() {
         initComponents();
@@ -247,7 +247,7 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-       TelaFornecedores tf = new TelaFornecedores(null, rootPaneCheckingEnabled);
+       var tf = new TelaFornecedores(null, rootPaneCheckingEnabled);
         tf.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -266,7 +266,8 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        TelaMinhasVendas tv = new TelaMinhasVendas(null, closable);
+        var tv = new TelaMinhasVendas(null, closable);
+        tv.txtCodigoBar.requestFocus();
         tv.setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
 

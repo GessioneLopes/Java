@@ -7,7 +7,6 @@ import com.ordem.servico.repository.CorRepository;
 import com.ordem.servico.repository.EquipamentoRepository;
 import com.ordem.servico.repository.MarcaRepository;
 import com.ordem.servico.util.RetornoUpdate;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -30,9 +29,9 @@ public class TelaCadastroEquipamento extends javax.swing.JInternalFrame implemen
     }
 
     private void carregaCores() {
-        List<Cor> cores = corRepository.lista(Cor.class);
+        var cores = corRepository.lista(Cor.class);
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        var model = new DefaultComboBoxModel();
         model.addElement("Selecione");
 
         for (int i = 0; i < cores.size(); i++) {
@@ -42,9 +41,9 @@ public class TelaCadastroEquipamento extends javax.swing.JInternalFrame implemen
     }
 
     private void carregaMarcas() {
-        List<Marca> marcas = marcaRepository.lista(Marca.class);
+        var marcas = marcaRepository.lista(Marca.class);
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        var model = new DefaultComboBoxModel();
         model.addElement("Selecione");
 
         for (int i = 0; i < marcas.size(); i++) {
@@ -378,13 +377,13 @@ public class TelaCadastroEquipamento extends javax.swing.JInternalFrame implemen
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnAddCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCorActionPerformed
-        TelaCadastraCor tc = new TelaCadastraCor(null, closable, this);
+        var tc = new TelaCadastraCor(null, closable, this);
         tc.setLocation(btnAddCor.getLocation());
         tc.setVisible(true);
     }//GEN-LAST:event_btnAddCorActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TelaCadastraMarca tm = new TelaCadastraMarca(null, closable, this);
+        var tm = new TelaCadastraMarca(null, closable, this);
         tm.setLocation(btnAddCor.getLocation());
         tm.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed

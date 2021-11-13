@@ -20,17 +20,18 @@ public class TelaUsuarios extends java.awt.Dialog {
 
     private void listaUsers() {
 
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        Object[] row = new Object[4];
+        var row = new Object[5];
 
         new UsuarioRepository().lista(Usuario.class).forEach(it -> {
 
             row[0] = it.getId();
-            row[1] = it.getNome();
+            row[1] = it.getLogin();
             row[2] = "****";
              row[3] = it.isAdm();
+             row[4] = it.getStatus();
 
             modelo.addRow(row);
 
@@ -65,6 +66,7 @@ public class TelaUsuarios extends java.awt.Dialog {
         jLabel2 = new javax.swing.JLabel();
         txtAdm = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        status = new javax.swing.JComboBox<>();
 
         setTitle("Usuários");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -75,13 +77,13 @@ public class TelaUsuarios extends java.awt.Dialog {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "User", "Senha", "Admin"
+                "ID", "User", "Senha", "Admin", "Status"
             }
         ));
         tabela.setGridColor(new java.awt.Color(249, 245, 245));
@@ -121,6 +123,8 @@ public class TelaUsuarios extends java.awt.Dialog {
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Admin:");
 
+        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ATIVO", "INATIVO" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,12 +139,14 @@ public class TelaUsuarios extends java.awt.Dialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtAdm, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(3, 3, 3)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
@@ -152,7 +158,6 @@ public class TelaUsuarios extends java.awt.Dialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtAdm, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -161,9 +166,13 @@ public class TelaUsuarios extends java.awt.Dialog {
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(1, 1, 1))
                         .addComponent(usuario, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(senha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(senha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                 .addContainerGap())
@@ -188,7 +197,7 @@ public class TelaUsuarios extends java.awt.Dialog {
             adm = true;
         }
         
-        new UsuarioRepository().saveOrUpdate(new Usuario(usuario.getText(),new String(senha.getPassword()), adm));
+        new UsuarioRepository().saveOrUpdate(new Usuario(usuario.getText(),new String(senha.getPassword()), adm, status.getSelectedItem().toString()));
         listaUsers();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -209,6 +218,7 @@ public class TelaUsuarios extends java.awt.Dialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPasswordField senha;
+    private javax.swing.JComboBox<String> status;
     private javax.swing.JTable tabela;
     private javax.swing.JComboBox<String> txtAdm;
     private javax.swing.JTextField usuario;
