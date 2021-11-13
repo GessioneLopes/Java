@@ -1,6 +1,7 @@
 package com.ordem.servico.models;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +16,8 @@ public class Cor implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
+    
+    @Column(unique = true)
     private String cor;
 
     public Cor(String cor) {

@@ -190,11 +190,17 @@ public class TelaListagemProdutos extends javax.swing.JInternalFrame implements 
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         if (evt.getClickCount() > 1) {
-
             long codigo = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
-            var produto = produtoRepository.find(Produto.class, codigo);
-            ordemRetornoAdiciona.adiciona(produto);
-            dispose();
+
+            if (ordemRetornoAdiciona != null) {
+                var produto = produtoRepository.find(Produto.class, codigo);
+                ordemRetornoAdiciona.adiciona(produto);
+                dispose();
+
+            } else {
+                var cadastroUpdateProduto = new TelaCadastroProduto(null, closable, this, codigo);
+                cadastroUpdateProduto.setVisible(true);
+            }
 
         }
     }//GEN-LAST:event_tabelaMouseClicked

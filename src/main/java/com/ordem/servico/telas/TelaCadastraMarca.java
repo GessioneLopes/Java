@@ -1,33 +1,32 @@
-
 package com.ordem.servico.telas;
 
 import com.ordem.servico.models.Marca;
 import com.ordem.servico.repository.MarcaRepository;
 import com.ordem.servico.util.RetornoUpdate;
-
+import javax.persistence.PersistenceException;
+import javax.swing.JOptionPane;
+import org.hsqldb.HsqlException;
 
 public class TelaCadastraMarca extends javax.swing.JDialog {
 
     private final RetornoUpdate retornoUpdate;
-    private MarcaRepository marcaRepository;
-    
+    private final MarcaRepository marcaRepository;
+
     public TelaCadastraMarca(java.awt.Frame parent, boolean modal, TelaCadastroEquipamento tela) {
         super(parent, modal);
         initComponents();
-        
-        marcaRepository = new MarcaRepository();
-        retornoUpdate = tela;
-    }
-    
-     
-    public TelaCadastraMarca(java.awt.Frame parent, boolean modal, TelaCadastroProduto tela) {
-        super(parent, modal);
-        initComponents();
-        
+
         marcaRepository = new MarcaRepository();
         retornoUpdate = tela;
     }
 
+    public TelaCadastraMarca(java.awt.Frame parent, boolean modal, TelaCadastroProduto tela) {
+        super(parent, modal);
+        initComponents();
+
+        marcaRepository = new MarcaRepository();
+        retornoUpdate = tela;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -89,16 +88,18 @@ public class TelaCadastraMarca extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(!txtMarca.getText().isEmpty()){
-            var novaMarca = txtMarca.getText().toUpperCase();
-            marcaRepository.saveOrUpdate(new Marca(novaMarca));
-            retornoUpdate.update(marcaRepository.getByNome(novaMarca));
-            dispose();
+        try {
+            if (!txtMarca.getText().isEmpty()) {
+                var novaMarca = txtMarca.getText().toUpperCase();
+                marcaRepository.saveOrUpdate(new Marca(novaMarca));
+                retornoUpdate.update(marcaRepository.getByNome(novaMarca));
+                dispose();
+            }
+        } catch (PersistenceException | HsqlException ex) {
+            JOptionPane.showMessageDialog(this, "Marca ja cadastrada", "Atenção", 0);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-   
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

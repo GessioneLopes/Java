@@ -4,7 +4,6 @@ import com.ordem.servico.models.Empresa;
 import com.ordem.servico.repository.EmpresaRepository;
 import java.awt.Image;
 import java.io.IOException;
-import java.util.Optional;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
@@ -44,7 +43,7 @@ public class MainApp extends javax.swing.JFrame {
         new Thread(() -> {
             try {
                 Thread.sleep(1000);
-                var empresa = Optional.ofNullable(new EmpresaRepository().find(Empresa.class, 1L));
+                var empresa = new EmpresaRepository().find(Empresa.class, 1L);
                 if (empresa == null) {
                     var telaEmpresa = new TelaCadastroEmpresa(this, true);
                     telaEmpresa.setVisible(true);

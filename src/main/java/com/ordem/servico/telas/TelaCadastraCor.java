@@ -1,16 +1,17 @@
-
 package com.ordem.servico.telas;
 
 import com.ordem.servico.models.Cor;
 import com.ordem.servico.repository.CorRepository;
 import com.ordem.servico.util.RetornoUpdate;
-
+import javax.persistence.PersistenceException;
+import javax.swing.JOptionPane;
+import org.hsqldb.HsqlException;
 
 public class TelaCadastraCor extends javax.swing.JDialog {
 
     private final RetornoUpdate retornoUpdate;
-    private CorRepository corRepository;
-   
+    private final CorRepository corRepository;
+
     public TelaCadastraCor(java.awt.Frame parent, boolean modal, TelaCadastroEquipamento tela) {
         super(parent, modal);
         initComponents();
@@ -18,7 +19,13 @@ public class TelaCadastraCor extends javax.swing.JDialog {
         retornoUpdate = tela;
     }
 
-  
+    public TelaCadastraCor(java.awt.Frame parent, boolean modal, TelaCadastroProduto tela) {
+        super(parent, modal);
+        initComponents();
+        corRepository = new CorRepository();
+        retornoUpdate = tela;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -79,16 +86,19 @@ public class TelaCadastraCor extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(!cor.getText().isEmpty()){
-            var cr = cor.getText().toUpperCase();
-            corRepository.saveOrUpdate(new Cor(cr));
-            retornoUpdate.update(corRepository.getByNome(cr));
-            dispose();
+        try {
+            if (!cor.getText().isEmpty()) {
+                var cr = cor.getText().toUpperCase();
+                corRepository.saveOrUpdate(new Cor(cr));
+                retornoUpdate.update(corRepository.getByNome(cr));
+                dispose();
+            }
+        } catch (PersistenceException | HsqlException ex) {
+            JOptionPane.showMessageDialog(this, "Cor ja cadastrada", "Atenção", 0);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cor;
     private javax.swing.JButton jButton1;
