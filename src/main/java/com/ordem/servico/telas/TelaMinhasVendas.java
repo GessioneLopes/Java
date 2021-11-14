@@ -115,7 +115,9 @@ public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpda
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
         setIconImage(icone());
+        setModalExclusionType(java.awt.Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
         setPreferredSize(new java.awt.Dimension(1034, 575));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -182,7 +184,7 @@ public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpda
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 260, 34));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 260, 50));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-list-16.png"))); // NOI18N
         jButton4.setText("Vendas Efetuadas");
