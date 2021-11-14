@@ -226,6 +226,7 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
         txtValorPromocao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         txtValorPromocao.setValue(BigDecimal.ZERO);
 
+        txtValorVenda.setBackground(new java.awt.Color(243, 255, 243));
         txtValorVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         txtValorVenda.setValue(BigDecimal.ZERO);
 
@@ -463,7 +464,7 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (idProduto == 0L) {
-            if (!txtEstoque.getText().isEmpty() && !txtnome.getText().isEmpty()) {
+            if (!txtEstoque.getText().isEmpty() && !txtnome.getText().isEmpty() && !txtValorVenda.getValue().equals(BigDecimal.ZERO)) {
                 var produto = new Produto();
                 produto.setGarantia(txtGarantia.getText());
                 produto.setNome(txtnome.getText().toUpperCase());

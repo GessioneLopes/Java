@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3d030bc-85b2-4f9e-808f-1307667d55ba" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GDMOS/BANCO/osData.lck" beforeDir="false" afterPath="$PROJECT_DIR$/GDMOS/BANCO/osData.lck" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaListagemEquipamentos.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaListagemEquipamentos.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaListagemEquipamentos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaListagemEquipamentos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaOrdemServicos.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaOrdemServicos.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaOrdemServicos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaOrdemServicos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaCadastroProduto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaCadastroProduto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaFinalizaVenda.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaFinalizaVenda.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaFinalizaVenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ordem/servico/telas/TelaFinalizaVenda.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +53,7 @@
       <option name="presentableId" value="Default" />
       <updated>1636551524800</updated>
       <workItem from="1636551530436" duration="996000" />
+      <workItem from="1636897241080" duration="240000" />
     </task>
     <servers />
   </component>

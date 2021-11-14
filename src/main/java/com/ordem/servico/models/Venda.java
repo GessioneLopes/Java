@@ -30,14 +30,24 @@ public class Venda implements Serializable {
     private BigDecimal desconto;
     private String responsavel;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda", orphanRemoval = true)
     private List<ItemVenda> itens = new ArrayList<>();
     
     private String obs;
+    private String hora;
     
     @OneToOne
     private Cliente cliente;
     
     @Enumerated(EnumType.STRING)
     private FormasPgto formaPgto;
+
+    public Venda(long id) {
+        this.id = id;
+    }
+
+    public Venda() {
+    }
+    
+    
 }

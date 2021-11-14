@@ -88,6 +88,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa; @Override&#xa;    public Component prepareRenderer(TableCellRenderer r, int row, int column){&#xa;        Component comp = super.prepareRenderer(r, row, column);&#xa;&#xa;        if(row % 2 == 0 &amp;&amp; !isCellSelected(row, column)){&#xa;            comp.setBackground(new Color(238, 238, 238));&#xa;        }else if(!isCellSelected(row, column)){&#xa;            comp.setBackground(new Color(255, 255, 254));&#xa;        }else{&#xa;            comp.setBackground(new Color(38, 117, 191));&#xa;        }&#xa;        return comp;&#xa;    }&#xa;}"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -219,6 +222,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Vendas Efetuadas"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="10" y="380" width="260" height="34"/>

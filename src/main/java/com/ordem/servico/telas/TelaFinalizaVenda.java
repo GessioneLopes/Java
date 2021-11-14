@@ -3,6 +3,7 @@ package com.ordem.servico.telas;
 
 import com.ordem.servico.models.Venda;
 import com.ordem.servico.repository.VendaRepository;
+import com.ordem.servico.util.DataHora;
 import com.ordem.servico.util.FormasPgto;
 import com.ordem.servico.util.RetornoUpdate;
 import java.math.BigDecimal;
@@ -56,11 +57,12 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        txtTotal.setEditable(false);
         txtTotal.setForeground(new java.awt.Color(255, 102, 0));
         txtTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
         txtTotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        getContentPane().add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 320, 33));
+        getContentPane().add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 320, 34));
 
         txtTipoPgto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         getContentPane().add(txtTipoPgto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 150, 34));
@@ -108,6 +110,7 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         venda.setObs(txtObs.getText());
         venda.setResponsavel(MainApp.txtUserLogado.getText());
         venda.setDesconto(new BigDecimal(String.valueOf(txtDesconto.getValue())));
+        venda.setHora(new DataHora().ler_hora());
         
         venda.setId(vendaRepository.salvaVenda(venda));
         retornoUpdate.update(venda);

@@ -14,4 +14,6 @@ public class VendaRepository extends GenericDao<Venda> {
 
         return idSalvo;
     }
+    
+    
 }

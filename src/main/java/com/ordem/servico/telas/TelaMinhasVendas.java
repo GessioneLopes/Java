@@ -6,6 +6,8 @@ import com.ordem.servico.models.Venda;
 import com.ordem.servico.repository.ProdutoRepository;
 import com.ordem.servico.util.DataHora;
 import com.ordem.servico.util.RetornoUpdate;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Image;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -17,6 +19,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpdate {
 
@@ -74,7 +77,21 @@ public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpda
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
+        tabela = new javax.swing.JTable(){
+            @Override
+            public Component prepareRenderer(TableCellRenderer r, int row, int column){
+                Component comp = super.prepareRenderer(r, row, column);
+
+                if(row % 2 == 0 && !isCellSelected(row, column)){
+                    comp.setBackground(new Color(238, 238, 238));
+                }else if(!isCellSelected(row, column)){
+                    comp.setBackground(new Color(255, 255, 254));
+                }else{
+                    comp.setBackground(new Color(38, 117, 191));
+                }
+                return comp;
+            }
+        };
         txtTotalGeral = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -169,6 +186,11 @@ public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpda
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-list-16.png"))); // NOI18N
         jButton4.setText("Vendas Efetuadas");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 260, 34));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -272,6 +294,11 @@ public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpda
             listaItemsOrdem();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        TelaGerenciarVendas tlv = new TelaGerenciarVendas();
+        tlv.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     public static void main(String args[]) {
 

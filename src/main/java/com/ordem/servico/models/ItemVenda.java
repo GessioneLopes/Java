@@ -26,7 +26,7 @@ public class ItemVenda implements Serializable {
     private BigDecimal subtotal;
     private long codigo_interno;
     
-    @ManyToOne
+    @ManyToOne()
     private Venda venda;
     
     

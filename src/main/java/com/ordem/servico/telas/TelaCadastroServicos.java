@@ -305,32 +305,36 @@ public class TelaCadastroServicos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtValorFocusGained
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (!txtDesc.getText().isEmpty() && !txtGarantia.getText().isEmpty() && !txtObs.getText().isEmpty()) {
+        if (txtTecnico.getSelectedIndex() != 0) {
+            if (!txtDesc.getText().isEmpty() && !txtGarantia.getText().isEmpty() && !txtObs.getText().isEmpty() && !txtValor.getValue().equals(BigDecimal.ZERO)) {
 
-            var servico = new Servico();
-            servico.setDescricao(txtDesc.getText());
-            servico.setDetalhe(txtObs.getText());
-            servico.setDuracao(txtDuracao.getSelectedItem().toString().toUpperCase());
-            servico.setValor(new BigDecimal(String.valueOf(txtValor.getValue())));
-            servico.setGarantia(txtGarantia.getText().toUpperCase());
-            servico.setStatus(txtStatus.getSelectedItem().toString());
+                var servico = new Servico();
+                servico.setDescricao(txtDesc.getText());
+                servico.setDetalhe(txtObs.getText());
+                servico.setDuracao(txtDuracao.getSelectedItem().toString().toUpperCase());
+                servico.setValor(new BigDecimal(String.valueOf(txtValor.getValue())));
+                servico.setGarantia(txtGarantia.getText().toUpperCase());
+                servico.setStatus(txtStatus.getSelectedItem().toString());
 
-            if (txtTecnico.getSelectedIndex() > 0) {
-                var idTecnico = Long.valueOf(txtTecnico.getSelectedItem().toString().split("-")[0]);
-                var tecnico = tecnicoRepository.find(Tecnico.class, idTecnico);
-                servico.setTecnico(tecnico);
+                if (txtTecnico.getSelectedIndex() > 0) {
+                    var idTecnico = Long.valueOf(txtTecnico.getSelectedItem().toString().split("-")[0]);
+                    var tecnico = tecnicoRepository.find(Tecnico.class, idTecnico);
+                    servico.setTecnico(tecnico);
+                } else {
+                    servico.setTecnico(null);
+                }
+
+                servicoRepository.saveOrUpdate(servico);
+
+                JOptionPane.showMessageDialog(rootPane, "Cadastro do serviço efetuado com sucesso", "Confirmado", 1);
+                listagemServicos();
+                limpa();
             } else {
-                servico.setTecnico(null);
+                JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos", "Atenção", 0);
+
             }
-
-            servicoRepository.saveOrUpdate(servico);
-
-            JOptionPane.showMessageDialog(rootPane, "Cadastro do serviço efetuado com sucesso", "Confirmado", 1);
-            listagemServicos();
-            limpa();
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos", "Atenção", 0);
-
+            JOptionPane.showMessageDialog(rootPane, "Selecione ou cadastre um técnico. Não é possivel cadastrar sem informar um técnico.", "Atenção", 0);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
