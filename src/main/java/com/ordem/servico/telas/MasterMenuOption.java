@@ -8,6 +8,7 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
     private TelaOrdemServicos telaOrdemServicos;
     private TelaListagemProdutos listagemProdutos;
     private TelaFinanceiro telaFinanceiro;
+    private TelaMinhasVendas telaMinhasVendas;
   
 
     public MasterMenuOption() {
@@ -266,9 +267,18 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        var tv = new TelaMinhasVendas(null, closable);
-        tv.txtCodigoBar.requestFocus();
-        tv.setVisible(true);
+        if (telaMinhasVendas == null) {
+            telaMinhasVendas = new TelaMinhasVendas();
+            MainApp.getDesktop().add(telaMinhasVendas);
+        }
+        telaMinhasVendas.toFront();
+        telaMinhasVendas.setVisible(true);
+
+        var desktopSize = MainApp.getDesktop().getSize();
+        var screenSize = telaMinhasVendas.getSize();
+        telaMinhasVendas.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
+        telaMinhasVendas.txtCodigoBar.requestFocus();
+     
     }//GEN-LAST:event_jButton9ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

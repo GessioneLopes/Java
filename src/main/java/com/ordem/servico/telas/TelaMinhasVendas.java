@@ -21,16 +21,17 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpdate {
+public class TelaMinhasVendas extends javax.swing.JInternalFrame implements RetornoUpdate {
 
     private final List<ItemVenda> listaItens = new ArrayList<>();
     private final NumberFormat numberFormat;
     private final ProdutoRepository produtoRepository;
+    private TelaFinalizaVenda telafinalizaVenda;
 
     private Venda venda;
 
-    public TelaMinhasVendas(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public TelaMinhasVendas() {
+       
         initComponents();
 
         produtoRepository = new ProdutoRepository();
@@ -114,12 +115,9 @@ public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpda
         jLabel6 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
-        setIconImage(icone());
-        setModalExclusionType(java.awt.Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
+        setClosable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-circulado-16.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(1034, 575));
-        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
@@ -241,7 +239,6 @@ public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpda
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, -1, -1));
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCodigoBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoBarActionPerformed
@@ -282,11 +279,15 @@ public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpda
             venda.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
             venda.setItens(listaItens);
 
-            var telafinalizaVenda = new TelaFinalizaVenda(null, rootPaneCheckingEnabled, venda, this);
+            telafinalizaVenda = new TelaFinalizaVenda(null, rootPaneCheckingEnabled, venda, this);
             telafinalizaVenda.setVisible(true);
+           
+
         } else {
             JOptionPane.showMessageDialog(rootPane, "Nenhum item adicionado", "Venda inválida", 0);
         }
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -302,19 +303,7 @@ public class TelaMinhasVendas extends javax.swing.JDialog implements RetornoUpda
         tlv.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(() -> {
-            var dialog = new TelaMinhasVendas(new javax.swing.JFrame(), true);
-            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    System.exit(0);
-                }
-            });
-            dialog.setVisible(true);
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

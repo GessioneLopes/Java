@@ -1,7 +1,8 @@
-
 package com.ordem.servico.telas;
 
+import com.ordem.servico.models.Produto;
 import com.ordem.servico.models.Venda;
+import com.ordem.servico.repository.ProdutoRepository;
 import com.ordem.servico.repository.VendaRepository;
 import com.ordem.servico.util.DataHora;
 import com.ordem.servico.util.FormasPgto;
@@ -11,20 +12,20 @@ import javax.swing.DefaultComboBoxModel;
 
 public class TelaFinalizaVenda extends javax.swing.JDialog {
 
-    private Venda venda;
+    private final Venda venda;
     private final RetornoUpdate retornoUpdate;
-    
+
     public TelaFinalizaVenda(java.awt.Frame parent, boolean modal, Venda venda, TelaMinhasVendas minhasVendas) {
         super(parent, modal);
         initComponents();
-        
+
         retornoUpdate = minhasVendas;
-        
+
         this.venda = venda;
         txtTotal.setValue(venda.getTotal());
         carregaTipoPgtos();
     }
-    
+
     private void carregaTipoPgtos() {
         var status = FormasPgto.values();
 
@@ -34,8 +35,6 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         }
         txtTipoPgto.setModel(model);
     }
-
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -105,21 +104,29 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         var vendaRepository = new VendaRepository();
-        
+
         venda.setFormaPgto(FormasPgto.valueOf(txtTipoPgto.getSelectedItem().toString()));
         venda.setObs(txtObs.getText());
         venda.setResponsavel(MainApp.txtUserLogado.getText());
         venda.setDesconto(new BigDecimal(String.valueOf(txtDesconto.getValue())));
         venda.setHora(new DataHora().ler_hora());
-        
+        venda.setTotal(new BigDecimal(String.valueOf(txtTotal.getValue())));
+
         venda.setId(vendaRepository.salvaVenda(venda));
         retornoUpdate.update(venda);
+
+        //update estoque
+        var repo = new ProdutoRepository();
+        venda.getItens().forEach(it -> {
+            var produto = repo.find(Produto.class, it.getCodigo_interno());
+            int qtdeAtual = produto.getEstoque().getAtual();
+            produto.getEstoque().setAtual(qtdeAtual - it.getQtde());
+            repo.saveOrUpdate(produto);
+        });
+
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -130,6 +137,6 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField txtDesconto;
     private javax.swing.JTextField txtObs;
     private javax.swing.JComboBox<String> txtTipoPgto;
-    private javax.swing.JFormattedTextField txtTotal;
+    public javax.swing.JFormattedTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

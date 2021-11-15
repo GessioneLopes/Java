@@ -1,4 +1,3 @@
-
 package com.ordem.servico.telas;
 
 import com.ordem.servico.models.Endereco;
@@ -13,18 +12,18 @@ import javax.swing.table.TableRowSorter;
 
 public class TelaFornecedores extends javax.swing.JDialog {
 
-   private final FornecedorRepository repository;
-   
+    private final FornecedorRepository repository;
+
     public TelaFornecedores(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         repository = new FornecedorRepository();
-        
+
         listagem();
     }
 
-   private void listagem() {
+    private void listagem() {
 
         var lista = repository.lista(Fornecedor.class);
 
@@ -48,6 +47,7 @@ public class TelaFornecedores extends javax.swing.JDialog {
             modelo.addRow(row);
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -105,6 +105,11 @@ public class TelaFornecedores extends javax.swing.JDialog {
         ));
         tabela.setGridColor(new java.awt.Color(245, 239, 239));
         tabela.setRowHeight(25);
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
         if (tabela.getColumnModel().getColumnCount() > 0) {
             tabela.getColumnModel().getColumn(0).setMinWidth(70);
@@ -266,24 +271,28 @@ public class TelaFornecedores extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       if(!txtEndereco.getText().isEmpty() && !nome.getText().isEmpty()){
-        var f = new Fornecedor();
-        f.setEmail(email.getText());
-        f.setFone(fone.getText());
-        f.setNome(nome.getText());
-        f.setRamo(txtRamo.getText().toUpperCase());
-        
-        var endereco = new Endereco();
-        endereco.setCidade(txtCidade.getText());
-        endereco.setLogradouro(txtEndereco.getText());
-        endereco.setUf(txtUf.getSelectedItem().toString());
-        endereco.setNumero(txtNr.getText());
-        
-        repository.saveOrUpdate(f);
-        listagem();
-       }else{
-           JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos", "Atenção", 0);
-       }
+        if (!txtEndereco.getText().isEmpty() && !nome.getText().isEmpty()) {
+            var f = new Fornecedor();
+            f.setEmail(email.getText());
+            f.setFone(fone.getText());
+            f.setNome(nome.getText());
+            f.setRamo(txtRamo.getText().toUpperCase());
+
+            var endereco = new Endereco();
+            endereco.setCidade(txtCidade.getText());
+            endereco.setLogradouro(txtEndereco.getText());
+            endereco.setUf(txtUf.getSelectedItem().toString());
+            endereco.setNumero(txtNr.getText());
+            f.setEndereco(endereco);
+
+            repository.saveOrUpdate(f);
+
+            limpar();
+            listagem();
+
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos", "Atenção", 0);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtRamoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtRamoMouseClicked
@@ -297,7 +306,31 @@ public class TelaFornecedores extends javax.swing.JDialog {
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtbusca.getText().toUpperCase()));
     }//GEN-LAST:event_txtbuscaKeyTyped
 
-   
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        limpar();
+        if (tabela.getSelectedRow() != -1) {
+            var id = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
+            var fornecedor = new FornecedorRepository().find(Fornecedor.class, id);
+
+            if (fornecedor.getEndereco() != null) {
+                txtCidade.setText(fornecedor.getEndereco().getCidade());
+                txtEndereco.setText(fornecedor.getEndereco().getLogradouro());
+                txtNr.setText(fornecedor.getEndereco().getNumero());
+                txtUf.setSelectedItem(fornecedor.getEndereco().getUf());
+            }
+        }
+    }//GEN-LAST:event_tabelaMouseClicked
+
+    private void limpar() {
+        nome.setText("");
+        txtRamo.setText("");
+        txtNr.setText("");
+        txtCidade.setText("");
+        txtEndereco.setText("");
+        email.setText("");
+
+        nome.requestFocus();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField email;

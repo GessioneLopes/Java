@@ -13,7 +13,6 @@ import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -28,13 +27,18 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
     private final VendaRepository vendaRepository;
     private final UsuarioRepository usuarioRepository;
 
+    private final NumberFormat formate;
+
     public TelaGerenciarVendas() {
         initComponents();
-       
+
+        formate = NumberFormat.getCurrencyInstance();
+
+        usuarioRepository = new UsuarioRepository();
+
         vendaRepository = new VendaRepository();
         mostarVendasNaTabela();
 
-        usuarioRepository = new UsuarioRepository();
     }
 
     private void mostarVendasNaTabela() {
@@ -43,8 +47,6 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
         int count = 0;
 
         listagemVendas = vendaRepository.lista(Venda.class);
-
-        var formate = NumberFormat.getCurrencyInstance();
 
         var rows = new Object[10];
         for (Venda object : listagemVendas) {
@@ -307,11 +309,7 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
         if (usuarioRepository.verificaPermissao(MainApp.txtUserLogado.getText()) == true) {
 
             long idvenda = Long.valueOf(tablevendas.getValueAt(tablevendas.getSelectedRow(), 0).toString());
-            String vendaDesc = "Venda n° " + tablevendas.getValueAt(tablevendas.getSelectedRow(), 0).toString();
-
-            //obs erro no valor
-            var formato = NumberFormat.getCurrencyInstance(Locale.getDefault());
-
+            
             vendaRepository.delete(vendaRepository.find(Venda.class, idvenda));
             mostarVendasNaTabela();
 
@@ -331,8 +329,6 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
             var modelo = (DefaultTableModel) tabelaitem.getModel();
             modelo.setNumRows(0);
 
-            var f = NumberFormat.getCurrencyInstance();
-
             long vendaId = Long.parseLong(tablevendas.getValueAt(tablevendas.getSelectedRow(), 0).toString().trim());
             var rows = new Object[5];
 
@@ -341,7 +337,7 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
                 rows[0] = object.getId();
                 rows[1] = object.getDescr().toUpperCase();
                 rows[2] = object.getQtde();
-                rows[3] = f.format(object.getPrecoUnit());
+                rows[3] = formate.format(object.getPrecoUnit());
                 rows[4] = object.getCodigo_interno();
                 modelo.addRow(rows);
             }
@@ -353,7 +349,6 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
         if (tablevendas.getSelectedRow() != -1) {
             int linha = tablevendas.getSelectedRow();
             long idVenda = Long.parseLong(tablevendas.getValueAt(linha, 0).toString());
-            long idCliente = Long.parseLong(tablevendas.getValueAt(linha, 5).toString());
             var gera = new GeraRelatorioUtil();
 
         } else {
