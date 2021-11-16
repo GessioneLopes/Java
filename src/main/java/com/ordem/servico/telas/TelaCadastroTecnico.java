@@ -8,6 +8,7 @@ import com.ordem.servico.util.BuscaViaCepUtil;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
+import java.math.BigDecimal;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -15,44 +16,44 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 public class TelaCadastroTecnico extends javax.swing.JDialog {
-
+    
     private TecnicoRepository tecnicoRepository;
-
+    
     public TelaCadastroTecnico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
+        
         tecnicoRepository = new TecnicoRepository();
         listagemTecnicos();
     }
-
+    
     private void listagemTecnicos() {
         var lista = tecnicoRepository.lista(Tecnico.class);
-
+        
         var modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
-
+        
         var row = new Object[4];
         lista.forEach(i -> {
-
+            
             row[0] = i.getCodigo();
             row[1] = i.getNomeTecnico().toUpperCase();
             row[2] = i.getContato().getCelular();
             row[3] = i.getCpf();
-
+            
             modelo.addRow(row);
         });
-
+        
         if (lista.isEmpty()) {
             row[1] = "Nenhum Técnico cadastrado";
             modelo.addRow(row);
         }
     }
-
+    
     public Image icone() {
         return (new ImageIcon(getClass().getResource("/imagens/menu-list-16.png"))).getImage();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -108,6 +109,8 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
         txtRedeSocial = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        txtSalario = new javax.swing.JFormattedTextField();
 
         jTextField3.setText("jTextField3");
 
@@ -219,7 +222,7 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtEndereco, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
                     .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -277,6 +280,13 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
 
         jLabel16.setText("Rede Social:");
 
+        jLabel17.setText("Salário:");
+
+        txtSalario.setBackground(new java.awt.Color(240, 255, 240));
+        txtSalario.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtSalario.setValue(BigDecimal.ZERO
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -296,19 +306,25 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtEmail)
+                                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel5)
                                         .addGap(237, 237, 237)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel16)
-                                    .addComponent(txtRedeSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtRedeSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel17)
+                                    .addComponent(txtSalario))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -324,7 +340,7 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel3))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtSexo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(txtSexo, 0, 168, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -334,12 +350,14 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel17))
                 .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRg, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRg, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -355,7 +373,7 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -371,15 +389,15 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (!txtNome.getText().isEmpty() && !txtEndereco.getText().isEmpty() && !txtRg.getText().isEmpty()) {
-
+            
             var tecnico = new Tecnico();
             tecnico.setNomeTecnico(txtNome.getText());
             tecnico.setCpf(txtCpf.getText());
             tecnico.setRg(txtRg.getText());
             tecnico.setSexo(txtSexo.getSelectedItem().toString());
-
+            tecnico.setSalario(new BigDecimal(String.valueOf(txtSalario.getValue())));
             tecnico.setContato(new Contato(txtFone.getText(), txtEmail.getText(), txtRedeSocial.getText()));
-
+            
             var endereco = new Endereco();
             endereco.setBairro(txtBairro.getText());
             endereco.setCidade(txtCidade.getText());
@@ -387,17 +405,17 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
             endereco.setLogradouro(txtEndereco.getText());
             endereco.setNumero(txtNumero.getText());
             endereco.setUf(txtUf.getSelectedItem().toString());
-
+            
             tecnico.setEndereco(endereco);
-
+            
             tecnicoRepository.saveOrUpdate(tecnico);
             JOptionPane.showMessageDialog(rootPane, "Cadastro efetuado com sucesso", "Confirmado", 1);
-
+            
             listagemTecnicos();
             limpa();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos", "Atenção", 0);
-
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -428,7 +446,7 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBusca.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscaKeyTyped
-
+    
     private void limpa() {
         txtNome.setText("");
         txtEndereco.setText("");
@@ -456,6 +474,7 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -481,6 +500,7 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
     private javax.swing.JTextField txtRedeSocial;
     private javax.swing.JTextField txtReferencia;
     private javax.swing.JTextField txtRg;
+    private javax.swing.JFormattedTextField txtSalario;
     private javax.swing.JComboBox<String> txtSexo;
     private javax.swing.JComboBox<String> txtUf;
     // End of variables declaration//GEN-END:variables

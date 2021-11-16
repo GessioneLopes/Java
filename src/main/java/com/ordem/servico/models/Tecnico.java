@@ -1,6 +1,7 @@
 package com.ordem.servico.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ public class Tecnico implements Serializable {
     private String cpf;
     private String rg;
     private String sexo;
+    private BigDecimal salario;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
@@ -38,5 +40,7 @@ public class Tecnico implements Serializable {
 
     public Tecnico() {
     }
+    
+    
 
 }

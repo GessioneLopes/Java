@@ -1,8 +1,5 @@
 package com.ordem.servico.telas;
 
-import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.ordem.servico.models.Usuario;
 import com.ordem.servico.repository.UsuarioRepository;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -18,14 +15,10 @@ public class TelaLogin extends javax.swing.JDialog {
         initComponents();
 
         repository = new UsuarioRepository();
-        createUserDefault();
+        
     }
     
-    private void createUserDefault(){
-        if(repository.lista(Usuario.class).isEmpty()){
-            repository.saveOrUpdate(new Usuario("admin", "admin", true, "ATIVO"));
-        }
-    }
+   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -66,8 +59,13 @@ public class TelaLogin extends javax.swing.JDialog {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bgpdv2.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, 50));
+
+        txtUser.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        txtUser.setForeground(new java.awt.Color(51, 51, 51));
         getContentPane().add(txtUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 220, 33));
 
+        txtSenha.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        txtSenha.setForeground(new java.awt.Color(51, 51, 51));
         txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSenhaKeyPressed(evt);
@@ -134,20 +132,7 @@ public class TelaLogin extends javax.swing.JDialog {
         }
     }
 
-    public static void main(String args[]) {
-      
-        java.awt.EventQueue.invokeLater(() -> {
-            FlatLightLaf.setup(new FlatIntelliJLaf());
-            var dialog = new TelaLogin(new javax.swing.JFrame(), true);
-            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    System.exit(0);
-                }
-            });
-            dialog.setVisible(true);
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
