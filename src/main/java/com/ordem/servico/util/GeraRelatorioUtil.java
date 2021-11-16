@@ -1,5 +1,7 @@
 package com.ordem.servico.util;
 
+import com.ordem.servico.models.Empresa;
+import com.ordem.servico.repository.EmpresaRepository;
 import java.awt.Dialog.ModalExclusionType;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -16,16 +18,33 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class GeraRelatorioUtil {
 
+    private final Empresa empresa;
+
     public GeraRelatorioUtil() {
+        empresa = new EmpresaRepository().find(Empresa.class, 1L);
     }
 
     public int geraReletorioOrcamento(long codigo) {
         InputStream rel = this.getClass().getResourceAsStream("/relatorios/ordem_os.jasper");
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("OSNR", codigo);
 
-            // params.put("ORCAMENTO", "ORÇAMENTO");
+            params.put("OSNR", codigo);
+            params.put("TIPO_DOCUMENTO", "ORDEM ORÇAMENTO N°:");
+
+            if (empresa != null) {
+                params.put("EMPRESA_CONTATOS", empresa.getContato().getCelular() + "\n"
+                        + empresa.getContato().getEmail());
+
+                params.put("EMPRESA_ENDERECO", empresa.getEndereco().getLogradouro() + " - "
+                        + empresa.getEndereco().getNumero()
+                        + "\n" + empresa.getEndereco().getCidade() + " - "
+                        + empresa.getEndereco().getUf());
+            }else{
+                params.put("EMPRESA_CONTATOS","Cadastre os dados da empresa");
+                params.put("EMPRESA_ENDERECO","Em configurações - Cadastre os dados da empresa");
+            }
+
             JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
             jasperPrint.setOrientation(OrientationEnum.PORTRAIT);
             JasperViewer jv = new JasperViewer(jasperPrint, false);
@@ -69,6 +88,9 @@ public class GeraRelatorioUtil {
             Map<String, Object> params = new HashMap<>();
 
             params.put("OSNR", osnr);
+            params.put("TIPO_DOCUMENTO", "ORDEM DE SERVIÇO N°:");
+            params.put("EMPRESA_CONTATOS", empresa.getContato().getCelular() + "\n" + empresa.getContato().getEmail());
+            params.put("EMPRESA_ENDERECO", empresa.getEndereco().getLogradouro() + "\n" + empresa.getEndereco().getCidade());
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
             jasperPrint.setOrientation(OrientationEnum.PORTRAIT);
@@ -87,8 +109,8 @@ public class GeraRelatorioUtil {
 
         }
     }
-    
-     public void geraRecibo(String valor, String obs, String nomeCliente, String nrOrdem) {
+
+    public void geraRecibo(String valor, String obs, String nomeCliente, String nrOrdem) {
         InputStream rel = this.getClass().getResourceAsStream("/relatorios/recibo.jasper");
         try {
             Map<String, Object> params = new HashMap<>();

@@ -113,7 +113,6 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         venda.setTotal(new BigDecimal(String.valueOf(txtTotal.getValue())));
 
         venda.setId(vendaRepository.salvaVenda(venda));
-        retornoUpdate.update(venda);
 
         //update estoque
         var repo = new ProdutoRepository();
@@ -124,6 +123,7 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
             repo.saveOrUpdate(produto);
         });
 
+        retornoUpdate.update(venda);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

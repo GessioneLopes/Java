@@ -278,6 +278,7 @@ public class MasterMenuOption extends javax.swing.JInternalFrame {
         var screenSize = telaMinhasVendas.getSize();
         telaMinhasVendas.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
         telaMinhasVendas.txtCodigoBar.requestFocus();
+        telaMinhasVendas = null;
      
     }//GEN-LAST:event_jButton9ActionPerformed
 

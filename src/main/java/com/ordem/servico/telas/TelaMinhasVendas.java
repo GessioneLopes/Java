@@ -118,6 +118,23 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         setClosable(true);
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-circulado-16.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(1034, 575));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
@@ -302,6 +319,10 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         TelaGerenciarVendas tlv = new TelaGerenciarVendas();
         tlv.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        telafinalizaVenda = null;
+    }//GEN-LAST:event_formInternalFrameClosed
 
    
 

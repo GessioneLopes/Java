@@ -380,7 +380,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
         txtObs.setRows(4);
         jScrollPane1.setViewportView(txtObs);
 
-        jLabel5.setText("Observações da Ordem:");
+        jLabel5.setText("Laudo/Observações da Ordem:");
 
         jLabel6.setText("Técnico Responsável:");
 
@@ -518,9 +518,11 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             }
         });
 
-        txtTotalProduto.setText("0.00");
+        txtTotalProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        txtTotalProduto.setValue(BigDecimal.ZERO);
 
-        txtTotalServico.setText("0.00");
+        txtTotalServico.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        txtTotalServico.setValue(BigDecimal.ZERO);
 
         jLabel11.setText("Total Produtos:");
 
@@ -536,10 +538,12 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
         jLabel20.setText("Total Geral:");
 
+        txtTotalGeral.setEditable(false);
         txtTotalGeral.setBackground(new java.awt.Color(255, 255, 250));
         txtTotalGeral.setForeground(new java.awt.Color(0, 51, 0));
-        txtTotalGeral.setText("0.00");
+        txtTotalGeral.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
         txtTotalGeral.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtTotalGeral.setValue(BigDecimal.ZERO);
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/excl.png"))); // NOI18N
         jButton6.addActionListener(new java.awt.event.ActionListener() {

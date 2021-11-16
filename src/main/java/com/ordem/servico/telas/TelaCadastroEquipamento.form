@@ -436,13 +436,14 @@
         <Component class="javax.swing.JComboBox" name="txtCombustivel">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
-                <StringItem index="0" value="GASOLINA"/>
-                <StringItem index="1" value="ETANOL"/>
-                <StringItem index="2" value="DIESEL"/>
-                <StringItem index="3" value="GAS"/>
-                <StringItem index="4" value="FLEX"/>
-                <StringItem index="5" value="EL&#xc9;TRICO"/>
+              <StringArray count="7">
+                <StringItem index="0" value="-"/>
+                <StringItem index="1" value="GASOLINA"/>
+                <StringItem index="2" value="ETANOL"/>
+                <StringItem index="3" value="DIESEL"/>
+                <StringItem index="4" value="GAS"/>
+                <StringItem index="5" value="FLEX"/>
+                <StringItem index="6" value="EL&#xc9;TRICO"/>
               </StringArray>
             </Property>
           </Properties>

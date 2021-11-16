@@ -221,7 +221,7 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (tabela.getSelectedRow() != -1) {
             long idOrdem = Long.parseLong(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
-            ordemRepository.deleteById(Ordem.class, idOrdem);
+            ordemRepository.delete(ordemRepository.find(Ordem.class, idOrdem));
             listagemOrdens();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -242,7 +242,7 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
         var desktopSize = MainApp.getDesktop().getSize();
         var screenSize = cadastroOrdemServico.getSize();
         cadastroOrdemServico.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
-        
+        cadastroOrdemServico = null;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked

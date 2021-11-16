@@ -247,7 +247,7 @@ public class TelaCadastroEquipamento extends javax.swing.JInternalFrame implemen
 
         jLabel8.setText("Km");
 
-        txtCombustivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GASOLINA", "ETANOL", "DIESEL", "GAS", "FLEX", "ELÉTRICO" }));
+        txtCombustivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "GASOLINA", "ETANOL", "DIESEL", "GAS", "FLEX", "ELÉTRICO" }));
 
         jLabel10.setText("Combustível:");
 

@@ -28,5 +28,6 @@ public class Equipamento implements Serializable {
     private String combustivel;
     private String km;
     private String observacoes;
+   
 
 }

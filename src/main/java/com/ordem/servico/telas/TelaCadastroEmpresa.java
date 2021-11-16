@@ -393,6 +393,7 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
             txtCodigoAt.setText(empresa.getAtividade());
             redeSocial.setText(empresa.getContato().getRedesocial());
             txtReferencia.setText(empresa.getEndereco().getReferencia());
+            fotoPath = empresa.getLogo();
 
             if (!empresa.getLogo().isEmpty()) {
 
