@@ -28,7 +28,7 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
         ordemRepository = new OrdemRepository();
         listagemOrdens();
     }
-    
+
     public TelaOrdemServicos(TelaRecibos recibos) {
         initComponents();
 
@@ -38,7 +38,6 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
         ordemRepository = new OrdemRepository();
         listagemOrdens();
     }
-
 
     private void listagemOrdens() {
         var lista = ordemRepository.lista(Ordem.class);
@@ -53,9 +52,9 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
                 row[1] = i.getData();
                 row[2] = i.getHora();
                 row[4] = numberFormat.format(i.getTotal());
-                row[3] = i.getCliente().getNome();
+                row[3] = i.getCliente() != null ? i.getCliente().getNome() : "Cliente não informado";
                 row[5] = i.getStatus().name();
-                row[6] = i.getTecnico().getNomeTecnico();
+                row[6] = i.getTecnico() != null ? i.getTecnico().getNomeTecnico().toUpperCase() : "Não informado";
 
                 modelo.addRow(row);
             }
@@ -251,8 +250,10 @@ public class TelaOrdemServicos extends javax.swing.JInternalFrame implements Ret
             long codigo = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
             var ordem = ordemRepository.find(Ordem.class, codigo);
 
-            retornoUpdate.update(ordem);
-            dispose();
+            if (retornoUpdate != null) {
+                retornoUpdate.update(ordem);
+                dispose();
+            }
 
         }
     }//GEN-LAST:event_tabelaMouseClicked

@@ -48,7 +48,7 @@ public class MainApp extends javax.swing.JFrame {
                     var telaEmpresa = new TelaCadastroEmpresa(this, true);
                     telaEmpresa.setVisible(true);
                 }
-               
+
             } catch (InterruptedException ex) {
                 System.out.println("erro ao checar dados da empresa");
             }
@@ -395,7 +395,7 @@ public class MainApp extends javax.swing.JFrame {
         var desktopSize = Desktop.getSize();
         var screenSize = cadastroOrdemServico.getSize();
         cadastroOrdemServico.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
-
+        cadastroOrdemServico = null;
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

@@ -19,6 +19,7 @@ import com.ordem.servico.util.OrdemTipo;
 import com.ordem.servico.util.RetornoUpdate;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -44,13 +45,14 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     private final NumberFormat numberFormat;
     private boolean produtoExistenteOrdem;
 
-    private final List<ItemOrdem> listaItens = new ArrayList<>();
+    private List<ItemOrdem> listaItens = new ArrayList<>();
 
     private RetornoUpdate retornoUpdate;
+    private boolean ordemEdit = false;
 
     public TelaCadastroOrdemServico() {
         initComponents();
-        
+
         retornoUpdate = null;
 
         ordem = new Ordem();
@@ -255,6 +257,8 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
         txtTotalGeral = new javax.swing.JFormattedTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jButton6 = new javax.swing.JButton();
+        txtNrOrdem = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Ordens");
@@ -322,7 +326,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
-                                .addGap(0, 78, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(txtNumeroSerieEquip))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,6 +433,9 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtEmialCliente)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(txtFone, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -441,18 +448,21 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel19)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtCNPJ)))
-                    .addComponent(txtEmialCliente)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtCNPJ)
+                                .addContainerGap())))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel18))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel18))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(6, 6, 6))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -552,6 +562,23 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             }
         });
 
+        txtNrOrdem.setBackground(new java.awt.Color(242, 253, 242));
+        txtNrOrdem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtNrOrdem.setForeground(new java.awt.Color(153, 102, 0));
+        txtNrOrdem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNrOrdemActionPerformed(evt);
+            }
+        });
+        txtNrOrdem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNrOrdemKeyPressed(evt);
+            }
+        });
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-pesquisar-24.png"))); // NOI18N
+        jLabel21.setText("N° Ordem:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -559,85 +586,96 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTotalProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                            .addComponent(txtTotalServico))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel20)
-                                    .addComponent(txtTotalGeral, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jSeparator1)))
                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel21)
+                                    .addComponent(txtNrOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtDateOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
-                                    .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(132, 132, 132))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtStatusOrdem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(6, 6, 6))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTecnicos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(553, 553, 553)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4)
-                                .addGap(3, 3, 3)
-                                .addComponent(jButton3)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtStatusOrdem, 0, 118, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtTecnicos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel11)))
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtTotalProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jSeparator1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(txtTotalServico, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel20)
+                                            .addComponent(txtTotalGeral, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(51, 51, 51)
+                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton4)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jButton3)))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6))
-                .addGap(1, 1, 1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtHora)
-                    .addComponent(txtDateOrdem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtTipo)
-                    .addComponent(txtTecnicos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(txtStatusOrdem, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNrOrdem)
+                            .addComponent(txtTipo)
+                            .addComponent(txtTecnicos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                            .addComponent(txtStatusOrdem, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(jLabel21)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(1, 1, 1)
+                        .addComponent(txtHora))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(1, 1, 1)
+                        .addComponent(txtDateOrdem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -657,22 +695,23 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
                             .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtTotalProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel11))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtTotalProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11))
+                                .addGap(4, 4, 4)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtTotalServico, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel20)))
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtTotalGeral, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtTotalServico, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel12)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel20)
+                                .addGap(4, 4, 4)
+                                .addComponent(txtTotalGeral, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -685,39 +724,63 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if (!txtCliente.getText().isEmpty() && !txtNomeEquip.getText().isEmpty() && txtTecnicos.getSelectedIndex() > 0) {
+        if (ordemEdit == false) {
+            if (!txtCliente.getText().isEmpty() && !txtNomeEquip.getText().isEmpty() && txtTecnicos.getSelectedIndex() > 0) {
 
-            ordem.setHora(new DataHora().ler_hora());
-            ordem.setCliente(cliente);
+                ordem.setHora(new DataHora().ler_hora());
+                ordem.setCliente(cliente);
+                ordem.setObs(txtObs.getText());
+                ordem.setStatus(OrdemStatus.valueOf(txtStatusOrdem.getSelectedItem().toString()));
+                ordem.setTipo(OrdemTipo.valueOf(txtTipo.getSelectedItem().toString()));
+
+                long idTecnico = Long.valueOf(txtTecnicos.getSelectedItem().toString().split("-")[0]);
+                ordem.setTecnico(tecnicoRepository.find(Tecnico.class, idTecnico));
+
+                var dateOrdem = txtDateOrdem.getCalendar()
+                        .toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+
+                ordem.setData(dateOrdem);
+
+                ordem.setEquipamento(equipamento);
+                ordem.setItens(listaItens);
+                ordem.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
+
+                var idOrdemSalva = new OrdemRepository().salvaOrdem(ordem);
+                JOptionPane.showMessageDialog(rootPane, "Dados da ordem salvos com sucesso", "Confirmado", 1);
+                limpar();
+
+                new GeraRelatorioUtil().geraViaOrdemServico(idOrdemSalva);
+
+                if (retornoUpdate != null) {
+                    retornoUpdate.update(ordem);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Complete o preenchimento dos dados da ordem de serviço", "Incompleta", 0);
+            }
+        } else {
+
             ordem.setObs(txtObs.getText());
             ordem.setStatus(OrdemStatus.valueOf(txtStatusOrdem.getSelectedItem().toString()));
             ordem.setTipo(OrdemTipo.valueOf(txtTipo.getSelectedItem().toString()));
+            ordem.getEquipamento().setDefeito(txtDefeitoEquip.getText());
 
             long idTecnico = Long.valueOf(txtTecnicos.getSelectedItem().toString().split("-")[0]);
             ordem.setTecnico(tecnicoRepository.find(Tecnico.class, idTecnico));
 
-            var dateOrdem = txtDateOrdem.getCalendar()
-                    .toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
-            ordem.setData(dateOrdem);
-
-            ordem.setEquipamento(equipamento);
-            ordem.setItens(listaItens);
             ordem.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
+            ordem.setItens(listaItens);
 
-            var idOrdemSalva = new OrdemRepository().salvaOrdem(ordem);
-            JOptionPane.showMessageDialog(rootPane, "Dados da ordem salvos com sucesso", "Confirmado", 1);
+            new OrdemRepository().saveOrUpdate(ordem);
+
+            JOptionPane.showMessageDialog(rootPane, "Dados da ordem atualizados com sucesso", "Confirmado", 1);
             limpar();
 
-            new GeraRelatorioUtil().geraViaOrdemServico(idOrdemSalva);
-            
-            if(retornoUpdate != null){
-                retornoUpdate.update(ordem);
-            }
+            ordemEdit = false;
+            new GeraRelatorioUtil().geraViaOrdemServico(ordem.getId());
 
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Complete o preenchimento dos dados da ordem de serviço", "Incompleta", 0);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -742,10 +805,52 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        var tlp = new TelaListagemProdutos( this);
+        var tlp = new TelaListagemProdutos(this);
         MainApp.getDesktop().add(tlp);
         tlp.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void txtNrOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNrOrdemActionPerformed
+
+    }//GEN-LAST:event_txtNrOrdemActionPerformed
+
+    private void txtNrOrdemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNrOrdemKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            var nrOrdem = Long.parseLong(txtNrOrdem.getText());
+            ordem = new OrdemRepository().find(Ordem.class, nrOrdem);
+
+            if (ordem != null) {
+
+                txtStatusOrdem.setSelectedItem(ordem.getStatus().name());
+                txtTecnicos.setSelectedItem(ordem.getTecnico().getCodigo() + "-" + ordem.getTecnico().getNomeTecnico().toUpperCase());
+                txtTipo.setSelectedItem(ordem.getTipo().name());
+                txtObs.setText(ordem.getObs());
+                txtHora.setText(ordem.getHora());
+                txtTotalGeral.setValue(ordem.getTotal());
+                txtDateOrdem.setDate(Date.from(ordem.getData().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+
+                txtCNPJ.setText(ordem.getCliente().getCnpj());
+                txtCPF.setText(ordem.getCliente().getCpf());
+                txtCliente.setText(ordem.getCliente().getNome());
+                txtEmialCliente.setText(ordem.getCliente().getContato().getEmail());
+                txtFone.setText(ordem.getCliente().getContato().getCelular());
+
+                txtNomeEquip.setText(ordem.getEquipamento().getNomeEquipamante());
+                txtNumeroSerieEquip.setText(ordem.getEquipamento().getNumero_serie());
+                txtModeloEquip.setText(ordem.getEquipamento().getModelo());
+                txtDefeitoEquip.setText(ordem.getEquipamento().getDefeito());
+                txtCorEquip.setText(ordem.getEquipamento().getCor());
+
+                listaItens.clear();
+                listaItens = ordem.getItens();
+                listaItemsOrdem();
+                ordemEdit = true;
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Ordem não encontrada", "Verifique o N°", 0);
+            }
+        }
+    }//GEN-LAST:event_txtNrOrdemKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -767,6 +872,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -792,6 +898,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     private javax.swing.JTextField txtHora;
     private javax.swing.JTextField txtModeloEquip;
     private javax.swing.JTextField txtNomeEquip;
+    private javax.swing.JTextField txtNrOrdem;
     private javax.swing.JTextField txtNumeroSerieEquip;
     private javax.swing.JTextArea txtObs;
     private javax.swing.JComboBox<String> txtStatusOrdem;
@@ -825,12 +932,13 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
     private void limpar() {
         ordem = new Ordem();
+        txtNrOrdem.setText("");
         txtCPF.setText("");
         txtCNPJ.setText("");
         txtCorEquip.setText("");
         txtCliente.setText("");
         txtFone.setText("");
-        txtHora.setText("");
+        txtHora.setText(new DataHora().ler_hora());
         txtEmialCliente.setText("");
         txtObs.setText("");
         txtModeloEquip.setText("");
@@ -840,7 +948,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
         txtTotalGeral.setText("");
         txtDefeitoEquip.setText("");
         txtCliente.requestFocus();
-        
+
         listaItens.clear();
         listaItemsOrdem();
     }

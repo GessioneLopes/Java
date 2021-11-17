@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Data
@@ -35,12 +37,13 @@ public class Ordem implements Serializable {
     private String hora;
 
     @OneToOne
-    private Cliente cliente = new Cliente();
+    private Cliente cliente;
 
     @OneToOne
-    private Tecnico tecnico = new Tecnico();
+    private Tecnico tecnico ;
 
     @OneToMany(mappedBy = "ordem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.JOIN)
     private List<ItemOrdem> itens = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
