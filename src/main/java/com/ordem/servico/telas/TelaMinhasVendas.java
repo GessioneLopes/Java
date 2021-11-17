@@ -1,5 +1,6 @@
 package com.ordem.servico.telas;
 
+import com.ordem.servico.models.Cliente;
 import com.ordem.servico.models.ItemVenda;
 import com.ordem.servico.models.Produto;
 import com.ordem.servico.models.Venda;
@@ -29,6 +30,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
     private TelaFinalizaVenda telafinalizaVenda;
 
     private Venda venda;
+    private Cliente cliente;
 
     public TelaMinhasVendas() {
        
@@ -96,7 +98,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         txtTotalGeral = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtNomeCliente = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -176,9 +178,14 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
             }
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 480, -1, 32));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, 495, 32));
+        getContentPane().add(txtNomeCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, 495, 32));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-pesquisar-24.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 70, 34, 32));
 
         jLabel3.setText("Cliente:");
@@ -295,6 +302,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
             venda.setDataVenda(LocalDate.parse(txtDataVenda.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             venda.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
             venda.setItens(listaItens);
+            venda.setCliente(cliente);
 
             telafinalizaVenda = new TelaFinalizaVenda(null, rootPaneCheckingEnabled, venda, this);
             telafinalizaVenda.setVisible(true);
@@ -324,6 +332,11 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         telafinalizaVenda = null;
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         var tlist = new TelaListagemClientes(this);
+        tlist.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -342,11 +355,11 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tabela;
     public javax.swing.JFormattedTextField txtCodigoBar;
     private javax.swing.JLabel txtDataVenda;
     private javax.swing.JLabel txtDescProduto;
+    private javax.swing.JTextField txtNomeCliente;
     private javax.swing.JSpinner txtQtdeSpiner;
     private javax.swing.JFormattedTextField txtTotalGeral;
     private javax.swing.JTextField txtValorUnt;
@@ -365,6 +378,9 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
             txtTotalGeral.setValue(BigDecimal.ZERO);
             txtValorUnt.setText("");
             JOptionPane.showMessageDialog(rootPane, "Venda efetuada com sucesso", "N° venda " + v.getId(), 1);
+        }else if(obj instanceof Cliente cliente){
+            this.cliente = cliente;
+            txtNomeCliente.setText(cliente.getNome() );
         }
     }
 }

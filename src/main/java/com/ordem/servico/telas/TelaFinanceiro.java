@@ -1,33 +1,118 @@
 package com.ordem.servico.telas;
 
+import com.ordem.servico.models.Conta;
+import com.ordem.servico.repository.ContasRepository;
 import com.ordem.servico.repository.VendaRepository;
+import com.ordem.servico.util.RetornoUpdate;
+import com.ordem.servico.util.TipoConta;
 import java.awt.BorderLayout;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.PieSeries;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.style.Styler;
 
-public class TelaFinanceiro extends javax.swing.JInternalFrame {
+public class TelaFinanceiro extends javax.swing.JInternalFrame implements RetornoUpdate {
 
     private NumberFormat format = DecimalFormat.getCurrencyInstance();
-    
+    private VendaRepository vendaRepository;
+    private ContasRepository contasRepository;
+
     private BigDecimal totalVendas;
+    private BigDecimal totalpagar;
+    private BigDecimal totalReceber;
 
     public TelaFinanceiro() {
         initComponents();
-        
-        totalVendas = new VendaRepository().totalVendas();
 
-        loadPieChart();
+        vendaRepository = new VendaRepository();
+        contasRepository = new ContasRepository();
+
         showTotais();
+        loadPieChart();
+        
+        listagemContasPagar();
+        listagemContasReceber();
 
     }
 
+    private void listagemContasReceber() {
+        var lista = contasRepository.lista(Conta.class);
+
+        var modelo = (DefaultTableModel) tabelaRcb.getModel();
+        modelo.setNumRows(0);
+
+        var row = new Object[4];
+        lista.forEach(i -> {
+            if (i.getTipoConta() == TipoConta.RECEBER) {
+                row[0] = i.getId();
+                row[1] = i.getDesc().toUpperCase();
+                row[2] = format.format(i.getValor());
+                row[3] = i.getDataConta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+                modelo.addRow(row);
+            }
+        });
+
+        if (lista.isEmpty()) {
+            row[1] = "Nenhuma conta";
+            modelo.addRow(row);
+        }
+    }
+
+    private void listagemContasPagar() {
+        var lista = contasRepository.lista(Conta.class);
+
+        var modelo = (DefaultTableModel) tabelaPgto.getModel();
+        modelo.setNumRows(0);
+
+        var row = new Object[4];
+        lista.forEach(i -> {
+            if (i.getTipoConta() == TipoConta.PAGAR) {
+                row[0] = i.getId();
+                row[1] = i.getDesc().toUpperCase();
+                row[2] = format.format(i.getValor());
+                row[3] = i.getDataConta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+                modelo.addRow(row);
+            }
+        });
+
+        if (lista.isEmpty()) {
+            row[1] = "Nenhuma conta";
+            modelo.addRow(row);
+        }
+    }
+    
+   
+
+
     private void showTotais() {
+
+        List<Conta> contas = contasRepository.lista(Conta.class);
+
+        totalVendas = vendaRepository.totalVendas();
+
+        totalpagar = contas.stream()
+                .filter(it -> it.getTipoConta() == TipoConta.PAGAR)
+                .map(vl -> vl.getValor())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        totalReceber = contas.stream()
+                .filter(it -> it.getTipoConta() == TipoConta.RECEBER)
+                .map(vl -> vl.getValor())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         lbTotalVenda.setText(format.format(totalVendas));
+        lbTotalPagar.setText(format.format(totalpagar));
+        lbTotalReceber.setText(format.format(totalReceber));
     }
 
     private void loadPieChart() {
@@ -42,14 +127,14 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaPgto = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
         btnAddPg = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabelaRcb = new javax.swing.JTable();
         jTextField2 = new javax.swing.JTextField();
         btnAddRb = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -74,7 +159,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contas a Pagar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaPgto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -85,12 +170,12 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
                 "ID", "Descrição", "Valor", "Vencimento"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(75);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(80);
-            jTable1.getColumnModel().getColumn(1).setMinWidth(200);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(210);
+        jScrollPane1.setViewportView(tabelaPgto);
+        if (tabelaPgto.getColumnModel().getColumnCount() > 0) {
+            tabelaPgto.getColumnModel().getColumn(0).setMinWidth(75);
+            tabelaPgto.getColumnModel().getColumn(0).setMaxWidth(80);
+            tabelaPgto.getColumnModel().getColumn(1).setMinWidth(200);
+            tabelaPgto.getColumnModel().getColumn(1).setMaxWidth(210);
         }
 
         btnAddPg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add_orange.png"))); // NOI18N
@@ -101,6 +186,11 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
         });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/excl.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-pesquisar-24.png"))); // NOI18N
 
@@ -137,7 +227,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contas a Receber", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaRcb.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -148,12 +238,12 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
                 "ID", "Descrição", "Valor", "Data"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setMinWidth(75);
-            jTable2.getColumnModel().getColumn(0).setMaxWidth(80);
-            jTable2.getColumnModel().getColumn(1).setMinWidth(200);
-            jTable2.getColumnModel().getColumn(1).setMaxWidth(210);
+        jScrollPane2.setViewportView(tabelaRcb);
+        if (tabelaRcb.getColumnModel().getColumnCount() > 0) {
+            tabelaRcb.getColumnModel().getColumn(0).setMinWidth(75);
+            tabelaRcb.getColumnModel().getColumn(0).setMaxWidth(80);
+            tabelaRcb.getColumnModel().getColumn(1).setMinWidth(200);
+            tabelaRcb.getColumnModel().getColumn(1).setMaxWidth(210);
         }
 
         btnAddRb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add_orange.png"))); // NOI18N
@@ -164,6 +254,11 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
         });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/excl.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-pesquisar-24.png"))); // NOI18N
 
@@ -400,21 +495,40 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddPgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPgActionPerformed
-        TelaCadastroConta ct = new TelaCadastroConta(null, true);
+        TelaCadastroConta ct = new TelaCadastroConta(null, true, this);
         ct.setLocation(btnAddPg.getLocation());
         ct.setVisible(true);
     }//GEN-LAST:event_btnAddPgActionPerformed
 
     private void btnAddRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRbActionPerformed
-        TelaCadastroConta ct = new TelaCadastroConta(null, true);
-
-        ct.setVisible(true);
+        TelaCadastroConta ct = new TelaCadastroConta(null, true, this);
         ct.setLocation(btnAddRb.getLocation());
+        ct.txtTipo.setSelectedIndex(1);
+        ct.setVisible(true);
+
     }//GEN-LAST:event_btnAddRbActionPerformed
 
-    private org.knowm.xchart.PieChart getChartPie() {
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         if (tabelaPgto.getSelectedRow() != -1) {
+            long codigo = (long) tabelaPgto.getValueAt(tabelaPgto.getSelectedRow(), 0);
+            contasRepository.deleteById(Conta.class, codigo);
+            listagemContasPagar();
+            showTotais();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-        org.knowm.xchart.PieChart chart = new PieChartBuilder().width(450).height(280).theme(Styler.ChartTheme.GGPlot2).build();
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+         if (tabelaRcb.getSelectedRow() != -1) {
+            long codigo = (long) tabelaRcb.getValueAt(tabelaRcb.getSelectedRow(), 0);
+            contasRepository.deleteById(Conta.class, codigo);
+             listagemContasReceber();
+             showTotais();
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private PieChart getChartPie() {
+
+        PieChart chart = new PieChartBuilder().width(450).height(280).theme(Styler.ChartTheme.GGPlot2).build();
 
         chart.getStyler().setLegendVisible(false);
 
@@ -422,8 +536,8 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
         chart.getStyler().setDefaultSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Pie);
         chart.getStyler().setCircular(false);
 
-        chart.addSeries("Pagar", 2500);
-        chart.addSeries("Receber", 1000);
+        chart.addSeries("Pagar", totalpagar);
+        chart.addSeries("Receber", totalReceber);
         chart.addSeries("Caixa", 34);
         chart.addSeries("Vendas", totalVendas);
 
@@ -450,13 +564,24 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbTotalPagar;
     private javax.swing.JLabel lbTotalReceber;
     private javax.swing.JLabel lbTotalVenda;
     private javax.swing.JPanel panelChart;
+    private javax.swing.JTable tabelaPgto;
+    private javax.swing.JTable tabelaRcb;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Object obj) {
+        listagemContasPagar();
+        listagemContasReceber();
+        
+        showTotais();
+        JOptionPane.showMessageDialog(rootPane, obj, "Confirmado", 1);
+        
+        loadPieChart();
+    }
 }

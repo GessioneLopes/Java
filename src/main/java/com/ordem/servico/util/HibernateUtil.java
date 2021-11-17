@@ -1,6 +1,7 @@
 package com.ordem.servico.util;
 
 import com.ordem.servico.models.Cliente;
+import com.ordem.servico.models.Conta;
 import com.ordem.servico.models.Contato;
 import com.ordem.servico.models.Cor;
 import com.ordem.servico.models.Empresa;
@@ -60,6 +61,7 @@ public class HibernateUtil {
                     .addAnnotatedClass(Empresa.class)
                     .addAnnotatedClass(Venda.class)
                     .addAnnotatedClass(ItemVenda.class)
+                    .addAnnotatedClass(Conta.class)
                     .buildMetadata().buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Inicial SessionFactory criafalhou." + ex);

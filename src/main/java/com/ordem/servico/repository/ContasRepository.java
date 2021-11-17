@@ -7,4 +7,5 @@ import com.ordem.servico.models.Conta;
 
 public class ContasRepository extends GenericDao<Conta>{
     
+//   
 }

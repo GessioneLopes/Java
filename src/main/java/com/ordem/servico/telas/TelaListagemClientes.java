@@ -13,23 +13,13 @@ import javax.swing.table.TableRowSorter;
 public class TelaListagemClientes extends javax.swing.JDialog {
 
     private final ClienteRepository clienteRepository;
-    private RetornoUpdate retornoUpdate;
+    private final RetornoUpdate retornoUpdate;
 
-    public TelaListagemClientes(TelaCadastroOrdemServico telaCadastroOrdemServico) {
-
-        initComponents();
-
-        retornoUpdate = telaCadastroOrdemServico;
-
-        clienteRepository = new ClienteRepository();
-        listaClientes();
-    }
-    
-     public TelaListagemClientes(TelaRecibos telaRecibos) {
+    public TelaListagemClientes(RetornoUpdate telaRetorno) {
 
         initComponents();
 
-        retornoUpdate = telaRecibos;
+        retornoUpdate = telaRetorno;
 
         clienteRepository = new ClienteRepository();
         listaClientes();
