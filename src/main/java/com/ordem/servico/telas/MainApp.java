@@ -284,6 +284,11 @@ public class MainApp extends javax.swing.JFrame {
         jMenu3.setText("Ajuda");
 
         jMenuItem9.setText("Sistema Info");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem9);
         jMenu3.add(jSeparator4);
 
@@ -419,13 +424,11 @@ public class MainApp extends javax.swing.JFrame {
         emp.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
-//    public static void main(String args[]) {
-//
-//        java.awt.EventQueue.invokeLater(() -> {
-//            FlatLightLaf.setup(new FlatIntelliJLaf());
-//            new MainApp().setVisible(true);
-//        });
-//    }
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        TelaAjuda aj = new TelaAjuda(this, rootPaneCheckingEnabled);
+        aj.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JDesktopPane Desktop;
