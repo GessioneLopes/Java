@@ -138,6 +138,11 @@ public class TelaCadastroServicos extends javax.swing.JInternalFrame {
             }
         });
         tabela.setRowHeight(26);
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
         if (tabela.getColumnModel().getColumnCount() > 0) {
             tabela.getColumnModel().getColumn(0).setMinWidth(60);
@@ -387,6 +392,10 @@ public class TelaCadastroServicos extends javax.swing.JInternalFrame {
 
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

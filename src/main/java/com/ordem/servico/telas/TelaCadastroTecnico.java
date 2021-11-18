@@ -18,10 +18,13 @@ import javax.swing.table.TableRowSorter;
 public class TelaCadastroTecnico extends javax.swing.JDialog {
     
     private TecnicoRepository tecnicoRepository;
+    private Tecnico tecnico;
     
     public TelaCadastroTecnico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        tecnico = new Tecnico();
         
         tecnicoRepository = new TecnicoRepository();
         listagemTecnicos();
@@ -82,7 +85,7 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         txtRg = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnSalvaDados = new javax.swing.JButton();
         txtSexo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
@@ -111,6 +114,7 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         txtSalario = new javax.swing.JFormattedTextField();
+        btnUpdate = new javax.swing.JButton();
 
         jTextField3.setText("jTextField3");
 
@@ -132,6 +136,11 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
             }
         ));
         tabela.setRowHeight(25);
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
         if (tabela.getColumnModel().getColumnCount() > 0) {
             tabela.getColumnModel().getColumn(0).setMinWidth(80);
@@ -152,11 +161,11 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
 
         jLabel3.setText("RG:");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add.png"))); // NOI18N
-        jButton1.setText("Salvar Dados");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvaDados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add.png"))); // NOI18N
+        btnSalvaDados.setText("Salvar Dados");
+        btnSalvaDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSalvaDadosActionPerformed(evt);
             }
         });
 
@@ -287,6 +296,15 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
         txtSalario.setValue(BigDecimal.ZERO
         );
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/circular-arrow.png"))); // NOI18N
+        btnUpdate.setText("Atualizar");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -301,9 +319,11 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(btnSalvaDados))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -372,10 +392,14 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnSalvaDados, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -384,10 +408,11 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSalvaDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaDadosActionPerformed
+        
         if (!txtNome.getText().isEmpty() && !txtEndereco.getText().isEmpty() && !txtRg.getText().isEmpty()) {
             
-            var tecnico = new Tecnico();
+            tecnico = new Tecnico();
             tecnico.setNomeTecnico(txtNome.getText());
             tecnico.setCpf(txtCpf.getText());
             tecnico.setRg(txtRg.getText());
@@ -410,11 +435,13 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
             
             listagemTecnicos();
             limpa();
+            
         } else {
             JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos", "Atenção", 0);
             
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+    }//GEN-LAST:event_btnSalvaDadosActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (tabela.getSelectedRow() != -1) {
@@ -443,8 +470,65 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBusca.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscaKeyTyped
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        if (tabela.getSelectedRow() != -1) {
+            long codigo = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
+            
+            tecnico = tecnicoRepository.find(Tecnico.class, codigo);
+            
+            txtNome.setText(tecnico.getNomeTecnico());
+            txtEndereco.setText(tecnico.getEndereco().getLogradouro());
+            txtCpf.setText(tecnico.getCpf());
+            txtEmail.setText(tecnico.getContato().getEmail());
+            txtReferencia.setText(tecnico.getEndereco().getReferencia());
+            txtCidade.setText(tecnico.getEndereco().getCidade());
+            txtBairro.setText(tecnico.getEndereco().getBairro());
+            txtCep.setText(tecnico.getEndereco().getCep());
+            txtFone.setText(tecnico.getContato().getCelular());
+            txtSalario.setValue(tecnico.getSalario());
+            txtRg.setText(tecnico.getRg());
+            txtNumero.setText(tecnico.getEndereco().getNumero());
+            txtRedeSocial.setText(tecnico.getContato().getRedesocial());
+            txtNome.requestFocus();
+            btnUpdate.setEnabled(true);
+        }
+    }//GEN-LAST:event_tabelaMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if (!txtNome.getText().isEmpty() && !txtEndereco.getText().isEmpty() && !txtRg.getText().isEmpty()) {
+            
+            tecnico.setNomeTecnico(txtNome.getText());
+            tecnico.setCpf(txtCpf.getText());
+            tecnico.setRg(txtRg.getText());
+            tecnico.setSexo(txtSexo.getSelectedItem().toString());
+            tecnico.setSalario(new BigDecimal(String.valueOf(txtSalario.getValue())));
+            tecnico.setContato(new Contato(txtFone.getText(), txtEmail.getText(), txtRedeSocial.getText()));
+            
+            tecnico.getEndereco().setReferencia(txtReferencia.getText());
+            tecnico.getEndereco().setBairro(txtBairro.getText());
+            tecnico.getEndereco().setCidade(txtCidade.getText());
+            tecnico.getEndereco().setCep(txtCep.getText());
+            tecnico.getEndereco().setLogradouro(txtEndereco.getText());
+            tecnico.getEndereco().setNumero(txtNumero.getText());
+            tecnico.getEndereco().setUf(txtUf.getSelectedItem().toString());
+            
+            tecnico.getContato().setCelular(txtFone.getText());
+            tecnico.getContato().setEmail(txtEmail.getText());
+            tecnico.getContato().setRedesocial(txtRedeSocial.getText());
+            
+            tecnicoRepository.saveOrUpdate(tecnico);
+            JOptionPane.showMessageDialog(rootPane, "Dados atualizados com sucesso", "Confirmado", 1);
+            
+            limpa();
+            listagemTecnicos();
+            btnUpdate.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
     
     private void limpa() {
+        txtRedeSocial.setText("");
+        txtReferencia.setText("");
         txtNome.setText("");
         txtEndereco.setText("");
         txtCpf.setText("");
@@ -458,10 +542,13 @@ public class TelaCadastroTecnico extends javax.swing.JDialog {
         txtRg.setText("");
         txtNumero.setText("");
         txtNome.requestFocus();
+        txtSalario.setValue(BigDecimal.ZERO);
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSalvaDados;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

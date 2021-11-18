@@ -563,6 +563,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
         chart.getStyler().setPlotContentSize(.9);
         chart.getStyler().setDefaultSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Pie);
         chart.getStyler().setCircular(false);
+        //chart.setTitle("GDM Sistemas");
 
         chart.addSeries("Pagar", totalpagar);
         chart.addSeries("Receber", totalReceber);

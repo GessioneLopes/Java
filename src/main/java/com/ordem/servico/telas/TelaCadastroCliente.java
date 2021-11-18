@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 public class TelaCadastroCliente extends javax.swing.JDialog {
 
     private final RetornoUpdate retornoUpdate;
+    private Cliente clienteEdit;
 
     public TelaCadastroCliente(java.awt.Frame parent, boolean modal, TelaClientes telaClientes) {
         super(parent, modal);
@@ -21,6 +22,41 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
         txtDateNascimento.setIcon(iconeCalendario());
         retornoUpdate = telaClientes;
+    }
+
+    public TelaCadastroCliente(Cliente clienteEdit) {
+
+        initComponents();
+
+        txtDateNascimento.setIcon(iconeCalendario());
+        retornoUpdate = null;
+        btnUpdate.setEnabled(true);
+        btnsalva.setEnabled(false);
+
+        this.clienteEdit = clienteEdit;
+        preparaEdicao();
+    }
+
+    private void preparaEdicao() {
+        if (clienteEdit != null) {
+            txtNome.setText(clienteEdit.getNome());
+            txtApelido.setText(clienteEdit.getApelido());
+            txtBairro.setText(clienteEdit.getEndereco().getBairro());
+            txtCep.setText(clienteEdit.getEndereco().getCep());
+            txtCity.setText(clienteEdit.getEndereco().getCidade());
+            txtCnpj.setText(clienteEdit.getCnpj());
+            txtCpf.setText(clienteEdit.getCpf());
+            txtEmail.setText(clienteEdit.getContato().getEmail());
+            txtUf.setSelectedItem(clienteEdit.getEndereco().getUf());
+            txtEnd.setText(clienteEdit.getEndereco().getLogradouro());
+            txtReferencia.setText(clienteEdit.getEndereco().getReferencia());
+            txtFone.setText(clienteEdit.getContato().getCelular());
+            txtNumero.setText(clienteEdit.getEndereco().getNumero());
+            txtSexo.setSelectedItem(clienteEdit.getSexo());
+            txtObs.setText(clienteEdit.getObs());
+            txtRg.setText(clienteEdit.getRg());
+            txtRede.setText(clienteEdit.getContato().getRedesocial());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -41,7 +77,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         txtFone = new javax.swing.JFormattedTextField();
         txtEmail = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnsalva = new javax.swing.JButton();
         txtSexo = new javax.swing.JComboBox<>();
         txtEnd = new javax.swing.JTextField();
         txtUf = new javax.swing.JComboBox<>();
@@ -67,6 +103,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         jLabel19 = new javax.swing.JLabel();
         txtRede = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
+        btnUpdate = new javax.swing.JButton();
 
         jLabel12.setText("jLabel12");
 
@@ -101,11 +138,11 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
         jLabel8.setText("E-mail:");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/ok.png"))); // NOI18N
-        jButton1.setText("Salvar Dados");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnsalva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/ok.png"))); // NOI18N
+        btnsalva.setText("Salvar Dados");
+        btnsalva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnsalvaActionPerformed(evt);
             }
         });
 
@@ -154,6 +191,15 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
         jLabel20.setText("Rede Social:");
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/circular-arrow.png"))); // NOI18N
+        btnUpdate.setText("Atualizar");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,7 +209,9 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(btnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnsalva))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3)
@@ -320,7 +368,9 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                     .addComponent(txtObs, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtRede, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnsalva, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -328,7 +378,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnsalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalvaActionPerformed
 
         if (!txtNome.getText().isEmpty() && !txtEmail.getText().isEmpty() && !txtBairro.getText().isEmpty() && !txtEnd.getText().isEmpty()) {
             var cliente = new Cliente();
@@ -361,6 +411,8 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
             cliente.setEndereco(endereco);
             cliente.setObs(txtObs.getText());
+            
+            
 
             new ClienteRepository().saveOrUpdate(cliente);
             JOptionPane.showMessageDialog(rootPane, "Cadastro efetuado com sucesso", "Confirmado", 1);
@@ -373,7 +425,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos", "Atenção", 0);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnsalvaActionPerformed
 
     private void txtCepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCepFocusLost
         try {
@@ -387,6 +439,50 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             System.out.println("cep inválido");
         }
     }//GEN-LAST:event_txtCepFocusLost
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if (clienteEdit != null) {
+            clienteEdit.setNome(txtNome.getText().toUpperCase());
+            clienteEdit.setCpf(txtCpf.getText());
+            clienteEdit.setRg(txtRg.getText());
+            clienteEdit.setSexo(txtSexo.getSelectedItem().toString());
+
+            var nascimento = txtDateNascimento.getCalendar()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            clienteEdit.setNascimento(nascimento);
+
+            clienteEdit.setStatus(txtStatus.getSelectedItem().toString());
+            clienteEdit.setApelido(txtBairro.getText());
+            clienteEdit.setCnpj(txtCnpj.getText());
+            
+            clienteEdit.getContato().setCelular(txtFone.getText());
+            clienteEdit.getContato().setEmail(txtEmail.getText());
+            clienteEdit.getContato().setRedesocial(txtRede.getText());
+            
+            clienteEdit.getEndereco().setReferencia(txtReferencia.getText());
+            clienteEdit.getEndereco().setBairro(txtBairro.getText());
+            clienteEdit.getEndereco().setCidade(txtCity.getText());
+            clienteEdit.getEndereco().setCep(txtCep.getText());
+            clienteEdit.getEndereco().setLogradouro(txtEnd.getText());
+            clienteEdit.getEndereco().setNumero(txtNumero.getText());
+            clienteEdit.getEndereco().setUf(txtUf.getSelectedItem().toString());
+            
+
+            new ClienteRepository().saveOrUpdate(clienteEdit);
+            JOptionPane.showMessageDialog(rootPane, "Cadastro Atualizado com sucesso", "Confirmado", 1);
+           
+            if (retornoUpdate != null) {
+                retornoUpdate.update(null);
+            }
+            
+            limpar();
+            dispose();
+
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void limpar() {
         txtApelido.setText("");
@@ -410,7 +506,8 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnsalva;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

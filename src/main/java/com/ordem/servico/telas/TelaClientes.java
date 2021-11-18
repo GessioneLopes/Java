@@ -99,6 +99,11 @@ public class TelaClientes extends javax.swing.JInternalFrame implements RetornoU
             }
         });
         tabela.setRowHeight(25);
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
         if (tabela.getColumnModel().getColumnCount() > 0) {
             tabela.getColumnModel().getColumn(0).setMinWidth(80);
@@ -191,6 +196,15 @@ public class TelaClientes extends javax.swing.JInternalFrame implements RetornoU
         tabela.setRowSorter(tr);
         tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBusca.getText().toUpperCase()));
     }//GEN-LAST:event_txtBuscaKeyTyped
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        if (tabela.getSelectedRow() != -1) {
+            long codigo = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
+            TelaCadastroCliente cdc = new TelaCadastroCliente(clienteRepository.find(Cliente.class, codigo));
+            cdc.setModal(true);
+            cdc.setVisible(true);
+        }
+    }//GEN-LAST:event_tabelaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
