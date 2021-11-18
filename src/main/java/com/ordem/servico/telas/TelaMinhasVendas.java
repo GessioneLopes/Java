@@ -33,7 +33,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
     private Cliente cliente;
 
     public TelaMinhasVendas() {
-       
+
         initComponents();
 
         produtoRepository = new ProdutoRepository();
@@ -116,6 +116,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         jLabel9 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        printcupom = new javax.swing.JCheckBox();
 
         setClosable(true);
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-circulado-16.png"))); // NOI18N
@@ -262,6 +263,9 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bgpdv2.png"))); // NOI18N
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, -1, -1));
 
+        printcupom.setText("Imprimir Cupom");
+        getContentPane().add(printcupom, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 480, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -305,8 +309,14 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
             venda.setCliente(cliente);
 
             telafinalizaVenda = new TelaFinalizaVenda(null, rootPaneCheckingEnabled, venda, this);
+
+            if (printcupom.isSelected()) {
+                telafinalizaVenda.printCupom = true;
+            } else {
+                telafinalizaVenda.printCupom = false;
+            }
+
             telafinalizaVenda.setVisible(true);
-           
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "Nenhum item adicionado", "Venda inválida", 0);
@@ -333,11 +343,10 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         var tlist = new TelaListagemClientes(this);
+        var tlist = new TelaListagemClientes(this);
         tlist.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -355,6 +364,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JCheckBox printcupom;
     private javax.swing.JTable tabela;
     public javax.swing.JFormattedTextField txtCodigoBar;
     private javax.swing.JLabel txtDataVenda;
@@ -378,9 +388,9 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
             txtTotalGeral.setValue(BigDecimal.ZERO);
             txtValorUnt.setText("");
             JOptionPane.showMessageDialog(rootPane, "Venda efetuada com sucesso", "N° venda " + v.getId(), 1);
-        }else if(obj instanceof Cliente cliente){
+        } else if (obj instanceof Cliente cliente) {
             this.cliente = cliente;
-            txtNomeCliente.setText(cliente.getNome() );
+            txtNomeCliente.setText(cliente.getNome());
         }
     }
 }

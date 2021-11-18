@@ -153,7 +153,7 @@ public class Splash extends JWindow {
         if (repository.lista(Servico.class).isEmpty()) {
             var sv = new Servico();
             sv.setValor(new BigDecimal(25.0));
-            sv.setDescricao("SERVIÇO DE AVALIAÇÂO E ORÇAMENTO");
+            sv.setDescricao("SERVIÇO DE AVALIAÇÃO E ORÇAMENTO");
             sv.setDuracao("1 HORA");
             sv.setGarantia("SEM GARANTIA");
             sv.setDetalhe("Avaliação do equipamento");

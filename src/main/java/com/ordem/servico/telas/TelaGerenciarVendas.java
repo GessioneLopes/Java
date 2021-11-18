@@ -11,8 +11,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -21,9 +20,6 @@ import javax.swing.table.TableRowSorter;
 
 public class TelaGerenciarVendas extends javax.swing.JDialog {
 
-    private static final long serialVersionUID = 1061634411097424821L;
-
-    private List<Venda> listagemVendas = new ArrayList<>();
     private final VendaRepository vendaRepository;
     private final UsuarioRepository usuarioRepository;
 
@@ -44,14 +40,13 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
     private void mostarVendasNaTabela() {
         var modelo = (DefaultTableModel) tablevendas.getModel();
         modelo.setNumRows(0);
-        int count = 0;
 
-        listagemVendas = vendaRepository.lista(Venda.class);
+        var listagemVendas = vendaRepository.lista(Venda.class);
 
-        var rows = new Object[10];
+        var rows = new Object[9];
         for (Venda object : listagemVendas) {
             rows[0] = object.getId();
-            rows[1] = object.getDataVenda();
+            rows[1] = object.getDataVenda().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             rows[2] = object.getHora();
             rows[3] = formate.format(object.getTotal());
 
@@ -70,13 +65,12 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
             }
 
             rows[7] = object.getResponsavel();
-            rows[8] = "0";
-            rows[9] = object.getFormaPgto().name();
+            rows[8] = object.getFormaPgto().name();
 
             modelo.addRow(rows);
-            count++;
+
         }
-        if (count == 0) {
+        if (listagemVendas.isEmpty()) {
             var dados = new String[2];
             dados[0] = "0";
             dados[1] = "Nenhuma venda realizada.";
@@ -88,8 +82,6 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -125,19 +117,6 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
             jButton2 = new javax.swing.JButton();
             jButton1 = new javax.swing.JButton();
 
-            jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null}
-                },
-                new String [] {
-                    "Title 1", "Title 2", "Title 3", "Title 4"
-                }
-            ));
-            jScrollPane1.setViewportView(jTable1);
-
             setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             setTitle("Vendas");
             setAlwaysOnTop(true);
@@ -153,17 +132,17 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
             tablevendas.setFont(new java.awt.Font("Noto Mono", 0, 12)); // NOI18N
             tablevendas.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
-                    {null, null, null, null, null, null, null, null, null, null},
-                    {null, null, null, null, null, null, null, null, null, null},
-                    {null, null, null, null, null, null, null, null, null, null},
-                    {null, null, null, null, null, null, null, null, null, null}
+                    {null, null, null, null, null, null, null, null, null},
+                    {null, null, null, null, null, null, null, null, null},
+                    {null, null, null, null, null, null, null, null, null},
+                    {null, null, null, null, null, null, null, null, null}
                 },
                 new String [] {
-                    "Codigo", "Data", "Hora", "Total", "Desconto", "Cod. Cliente", "CPF", "Operador", "Total Itens", "Pagamento"
+                    "Codigo", "Data", "Hora", "Total", "Desconto", "Cod. Cliente", "CPF", "Operador", "Pagamento"
                 }
             ) {
                 boolean[] canEdit = new boolean [] {
-                    true, false, false, false, true, false, false, false, false, true
+                    true, false, false, false, true, false, false, false, true
                 };
 
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -186,20 +165,20 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
                 tablevendas.getColumnModel().getColumn(3).setMinWidth(90);
                 tablevendas.getColumnModel().getColumn(6).setMinWidth(120);
                 tablevendas.getColumnModel().getColumn(7).setMinWidth(180);
-                tablevendas.getColumnModel().getColumn(9).setMinWidth(100);
+                tablevendas.getColumnModel().getColumn(8).setMinWidth(100);
             }
 
             javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE)
             );
             jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .addContainerGap())
             );
 
             jSplitPane1.setLeftComponent(jPanel1);
@@ -288,7 +267,7 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(busca, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(busca, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane1)
                 .addContainerGap())
@@ -309,7 +288,7 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
         if (usuarioRepository.verificaPermissao(MainApp.txtUserLogado.getText()) == true) {
 
             long idvenda = Long.valueOf(tablevendas.getValueAt(tablevendas.getSelectedRow(), 0).toString());
-            
+
             vendaRepository.delete(vendaRepository.find(Venda.class, idvenda));
             mostarVendasNaTabela();
 
@@ -363,11 +342,9 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable tabelaitem;
     private javax.swing.JTable tablevendas;
     // End of variables declaration//GEN-END:variables
