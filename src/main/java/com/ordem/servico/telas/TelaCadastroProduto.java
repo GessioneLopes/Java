@@ -83,6 +83,7 @@ public class TelaCadastroProduto extends javax.swing.JDialog implements RetornoU
     }
 
     public static void mostrarFoto4x4FuncionarioNoFormulario() {
+        
         javaxt.io.Image image = new javaxt.io.Image(fotoPath);
 
         image.resize(140, 120);

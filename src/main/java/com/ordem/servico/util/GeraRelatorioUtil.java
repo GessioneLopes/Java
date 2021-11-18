@@ -1,6 +1,8 @@
 package com.ordem.servico.util;
 
+import com.ordem.servico.models.Cliente;
 import com.ordem.servico.models.Empresa;
+import com.ordem.servico.repository.ClienteRepository;
 import com.ordem.servico.repository.EmpresaRepository;
 import java.awt.Dialog.ModalExclusionType;
 import java.io.InputStream;
@@ -9,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.persistence.NoResultException;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -40,9 +43,9 @@ public class GeraRelatorioUtil {
                         + empresa.getEndereco().getNumero()
                         + "\n" + empresa.getEndereco().getCidade() + " - "
                         + empresa.getEndereco().getUf());
-            }else{
-                params.put("EMPRESA_CONTATOS","Cadastre os dados da empresa");
-                params.put("EMPRESA_ENDERECO","Em configurações - Cadastre os dados da empresa");
+            } else {
+                params.put("EMPRESA_CONTATOS", "Cadastre os dados da empresa");
+                params.put("EMPRESA_ENDERECO", "Em configurações - Cadastre os dados da empresa");
             }
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
@@ -136,6 +139,46 @@ public class GeraRelatorioUtil {
             JOptionPane.showMessageDialog(null, e.getMessage() + "\n" + e.getCause());
 
         }
+    }
+
+    public void geraReletorioVendasEfetuadas(long codigoVenda, long codCliente) {
+        InputStream rel = this.getClass().getResourceAsStream("/relatorios/Danfe.jasper");
+        try {
+            Map<String, Object> params = new HashMap<>();
+
+            var emp = new EmpresaRepository().find(Empresa.class, 1L);
+
+            params.put("nomeEmpresa", emp.getNomeEmpresa());
+            params.put("codigo", codigoVenda);
+            params.put("logo", emp.getLogo());
+
+            //dados do cliente
+            try {
+                if (codCliente != 0L) {
+                    params.put("nomeCliente", new ClienteRepository()
+                            .find(Cliente.class, codCliente)
+                            .getNome()
+                            .toUpperCase());
+                }
+            } catch (NoResultException e) {
+                params.put("nomeCliente", "Cliente não informado");
+            }
+ 
+            JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
+            jasperPrint.setOrientation(OrientationEnum.LANDSCAPE);
+            JasperViewer j = new JasperViewer(jasperPrint, false);
+           
+            j.setAlwaysOnTop(true);
+            j.setTitle("Venda");
+            j.setVisible(true);
+
+            j.setFitPageZoomRatio();
+            j.setFitWidthZoomRatio();
+
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
     }
 
 }

@@ -1,4 +1,3 @@
-
 package com.ordem.servico.util;
 
 import com.ordem.servico.telas.TelaCadastroProduto;
@@ -45,13 +44,17 @@ public class BuscadorFoto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
-        jFileChooser1.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        TelaCadastroProduto.fotoPath = jFileChooser1.getSelectedFile().getAbsolutePath();
-        TelaCadastroProduto.mostrarFoto4x4FuncionarioNoFormulario();      
-        dispose();
+        try {
+            jFileChooser1.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            TelaCadastroProduto.fotoPath = jFileChooser1.getSelectedFile().getAbsolutePath();
+            TelaCadastroProduto.mostrarFoto4x4FuncionarioNoFormulario();
+            dispose();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_jFileChooser1ActionPerformed
 
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser jFileChooser1;
     // End of variables declaration//GEN-END:variables

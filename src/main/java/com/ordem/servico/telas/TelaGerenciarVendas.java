@@ -326,9 +326,18 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (tablevendas.getSelectedRow() != -1) {
-            int linha = tablevendas.getSelectedRow();
-            long idVenda = Long.parseLong(tablevendas.getValueAt(linha, 0).toString());
+
+            long idVenda = (long) tablevendas.getValueAt(tablevendas.getSelectedRow(), 0);
+            var venda = vendaRepository.find(Venda.class, idVenda);
+
+            long codigoCliente = 0L;
+
+            if (venda.getCliente() != null) {
+                codigoCliente = venda.getCliente().getCodigo();
+            }
+
             var gera = new GeraRelatorioUtil();
+            gera.geraReletorioVendasEfetuadas(idVenda, codigoCliente);
 
         } else {
             JOptionPane.showMessageDialog(tablevendas, "Selecione uma venda na tabela", "Atenção", 0);
