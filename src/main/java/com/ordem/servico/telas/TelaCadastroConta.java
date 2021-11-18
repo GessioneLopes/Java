@@ -5,7 +5,8 @@ import com.ordem.servico.repository.ContasRepository;
 import com.ordem.servico.util.RetornoUpdate;
 import com.ordem.servico.util.TipoConta;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 
 public class TelaCadastroConta extends javax.swing.JDialog {
@@ -18,6 +19,8 @@ public class TelaCadastroConta extends javax.swing.JDialog {
 
         retornoUpdate = fn;
         carregaTiposContas();
+        
+        txtData.setDate(new  Date());
     }
     
      private void carregaTiposContas() {
@@ -46,11 +49,18 @@ public class TelaCadastroConta extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        txtData.setDateFormatString("dd/MM/yyyy");
+
         jLabel1.setText("Descrição");
 
         lbTipo.setText("Data:");
 
         txtTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                txtTipoItemStateChanged(evt);
+            }
+        });
 
         jLabel3.setText("Tipo:");
 
@@ -78,7 +88,7 @@ public class TelaCadastroConta extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
+                            .addComponent(txtDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbTipo)
@@ -126,15 +136,28 @@ public class TelaCadastroConta extends javax.swing.JDialog {
         if (txtTipo.getSelectedIndex() == 1) {
             tipo = TipoConta.RECEBER;
         }
+        
+        var dateConta = txtData.getCalendar()
+                        .toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
 
         new ContasRepository().saveOrUpdate(new Conta(
                 txtDesc.getText(),
                 new BigDecimal(String.valueOf(txtValor.getValue())),
-                LocalDate.now(), tipo));
+                dateConta, tipo));
         
         retornoUpdate.update("Conta a "+tipo.name()+ " adicionada");
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtTipoItemStateChanged
+       if(txtTipo.getSelectedIndex() == 0){
+           lbTipo.setText("Vencimento");
+       }else{
+           lbTipo.setText("Recebimento");
+       }
+    }//GEN-LAST:event_txtTipoItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -104,7 +104,7 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
             }
         });
 
-        txtUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SP", "RJ", "DF", "MG", "PI", "MA", "CE", "PR", "RO", "RS", "TO", "PA", "MT", "PE", "SC" }));
+        txtUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO", " " }));
 
         jLabel8.setText("N°:");
 

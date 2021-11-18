@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.PieSeries;
@@ -28,6 +29,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
     private BigDecimal totalVendas;
     private BigDecimal totalpagar;
     private BigDecimal totalReceber;
+    private BigDecimal totalSaldo;
 
     public TelaFinanceiro() {
         initComponents();
@@ -37,7 +39,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
 
         showTotais();
         loadPieChart();
-        
+
         listagemContasPagar();
         listagemContasReceber();
 
@@ -90,9 +92,6 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
             modelo.addRow(row);
         }
     }
-    
-   
-
 
     private void showTotais() {
 
@@ -113,6 +112,9 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
         lbTotalVenda.setText(format.format(totalVendas));
         lbTotalPagar.setText(format.format(totalpagar));
         lbTotalReceber.setText(format.format(totalReceber));
+
+        totalSaldo = totalVendas.add(totalReceber).subtract(totalpagar);
+        lbTotalSaldo.setText(format.format(totalSaldo));
     }
 
     private void loadPieChart() {
@@ -128,14 +130,14 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaPgto = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        txtBuscaPg = new javax.swing.JTextField();
         btnAddPg = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaRcb = new javax.swing.JTable();
-        jTextField2 = new javax.swing.JTextField();
+        txtBuscaRcb = new javax.swing.JTextField();
         btnAddRb = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
@@ -150,7 +152,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
         lbTotalVenda = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        lbTotalSaldo = new javax.swing.JLabel();
         panelChart = new javax.swing.JPanel();
 
         setClosable(true);
@@ -178,6 +180,12 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
             tabelaPgto.getColumnModel().getColumn(1).setMaxWidth(210);
         }
 
+        txtBuscaPg.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscaPgKeyTyped(evt);
+            }
+        });
+
         btnAddPg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add_orange.png"))); // NOI18N
         btnAddPg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,7 +211,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBuscaPg, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -219,7 +227,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1)
+                    .addComponent(txtBuscaPg)
                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAddPg, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
@@ -246,6 +254,12 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
             tabelaRcb.getColumnModel().getColumn(1).setMaxWidth(210);
         }
 
+        txtBuscaRcb.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscaRcbKeyTyped(evt);
+            }
+        });
+
         btnAddRb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add_orange.png"))); // NOI18N
         btnAddRb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -271,7 +285,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBuscaRcb, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -287,7 +301,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtBuscaRcb, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnAddRb, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -404,9 +418,9 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
         jLabel4.setText("Saldo");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel8.setText("R$ 0.00");
+        lbTotalSaldo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbTotalSaldo.setForeground(new java.awt.Color(51, 51, 51));
+        lbTotalSaldo.setText("R$ 0.00");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -417,7 +431,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lbTotalSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -429,7 +443,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbTotalSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -509,7 +523,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
     }//GEN-LAST:event_btnAddRbActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         if (tabelaPgto.getSelectedRow() != -1) {
+        if (tabelaPgto.getSelectedRow() != -1) {
             long codigo = (long) tabelaPgto.getValueAt(tabelaPgto.getSelectedRow(), 0);
             contasRepository.deleteById(Conta.class, codigo);
             listagemContasPagar();
@@ -518,13 +532,27 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-         if (tabelaRcb.getSelectedRow() != -1) {
+        if (tabelaRcb.getSelectedRow() != -1) {
             long codigo = (long) tabelaRcb.getValueAt(tabelaRcb.getSelectedRow(), 0);
             contasRepository.deleteById(Conta.class, codigo);
-             listagemContasReceber();
-             showTotais();
+            listagemContasReceber();
+            showTotais();
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void txtBuscaRcbKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaRcbKeyTyped
+        var table = (DefaultTableModel) tabelaRcb.getModel();
+        var tr = new TableRowSorter<>(table);
+        tabelaRcb.setRowSorter(tr);
+        tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBuscaRcb.getText().toUpperCase()));
+    }//GEN-LAST:event_txtBuscaRcbKeyTyped
+
+    private void txtBuscaPgKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaPgKeyTyped
+        var table = (DefaultTableModel) tabelaPgto.getModel();
+        var tr = new TableRowSorter<>(table);
+        tabelaPgto.setRowSorter(tr);
+        tr.setRowFilter(javax.swing.RowFilter.regexFilter(txtBuscaPg.getText().toUpperCase()));
+    }//GEN-LAST:event_txtBuscaPgKeyTyped
 
     private PieChart getChartPie() {
 
@@ -538,7 +566,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
 
         chart.addSeries("Pagar", totalpagar);
         chart.addSeries("Receber", totalReceber);
-        chart.addSeries("Caixa", 34);
+        chart.addSeries("Saldo", totalSaldo);
         chart.addSeries("Vendas", totalVendas);
 
         return chart;
@@ -555,7 +583,6 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -564,24 +591,25 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbTotalPagar;
     private javax.swing.JLabel lbTotalReceber;
+    private javax.swing.JLabel lbTotalSaldo;
     private javax.swing.JLabel lbTotalVenda;
     private javax.swing.JPanel panelChart;
     private javax.swing.JTable tabelaPgto;
     private javax.swing.JTable tabelaRcb;
+    private javax.swing.JTextField txtBuscaPg;
+    private javax.swing.JTextField txtBuscaRcb;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void update(Object obj) {
         listagemContasPagar();
         listagemContasReceber();
-        
+
         showTotais();
         JOptionPane.showMessageDialog(rootPane, obj, "Confirmado", 1);
-        
+
         loadPieChart();
     }
 }

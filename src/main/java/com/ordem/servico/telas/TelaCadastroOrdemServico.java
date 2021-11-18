@@ -725,7 +725,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         if (ordemEdit == false) {
-            if (!txtCliente.getText().isEmpty() && !txtNomeEquip.getText().isEmpty() && txtTecnicos.getSelectedIndex() > 0) {
+            if (!txtCliente.getText().isEmpty() && !txtNomeEquip.getText().isEmpty() && !txtDefeitoEquip.getText().isEmpty() && txtTecnicos.getSelectedIndex() > 0) {
 
                 ordem.setHora(new DataHora().ler_hora());
                 ordem.setCliente(cliente);
