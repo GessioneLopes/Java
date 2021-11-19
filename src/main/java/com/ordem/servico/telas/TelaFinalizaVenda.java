@@ -155,16 +155,12 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         venda.setHora(new DataHora().ler_hora());
         venda.setTotal(new BigDecimal(String.valueOf(txtTotal.getValue())).subtract(venda.getDesconto()));
 
-        System.out.println("os list finalize " + venda.getItens().size());
-
         venda.setId(vendaRepository.salvaVenda(venda));
 
         //update estoque
         var repo = new ProdutoRepository();
         venda.getItens().forEach(it -> {
             var produto = repo.find(Produto.class, it.getCodigo_interno());
-            
-            System.out.println(it.getDescr());
 
             //vem itens produtos e serviços. Quando serviço produto = null
             if (produto != null) {
@@ -181,7 +177,7 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         if (printCupom == true) {
             geraCupomNaoFiscalTextAreaParcial(venda);
             geraCupomNaoFiscal();
-            System.out.println("print..");
+          
         }
 
         dispose();
@@ -321,7 +317,7 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
                 System.out.println(ex.getMessage());
             }
         } catch (PrintException | IOException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao imprimir cupom.");
+            JOptionPane.showMessageDialog(null, "Erro ao imprimir cupom. "+ex.getMessage());
         }
     }
 

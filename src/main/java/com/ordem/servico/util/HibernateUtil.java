@@ -31,12 +31,10 @@ public class HibernateUtil {
 
     private static final SessionFactory sessionFactory;
 
-    private static final String path = System.getProperty("user.dir") + "\\GDMOS\\BANCO\\osData";
-
     static {
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
         Configuration configuration = new Configuration();
-        configuration.setProperty("hibernate.connection.url", "jdbc:hsqldb:file:" + path);
+        configuration.setProperty("hibernate.connection.url", "jdbc:hsqldb:file:~/gdmOS/data");
         configuration.setProperty("hibernate.connection.username", "gdmos");
         configuration.setProperty("hibernate.connection.password", "gdmos");
         configuration.setProperty("hibernate.connection.pool_size", "20");

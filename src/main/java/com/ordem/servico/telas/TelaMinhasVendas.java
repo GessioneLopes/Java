@@ -111,7 +111,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         txtDescProduto = new javax.swing.JLabel();
         txtQtdeSpiner = new javax.swing.JSpinner();
         jLabel8 = new javax.swing.JLabel();
-        txtCodigoBar = new javax.swing.JFormattedTextField();
+        txtCodigoBar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -235,13 +235,23 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
 
         txtQtdeSpiner.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtQtdeSpiner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+        txtQtdeSpiner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                txtQtdeSpinerStateChanged(evt);
+            }
+        });
+        txtQtdeSpiner.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtQtdeSpinerFocusLost(evt);
+            }
+        });
         getContentPane().add(txtQtdeSpiner, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 220, 32));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendasBgTop.png"))); // NOI18N
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 80));
 
         txtCodigoBar.setBackground(new java.awt.Color(250, 253, 242));
-        txtCodigoBar.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0"))));
+        
         txtCodigoBar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCodigoBarActionPerformed(evt);
@@ -273,7 +283,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         if (!txtCodigoBar.getText().isEmpty()) {
 
             try {
-                var codigoBar = (long) txtCodigoBar.getValue();
+                var codigoBar = Long.parseLong(txtCodigoBar.getText());
                 var produto = produtoRepository.find(Produto.class, codigoBar);
 
                 txtDescProduto.setText(produto.getNome() + " - " + produto.getMarca());
@@ -347,6 +357,14 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         tlist.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void txtQtdeSpinerFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQtdeSpinerFocusLost
+        txtCodigoBar.requestFocus();
+    }//GEN-LAST:event_txtQtdeSpinerFocusLost
+
+    private void txtQtdeSpinerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_txtQtdeSpinerStateChanged
+        txtCodigoBar.requestFocus();
+    }//GEN-LAST:event_txtQtdeSpinerStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -366,7 +384,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox printcupom;
     private javax.swing.JTable tabela;
-    public javax.swing.JFormattedTextField txtCodigoBar;
+    public javax.swing.JTextField txtCodigoBar;
     private javax.swing.JLabel txtDataVenda;
     private javax.swing.JLabel txtDescProduto;
     private javax.swing.JTextField txtNomeCliente;

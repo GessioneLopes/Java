@@ -7,6 +7,11 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="sonatype-oss-snapshot" />
+      <option name="name" value="sonatype-oss-snapshot" />
+      <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="javaxt.com" />
       <option name="name" value="javaxt.com" />
       <option name="url" value="http://www.javaxt.com/maven" />
