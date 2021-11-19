@@ -16,8 +16,24 @@ public class TelaCadastroEquipamento extends javax.swing.JInternalFrame implemen
     private final MarcaRepository marcaRepository;
     private final EquipamentoRepository equipamentoRepository;
 
+    private RetornoUpdate retornoUpdate;
+
     public TelaCadastroEquipamento() {
         initComponents();
+
+        equipamentoRepository = new EquipamentoRepository();
+
+        marcaRepository = new MarcaRepository();
+        carregaMarcas();
+
+        corRepository = new CorRepository();
+        carregaCores();
+    }
+
+    public TelaCadastroEquipamento(RetornoUpdate retornoUpdate) {
+        initComponents();
+
+        this.retornoUpdate = retornoUpdate;
 
         equipamentoRepository = new EquipamentoRepository();
 
@@ -348,7 +364,7 @@ public class TelaCadastroEquipamento extends javax.swing.JInternalFrame implemen
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (!txtNome.getText().isEmpty() && !txtModelo.getText().isEmpty() && !txtDetalhe.getText().isEmpty()) {
             var equipamento = new Equipamento();
-            equipamento.setNomeEquipamante(txtNome.getText());
+            equipamento.setNomeEquipamante(txtNome.getText().toUpperCase());
             equipamento.setAcessorios(txtAcessorio.getText());
             equipamento.setCor(txtCor.getSelectedItem().toString());
             equipamento.setCombustivel(txtCombustivel.getSelectedItem().toString());
@@ -363,15 +379,22 @@ public class TelaCadastroEquipamento extends javax.swing.JInternalFrame implemen
             }
             equipamento.setKm(txtKm.getText());
             equipamento.setPlaca(txtPlaca.getText());
-            equipamento.setModelo(txtModelo.getText());
+            equipamento.setModelo(txtModelo.getText().toUpperCase());
             equipamento.setObservacoes(txtObs.getText());
             equipamento.setNumero_serie(txtSerie.getText());
             equipamento.setMarca(txtMarca.getSelectedItem().toString());
 
-            equipamentoRepository.saveOrUpdate(equipamento);
+            var idEquipamentoSalvo = equipamentoRepository.salvaEquipamento(equipamento);
+
             limpar();
 
             JOptionPane.showMessageDialog(rootPane, "Equipamento cadastrado com sucesso", "Confirmado", 1);
+
+            if (retornoUpdate != null) {
+                equipamento.setId(idEquipamentoSalvo);
+                retornoUpdate.update(equipamento);
+                dispose();
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Preencha os dados Gerais do Equipamento", "Atenção", 0);
         }

@@ -2,7 +2,6 @@ package com.ordem.servico.telas;
 
 import com.ordem.servico.models.ItemVenda;
 import com.ordem.servico.models.Venda;
-import com.ordem.servico.repository.ItemVendaRepository;
 import com.ordem.servico.repository.UsuarioRepository;
 import com.ordem.servico.repository.VendaRepository;
 import com.ordem.servico.util.GeraRelatorioUtil;
@@ -43,7 +42,7 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
 
         var listagemVendas = vendaRepository.lista(Venda.class);
 
-        var rows = new Object[9];
+        var rows = new Object[10];
         for (Venda object : listagemVendas) {
             rows[0] = object.getId();
             rows[1] = object.getDataVenda().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -66,6 +65,7 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
 
             rows[7] = object.getResponsavel();
             rows[8] = object.getFormaPgto().name();
+            rows[9] = object.getObs();
 
             modelo.addRow(rows);
 
@@ -132,17 +132,17 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
             tablevendas.setFont(new java.awt.Font("Noto Mono", 0, 12)); // NOI18N
             tablevendas.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
-                    {null, null, null, null, null, null, null, null, null},
-                    {null, null, null, null, null, null, null, null, null},
-                    {null, null, null, null, null, null, null, null, null},
-                    {null, null, null, null, null, null, null, null, null}
+                    {null, null, null, null, null, null, null, null, null, null},
+                    {null, null, null, null, null, null, null, null, null, null},
+                    {null, null, null, null, null, null, null, null, null, null},
+                    {null, null, null, null, null, null, null, null, null, null}
                 },
                 new String [] {
-                    "Codigo", "Data", "Hora", "Total", "Desconto", "Cod. Cliente", "CPF", "Operador", "Pagamento"
+                    "Codigo", "Data", "Hora", "Total", "Desconto", "Cod. Cliente", "CPF", "Operador", "Pagamento", "Observação"
                 }
             ) {
                 boolean[] canEdit = new boolean [] {
-                    true, false, false, false, true, false, false, false, true
+                    true, false, false, false, true, false, false, false, true, true
                 };
 
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -172,7 +172,7 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1115, Short.MAX_VALUE)
             );
             jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +256,7 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSplitPane1))
+                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1117, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -308,11 +308,12 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
             var modelo = (DefaultTableModel) tabelaitem.getModel();
             modelo.setNumRows(0);
 
-            long vendaId = Long.parseLong(tablevendas.getValueAt(tablevendas.getSelectedRow(), 0).toString().trim());
+            long vendaId = (long) tablevendas.getValueAt(tablevendas.getSelectedRow(), 0);
             var rows = new Object[5];
 
-            var itens = new ItemVendaRepository().listItemsByVendaID(new Venda(vendaId));
-            for (ItemVenda object : itens) {
+            var venda = new VendaRepository().find(Venda.class, vendaId);
+
+            for (ItemVenda object : venda.getItens()) {
                 rows[0] = object.getId();
                 rows[1] = object.getDescr().toUpperCase();
                 rows[2] = object.getQtde();
@@ -321,7 +322,7 @@ public class TelaGerenciarVendas extends javax.swing.JDialog {
                 modelo.addRow(rows);
             }
         }
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_tablevendasMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

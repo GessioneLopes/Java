@@ -2,6 +2,7 @@ package com.ordem.servico.telas;
 
 import com.ordem.servico.models.Conta;
 import com.ordem.servico.repository.ContasRepository;
+import com.ordem.servico.repository.TecnicoRepository;
 import com.ordem.servico.repository.VendaRepository;
 import com.ordem.servico.util.RetornoUpdate;
 import com.ordem.servico.util.TipoConta;
@@ -26,10 +27,11 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
     private VendaRepository vendaRepository;
     private ContasRepository contasRepository;
 
-    private BigDecimal totalVendas;
-    private BigDecimal totalpagar;
-    private BigDecimal totalReceber;
-    private BigDecimal totalSaldo;
+    private BigDecimal totalVendas = BigDecimal.ZERO;
+    private BigDecimal totalpagar = BigDecimal.ZERO;
+    private BigDecimal totalReceber = BigDecimal.ZERO;
+    private BigDecimal totalSaldo = BigDecimal.ZERO;
+    private BigDecimal totalSalariosTecnicos = BigDecimal.ZERO;
 
     public TelaFinanceiro() {
         initComponents();
@@ -108,12 +110,16 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
                 .filter(it -> it.getTipoConta() == TipoConta.RECEBER)
                 .map(vl -> vl.getValor())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+        
+        totalSalariosTecnicos = new TecnicoRepository().totalSalarios();
+        
 
         lbTotalVenda.setText(format.format(totalVendas));
         lbTotalPagar.setText(format.format(totalpagar));
         lbTotalReceber.setText(format.format(totalReceber));
+        lbTotalSalarios.setText(format.format(totalSalariosTecnicos));
 
-        totalSaldo = totalVendas.add(totalReceber).subtract(totalpagar);
+        totalSaldo = totalVendas.add(totalReceber).subtract(totalpagar).subtract(totalSalariosTecnicos);
         lbTotalSaldo.setText(format.format(totalSaldo));
     }
 
@@ -154,10 +160,14 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
         jLabel4 = new javax.swing.JLabel();
         lbTotalSaldo = new javax.swing.JLabel();
         panelChart = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        lbTotalSalarios = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Financeiro");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-circulado-16.png"))); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1040, 600));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contas a Pagar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
 
@@ -223,7 +233,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -461,18 +471,45 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jPanel7.setBackground(new java.awt.Color(253, 245, 238));
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setText("Total Salários dos Técnicos:");
+
+        lbTotalSalarios.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbTotalSalarios.setForeground(new java.awt.Color(102, 102, 102));
+        lbTotalSalarios.setText("0.00");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbTotalSalarios)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lbTotalSalarios))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -481,7 +518,13 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -499,10 +542,12 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(panelChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -567,7 +612,7 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
 
         chart.addSeries("Pagar", totalpagar);
         chart.addSeries("Receber", totalReceber);
-        chart.addSeries("Saldo", totalSaldo);
+        chart.addSeries("Salarios", totalSalariosTecnicos);
         chart.addSeries("Vendas", totalVendas);
 
         return chart;
@@ -584,16 +629,19 @@ public class TelaFinanceiro extends javax.swing.JInternalFrame implements Retorn
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbTotalPagar;
     private javax.swing.JLabel lbTotalReceber;
+    private javax.swing.JLabel lbTotalSalarios;
     private javax.swing.JLabel lbTotalSaldo;
     private javax.swing.JLabel lbTotalVenda;
     private javax.swing.JPanel panelChart;

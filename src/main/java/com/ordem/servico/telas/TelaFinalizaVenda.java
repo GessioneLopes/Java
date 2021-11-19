@@ -57,6 +57,18 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         carregaTipoPgtos();
     }
 
+    public TelaFinalizaVenda(java.awt.Frame parent, boolean modal, Venda venda) {
+        super(parent, modal);
+        initComponents();
+
+        retornoUpdate = null;
+        this.txtcupom = new StringBuilder();
+
+        this.venda = venda;
+        txtTotal.setValue(venda.getTotal());
+        carregaTipoPgtos();
+    }
+
     private void carregaTipoPgtos() {
         var status = FormasPgto.values();
 
@@ -143,24 +155,35 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         venda.setHora(new DataHora().ler_hora());
         venda.setTotal(new BigDecimal(String.valueOf(txtTotal.getValue())).subtract(venda.getDesconto()));
 
+        System.out.println("os list finalize " + venda.getItens().size());
+
         venda.setId(vendaRepository.salvaVenda(venda));
 
         //update estoque
         var repo = new ProdutoRepository();
         venda.getItens().forEach(it -> {
             var produto = repo.find(Produto.class, it.getCodigo_interno());
-            int qtdeAtual = produto.getEstoque().getAtual();
-            produto.getEstoque().setAtual(qtdeAtual - it.getQtde());
-            repo.saveOrUpdate(produto);
+            
+            System.out.println(it.getDescr());
+
+            //vem itens produtos e serviços. Quando serviço produto = null
+            if (produto != null) {
+                int qtdeAtual = produto.getEstoque().getAtual();
+                produto.getEstoque().setAtual(qtdeAtual - it.getQtde());
+                repo.saveOrUpdate(produto);
+            }
         });
 
-        retornoUpdate.update(venda);
+        if (retornoUpdate != null) {
+            retornoUpdate.update(venda);
+        }
 
         if (printCupom == true) {
             geraCupomNaoFiscalTextAreaParcial(venda);
             geraCupomNaoFiscal();
             System.out.println("print..");
         }
+
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -215,7 +238,7 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         //codigo para impressora cortar papel
         char[] cortePapel = new char[]{0x1d, 'V', 1};
         txtcupom.append(new String(cortePapel));
-        
+
     }
 
     public void geraCupomNaoFiscal() {
@@ -264,7 +287,7 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
         } catch (IOException error) {
             System.out.println("nao encontrei arquivo");
         }
-        
+
         try {
             PrintService ps = PrintServiceLookup.lookupDefaultPrintService();
             DocPrintJob job = ps.createPrintJob();
@@ -309,7 +332,7 @@ public class TelaFinalizaVenda extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JFormattedTextField txtDesconto;
-    private javax.swing.JTextField txtObs;
+    public javax.swing.JTextField txtObs;
     private javax.swing.JComboBox<String> txtTipoPgto;
     public javax.swing.JFormattedTextField txtTotal;
     // End of variables declaration//GEN-END:variables

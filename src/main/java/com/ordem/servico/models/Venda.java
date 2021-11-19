@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Data
@@ -31,6 +33,7 @@ public class Venda implements Serializable {
     private String responsavel;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda", orphanRemoval = true)
+    @Fetch(FetchMode.JOIN)
     private List<ItemVenda> itens = new ArrayList<>();
     
     private String obs;

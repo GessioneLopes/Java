@@ -154,6 +154,8 @@ public class TelaCadastroEmpresa extends javax.swing.JDialog {
 
         jLabel18.setText("CNAE Principal:");
 
+        txtCodigoAt.setText("6399-2/00");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

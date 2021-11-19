@@ -19,11 +19,11 @@ public class TelaCadastroConta extends javax.swing.JDialog {
 
         retornoUpdate = fn;
         carregaTiposContas();
-        
-        txtData.setDate(new  Date());
+
+        txtData.setDate(new Date());
     }
-    
-     private void carregaTiposContas() {
+
+    private void carregaTiposContas() {
         var status = TipoConta.values();
 
         var model = new DefaultComboBoxModel();
@@ -67,6 +67,7 @@ public class TelaCadastroConta extends javax.swing.JDialog {
         jLabel4.setText("Valor:");
 
         txtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtValor.setValue(BigDecimal.ZERO);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add_orange.png"))); // NOI18N
         jButton1.setText("Cadastrar Conta");
@@ -131,32 +132,33 @@ public class TelaCadastroConta extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (!txtDesc.getText().equals("") && new BigDecimal(String.valueOf(txtValor.getValue())).intValue() > 0) {
+            var tipo = TipoConta.PAGAR;
+            if (txtTipo.getSelectedIndex() == 1) {
+                tipo = TipoConta.RECEBER;
+            }
 
-        var tipo = TipoConta.PAGAR;
-        if (txtTipo.getSelectedIndex() == 1) {
-            tipo = TipoConta.RECEBER;
+            var dateConta = txtData.getCalendar()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            new ContasRepository().saveOrUpdate(new Conta(
+                    txtDesc.getText(),
+                    new BigDecimal(String.valueOf(txtValor.getValue())),
+                    dateConta, tipo));
+
+            retornoUpdate.update("Conta a " + tipo.name() + " adicionada");
+            dispose();
         }
-        
-        var dateConta = txtData.getCalendar()
-                        .toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate();
-
-        new ContasRepository().saveOrUpdate(new Conta(
-                txtDesc.getText(),
-                new BigDecimal(String.valueOf(txtValor.getValue())),
-                dateConta, tipo));
-        
-        retornoUpdate.update("Conta a "+tipo.name()+ " adicionada");
-        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtTipoItemStateChanged
-       if(txtTipo.getSelectedIndex() == 0){
-           lbTipo.setText("Vencimento");
-       }else{
-           lbTipo.setText("Recebimento");
-       }
+        if (txtTipo.getSelectedIndex() == 0) {
+            lbTipo.setText("Vencimento");
+        } else {
+            lbTipo.setText("Recebimento");
+        }
     }//GEN-LAST:event_txtTipoItemStateChanged
 
 

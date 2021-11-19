@@ -352,7 +352,7 @@ public class TelaCadastroServicos extends javax.swing.JInternalFrame {
 
             }
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione ou cadastre um técnico. Não é possivel cadastrar sem informar um técnico.", "Atenção", 0);
+            JOptionPane.showMessageDialog(rootPane, "Selecione ou cadastre um técnico. Não é possivel cadastrar  um serviço sem informar o técnico.", "Atenção", 0);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -391,6 +391,9 @@ public class TelaCadastroServicos extends javax.swing.JInternalFrame {
             servicoRepository.saveOrUpdate(servico);
             listagemServicos();
 
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Selecione um serviço na tabela", "Atenção", 0);
+      
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

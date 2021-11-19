@@ -19,7 +19,7 @@ public class ItemOrdem implements Serializable {
     @GeneratedValue
     private long id;
 
-    private String codigo;
+    private long codigo;
     private String descricao;
     private BigDecimal valor;
     private BigDecimal subtotal;

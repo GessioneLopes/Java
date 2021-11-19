@@ -3,10 +3,12 @@ package com.ordem.servico.telas;
 import com.ordem.servico.models.Cliente;
 import com.ordem.servico.models.Equipamento;
 import com.ordem.servico.models.ItemOrdem;
+import com.ordem.servico.models.ItemVenda;
 import com.ordem.servico.models.Ordem;
 import com.ordem.servico.models.Produto;
 import com.ordem.servico.models.Servico;
 import com.ordem.servico.models.Tecnico;
+import com.ordem.servico.models.Venda;
 import com.ordem.servico.repository.ItemOrdemRepository;
 import com.ordem.servico.repository.OrdemRepository;
 import com.ordem.servico.repository.TecnicoRepository;
@@ -23,6 +25,7 @@ import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +51,11 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     private List<ItemOrdem> listaItens = new ArrayList<>();
 
     private RetornoUpdate retornoUpdate;
+
     private boolean ordemEdit = false;
+    private long nrOrdemEdit = 0L;
+
+    private TelaCadastroEquipamento cadastroEquipamento;
 
     public TelaCadastroOrdemServico() {
         initComponents();
@@ -212,6 +219,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
         txtNumeroSerieEquip = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         txtCorEquip = new javax.swing.JTextField();
+        jButton7 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtObs = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
@@ -291,6 +299,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             }
         });
 
+        txtNomeEquip.setEditable(false);
         txtNomeEquip.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtNomeEquip.setForeground(new java.awt.Color(51, 51, 51));
 
@@ -315,6 +324,13 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
         jLabel17.setText("Nome:");
 
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add_orange.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -324,24 +340,25 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtNumeroSerieEquip))
+                            .addComponent(jLabel16)
+                            .addComponent(txtNumeroSerieEquip, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtNomeEquip, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel17)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtNomeEquip))
+                        .addGap(2, 2, 2)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtModeloEquip)
+                            .addComponent(txtModeloEquip, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
@@ -354,15 +371,18 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel17))
-                .addGap(1, 1, 1)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtNomeEquip, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtNumeroSerieEquip))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addGap(1, 1, 1)
+                        .addComponent(txtNumeroSerieEquip, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNomeEquip, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -396,6 +416,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
         jLabel7.setText("Nome do Cliente:");
 
+        txtCliente.setEditable(false);
         txtCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtCliente.setForeground(new java.awt.Color(51, 51, 51));
 
@@ -565,11 +586,6 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
         txtNrOrdem.setBackground(new java.awt.Color(242, 253, 242));
         txtNrOrdem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtNrOrdem.setForeground(new java.awt.Color(153, 102, 0));
-        txtNrOrdem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNrOrdemActionPerformed(evt);
-            }
-        });
         txtNrOrdem.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtNrOrdemKeyPressed(evt);
@@ -633,9 +649,9 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
                                 .addComponent(txtTotalProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jSeparator1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtTotalServico, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -762,24 +778,57 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             }
         } else {
 
-            ordem.setObs(txtObs.getText());
-            ordem.setStatus(OrdemStatus.valueOf(txtStatusOrdem.getSelectedItem().toString()));
-            ordem.setTipo(OrdemTipo.valueOf(txtTipo.getSelectedItem().toString()));
-            ordem.getEquipamento().setDefeito(txtDefeitoEquip.getText());
+            var os = new OrdemRepository().find(Ordem.class, nrOrdemEdit);
+
+            os.setObs(txtObs.getText());
+            os.setStatus(OrdemStatus.valueOf(txtStatusOrdem.getSelectedItem().toString()));
+            os.setTipo(OrdemTipo.valueOf(txtTipo.getSelectedItem().toString()));
+            os.getEquipamento().setDefeito(txtDefeitoEquip.getText());
 
             long idTecnico = Long.valueOf(txtTecnicos.getSelectedItem().toString().split("-")[0]);
-            ordem.setTecnico(tecnicoRepository.find(Tecnico.class, idTecnico));
+            os.setTecnico(tecnicoRepository.find(Tecnico.class, idTecnico));
 
-            ordem.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
-            ordem.setItens(listaItens);
+            os.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
+            os.setItens(listaItens);
 
-            new OrdemRepository().saveOrUpdate(ordem);
+
+            if (os.getStatus() == OrdemStatus.FINALIZADA) {
+                var venda = new Venda();
+
+                venda.setDataVenda(LocalDate.now());
+                venda.setObs("O.S Finalizada N° " + os.getId());
+                venda.setTotal(os.getTotal());
+                venda.setCliente(os.getCliente());
+              
+                var listItensVenda = new ArrayList<ItemVenda>();
+
+                os.getItens().forEach(it -> {
+                    var itemVenda = new ItemVenda();
+                    itemVenda.setDescr(it.getDescricao());
+                    itemVenda.setPrecoUnit(it.getValor());
+                    itemVenda.setQtde(it.getQtde());
+                    itemVenda.setVenda(venda);
+                    itemVenda.setSubtotal(it.getSubtotal());
+                    itemVenda.setCodigo_interno(it.getCodigo());
+                    listItensVenda.add(itemVenda);
+                });
+
+                venda.setItens(listItensVenda);
+
+                TelaFinalizaVenda fn = new TelaFinalizaVenda(null, closable, venda);
+                fn.txtObs.setText(venda.getObs());
+                fn.setVisible(true);
+            }
+
+            new OrdemRepository().saveOrUpdate(os);
 
             JOptionPane.showMessageDialog(rootPane, "Dados da ordem atualizados com sucesso", "Confirmado", 1);
             limpar();
 
             ordemEdit = false;
-            new GeraRelatorioUtil().geraViaOrdemServico(ordem.getId());
+            nrOrdemEdit = 0L;
+
+            new GeraRelatorioUtil().geraViaOrdemServico(os.getId());
 
         }
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -797,8 +846,8 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (tabela.getSelectedRow() != -1) {
-            var codigo = tabela.getValueAt(tabela.getSelectedRow(), 0).toString();
-            listaItens.removeIf(it -> it.getCodigo().equals(codigo));
+            var codigo = (long) tabela.getValueAt(tabela.getSelectedRow(), 0);
+            listaItens.removeIf(it -> it.getCodigo() == codigo);
             listaItemsOrdem();
         }
 
@@ -810,47 +859,68 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
         tlp.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void txtNrOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNrOrdemActionPerformed
-
-    }//GEN-LAST:event_txtNrOrdemActionPerformed
-
     private void txtNrOrdemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNrOrdemKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
-            var nrOrdem = Long.parseLong(txtNrOrdem.getText());
-            ordem = new OrdemRepository().find(Ordem.class, nrOrdem);
+            nrOrdemEdit = Long.parseLong(txtNrOrdem.getText());
+
+            ordem = new OrdemRepository().find(Ordem.class, nrOrdemEdit);
 
             if (ordem != null) {
 
-                txtStatusOrdem.setSelectedItem(ordem.getStatus().name());
-                txtTecnicos.setSelectedItem(ordem.getTecnico().getCodigo() + "-" + ordem.getTecnico().getNomeTecnico().toUpperCase());
-                txtTipo.setSelectedItem(ordem.getTipo().name());
-                txtObs.setText(ordem.getObs());
-                txtHora.setText(ordem.getHora());
-                txtTotalGeral.setValue(ordem.getTotal());
-                txtDateOrdem.setDate(Date.from(ordem.getData().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                if (ordem.getStatus() != OrdemStatus.FINALIZADA) {
 
-                txtCNPJ.setText(ordem.getCliente().getCnpj());
-                txtCPF.setText(ordem.getCliente().getCpf());
-                txtCliente.setText(ordem.getCliente().getNome());
-                txtEmialCliente.setText(ordem.getCliente().getContato().getEmail());
-                txtFone.setText(ordem.getCliente().getContato().getCelular());
+                    txtStatusOrdem.setSelectedItem(ordem.getStatus().name());
+                    txtTecnicos.setSelectedItem(ordem.getTecnico().getCodigo() + "-" + ordem.getTecnico().getNomeTecnico().toUpperCase());
+                    txtTipo.setSelectedItem(ordem.getTipo().name());
+                    txtObs.setText(ordem.getObs());
+                    txtHora.setText(ordem.getHora());
+                    txtTotalGeral.setValue(ordem.getTotal());
+                    txtDateOrdem.setDate(Date.from(ordem.getData().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 
-                txtNomeEquip.setText(ordem.getEquipamento().getNomeEquipamante());
-                txtNumeroSerieEquip.setText(ordem.getEquipamento().getNumero_serie());
-                txtModeloEquip.setText(ordem.getEquipamento().getModelo());
-                txtDefeitoEquip.setText(ordem.getEquipamento().getDefeito());
-                txtCorEquip.setText(ordem.getEquipamento().getCor());
+                    txtCNPJ.setText(ordem.getCliente().getCnpj());
+                    txtCPF.setText(ordem.getCliente().getCpf());
+                    txtCliente.setText(ordem.getCliente().getNome());
+                    txtEmialCliente.setText(ordem.getCliente().getContato().getEmail());
+                    txtFone.setText(ordem.getCliente().getContato().getCelular());
 
-                listaItens.clear();
-                listaItens = ordem.getItens();
-                listaItemsOrdem();
-                ordemEdit = true;
+                    txtNomeEquip.setText(ordem.getEquipamento().getNomeEquipamante());
+                    txtNumeroSerieEquip.setText(ordem.getEquipamento().getNumero_serie());
+                    txtModeloEquip.setText(ordem.getEquipamento().getModelo());
+                    txtDefeitoEquip.setText(ordem.getEquipamento().getDefeito());
+                    txtCorEquip.setText(ordem.getEquipamento().getCor());
+
+                    listaItens.clear();
+                    listaItens = ordem.getItens();
+                    listaItemsOrdem();
+                    ordemEdit = true;
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "A Ordem de N° " + ordem.getId() + " já foi Finalizada. Não é possível editar a ordem.", "Finalizada", 2);
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Ordem não encontrada", "Verifique o N°", 0);
             }
         }
     }//GEN-LAST:event_txtNrOrdemKeyPressed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+        if (cadastroEquipamento == null) {
+            cadastroEquipamento = new TelaCadastroEquipamento(this);
+            MainApp.getDesktop().add(cadastroEquipamento);
+        }
+        cadastroEquipamento.setVisible(true);
+        var desktopSize = MainApp.getDesktop().getSize();
+        var screenSize = cadastroEquipamento.getSize();
+        cadastroEquipamento.setLocation((desktopSize.width - screenSize.width) / 2, (desktopSize.height - screenSize.height) / 2);
+
+        cadastroEquipamento.toFront();
+        cadastroEquipamento.requestFocus();
+
+        cadastroEquipamento = null;
+
+
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -859,6 +929,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -959,7 +1030,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
         if (obj instanceof Servico svs) {
 
-            item.setCodigo(String.valueOf(svs.getId()));
+            item.setCodigo(svs.getId());
             item.setDescricao(svs.getDescricao());
             item.setQtde(1);
             item.setValor(svs.getValor());
@@ -971,7 +1042,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             listaItemsOrdem();
 
         } else if (obj instanceof Produto prod) {
-            item.setCodigo(String.valueOf(prod.getCodigo()));
+            item.setCodigo(prod.getCodigo());
             item.setDescricao(prod.getNome());
             item.setQtde(1);
             item.setValor(prod.getValor());
@@ -981,7 +1052,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
             produtoExistenteOrdem = false;
             listaItens.stream().forEach(it -> {
-                if (it.getCodigo().equals(String.valueOf(prod.getCodigo())) && it.getTipo() == ItemOrdemTipo.PRODUTO) {
+                if (it.getCodigo() == prod.getCodigo() && it.getTipo() == ItemOrdemTipo.PRODUTO) {
                     it.setQtde(it.getQtde() + item.getQtde());
                     it.setSubtotal(prod.getValor().multiply(new BigDecimal(it.getQtde())));
                     produtoExistenteOrdem = true;
