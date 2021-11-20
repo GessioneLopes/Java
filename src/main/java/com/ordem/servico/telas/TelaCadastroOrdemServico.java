@@ -743,41 +743,46 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
         if (ordemEdit == false) {
             if (!txtCliente.getText().isEmpty() && !txtNomeEquip.getText().isEmpty() && !txtDefeitoEquip.getText().isEmpty() && txtTecnicos.getSelectedIndex() > 0) {
 
-                ordem.setHora(new DataHora().ler_hora());
-                ordem.setCliente(cliente);
-                ordem.setObs(txtObs.getText());
-                ordem.setStatus(OrdemStatus.valueOf(txtStatusOrdem.getSelectedItem().toString()));
-                ordem.setTipo(OrdemTipo.valueOf(txtTipo.getSelectedItem().toString()));
+                if (!listaItens.isEmpty()) {
+                    ordem.setHora(new DataHora().ler_hora());
+                    ordem.setCliente(cliente);
+                    ordem.setObs(txtObs.getText());
+                    ordem.setStatus(OrdemStatus.valueOf(txtStatusOrdem.getSelectedItem().toString()));
+                    ordem.setTipo(OrdemTipo.valueOf(txtTipo.getSelectedItem().toString()));
 
-                long idTecnico = Long.valueOf(txtTecnicos.getSelectedItem().toString().split("-")[0]);
-                ordem.setTecnico(tecnicoRepository.find(Tecnico.class, idTecnico));
+                    long idTecnico = Long.valueOf(txtTecnicos.getSelectedItem().toString().split("-")[0]);
+                    ordem.setTecnico(tecnicoRepository.find(Tecnico.class, idTecnico));
 
-                var dateOrdem = txtDateOrdem.getCalendar()
-                        .toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate();
+                    var dateOrdem = txtDateOrdem.getCalendar()
+                            .toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate();
 
-                ordem.setData(dateOrdem);
+                    ordem.setData(dateOrdem);
 
-                ordem.setEquipamento(equipamento);
-                ordem.setItens(listaItens);
-                ordem.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
+                    ordem.setEquipamento(equipamento);
+                    ordem.setItens(listaItens);
+                    ordem.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
 
-                var idOrdemSalva = new OrdemRepository().salvaOrdem(ordem);
+                    var idOrdemSalva = new OrdemRepository().salvaOrdem(ordem);
 
-                JOptionPane.showMessageDialog(rootPane, "Dados da ordem salvos com sucesso", "Confirmado", 1);
+                    JOptionPane.showMessageDialog(rootPane, "Dados da ordem salvos com sucesso", "Confirmado", 1);
 
-                if (ordem.getTipo() == OrdemTipo.ORCAMENTO) {
-                    new GeraRelatorioUtil().geraReletorioOrcamento(idOrdemSalva);
+                    if (ordem.getTipo() == OrdemTipo.ORCAMENTO) {
+                        new GeraRelatorioUtil().geraReletorioOrcamento(idOrdemSalva);
+                    } else {
+                        new GeraRelatorioUtil().geraViaOrdemServico(idOrdemSalva);
+                    }
+
+                    if (retornoUpdate != null) {
+                        retornoUpdate.update(ordem);
+                    }
+
+                    limpar();
                 } else {
-                    new GeraRelatorioUtil().geraViaOrdemServico(idOrdemSalva);
-                }
+                    JOptionPane.showMessageDialog(rootPane, "Nenhum produto ou serviço adicionado na ordem", "Adicione", 0);
 
-                if (retornoUpdate != null) {
-                    retornoUpdate.update(ordem);
                 }
-
-                limpar();
 
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Complete o preenchimento dos dados da ordem de serviço", "Incompleta", 0);

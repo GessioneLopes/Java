@@ -61,8 +61,9 @@ public class GeraRelatorioUtil {
 
             jv.setFitPageZoomRatio();
             jv.setFitWidthZoomRatio();
-
+            jv.setAlwaysOnTop(true);
             jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+
             jv.setVisible(true);
 
             return 1;
@@ -76,7 +77,7 @@ public class GeraRelatorioUtil {
 
     public Connection getConexao() {
         Connection conexao = null;
-        
+
         if (conexao == null) {
             try {
                 Class.forName("org.hsqldb.jdbcDriver");
@@ -96,7 +97,7 @@ public class GeraRelatorioUtil {
 
             params.put("OSNR", osnr);
             params.put("TIPO_DOCUMENTO", "ORDEM DE SERVIÇO N°:");
-            
+
             if (empresa != null) {
                 params.put("EMPRESA_CONTATOS", empresa.getContato().getCelular() + "\n"
                         + empresa.getContato().getEmail());
@@ -109,7 +110,7 @@ public class GeraRelatorioUtil {
                 params.put("EMPRESA_CONTATOS", "Cadastre os dados da empresa");
                 params.put("EMPRESA_ENDERECO", "Em configurações - Cadastre os dados da empresa");
             }
-            
+
             JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
             jasperPrint.setOrientation(OrientationEnum.PORTRAIT);
             JasperViewer jv = new JasperViewer(jasperPrint, false);
@@ -118,7 +119,7 @@ public class GeraRelatorioUtil {
             jv.setFitWidthZoomRatio();
 
             jv.setTitle("OS");
-
+            jv.setAlwaysOnTop(true);
             jv.setVisible(true);
             jv.toFront();
 
@@ -178,11 +179,11 @@ public class GeraRelatorioUtil {
             } catch (NoResultException e) {
                 params.put("nomeCliente", "Cliente não informado");
             }
- 
+
             JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
             jasperPrint.setOrientation(OrientationEnum.LANDSCAPE);
             JasperViewer j = new JasperViewer(jasperPrint, false);
-           
+
             j.setAlwaysOnTop(true);
             j.setTitle("Venda");
             j.setVisible(true);
@@ -195,16 +196,15 @@ public class GeraRelatorioUtil {
         }
 
     }
-    
-       public void geraReletorioVendasDiario(String dta) {
+
+    public void geraReletorioVendasDiario(String dta) {
         InputStream rel = this.getClass().getResourceAsStream("/relatorios/fxcaixa_diario.jasper");
         try {
             Map<String, Object> params = new HashMap<>();
-            
-             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-             
-            params.put("DATA",  formatter.parse(dta));
-           
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+            params.put("DATA", formatter.parse(dta));
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
             jasperPrint.setOrientation(OrientationEnum.PORTRAIT);

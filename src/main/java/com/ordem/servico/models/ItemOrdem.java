@@ -3,6 +3,7 @@ package com.ordem.servico.models;
 import com.ordem.servico.util.ItemOrdemTipo;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,6 +30,6 @@ public class ItemOrdem implements Serializable {
 
     private int qtde;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Ordem ordem;
 }

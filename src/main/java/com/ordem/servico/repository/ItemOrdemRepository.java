@@ -5,4 +5,5 @@ import com.ordem.servico.models.ItemOrdem;
 
 public class ItemOrdemRepository extends GenericDao<ItemOrdem> {
 
+   
 }

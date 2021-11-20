@@ -46,7 +46,7 @@ public class Ordem implements Serializable {
     @Fetch(FetchMode.JOIN)
     private List<ItemOrdem> itens = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Equipamento equipamento = new Equipamento();
 
     @Enumerated(EnumType.STRING)

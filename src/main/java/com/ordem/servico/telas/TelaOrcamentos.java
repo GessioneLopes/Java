@@ -210,7 +210,10 @@ public class TelaOrcamentos extends javax.swing.JInternalFrame implements Retorn
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (tabela.getSelectedRow() != -1) {
             long idOrdem = Long.parseLong(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
-             ordemRepository.delete(ordemRepository.find(Ordem.class, idOrdem));
+
+            var ordem = ordemRepository.find(Ordem.class, idOrdem);
+         
+            ordemRepository.delete(ordem);
             listagemOrcamentos();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -222,7 +225,7 @@ public class TelaOrcamentos extends javax.swing.JInternalFrame implements Retorn
             ordem.setTipo(OrdemTipo.ORDEM_SERVICO);
             ordemRepository.saveOrUpdate(ordem);
             listagemOrcamentos();
-            JOptionPane.showMessageDialog(rootPane, "O Status do Orçamento selecionado foi convertido para Ordem de serviço","Confirmado", 1);
+            JOptionPane.showMessageDialog(rootPane, "O Status do Orçamento selecionado foi convertido para Ordem de serviço", "Confirmado", 1);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -241,7 +244,7 @@ public class TelaOrcamentos extends javax.swing.JInternalFrame implements Retorn
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-          if (tabela.getSelectedRow() != -1) {
+        if (tabela.getSelectedRow() != -1) {
             long idOrdem = Long.parseLong(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
             new GeraRelatorioUtil().geraReletorioOrcamento(idOrdem);
         }
