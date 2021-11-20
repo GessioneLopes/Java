@@ -224,5 +224,52 @@ public class GeraRelatorioUtil {
             Logger.getLogger(GeraRelatorioUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+     public void geraReletorioClientes() {
+        InputStream rel = this.getClass().getResourceAsStream("/relatorios/clientes.jasper");
+        try {
+            Map<String, Object> params = new HashMap<>();
+
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
+            jasperPrint.setOrientation(OrientationEnum.PORTRAIT);
+            JasperViewer jv = new JasperViewer(jasperPrint, false);
+
+            jv.setExtendedState(MAXIMIZED_BOTH);
+
+            jv.setTitle("Clientes");
+
+            jv.setVisible(true);
+            jv.toFront();
+
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage() + "\n" + e.getMessage());
+
+        }
+    }
+     
+     public void geraReletorioProdutos() {
+        InputStream rel = this.getClass().getResourceAsStream("/relatorios/Produtos.jasper");
+        try {
+            Map<String, Object> params = new HashMap<>();
+
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
+            jasperPrint.setOrientation(OrientationEnum.PORTRAIT);
+            JasperViewer jv = new JasperViewer(jasperPrint, false);
+
+            jv.setExtendedState(MAXIMIZED_BOTH);
+
+            jv.setTitle("Produtos");
+
+            jv.setVisible(true);
+            jv.toFront();
+
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage() + "\n" + e.getMessage());
+
+        }
+    }
+
 
 }

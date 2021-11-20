@@ -187,6 +187,11 @@ public class MainApp extends javax.swing.JFrame {
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton6);
 
         jButton7.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -289,7 +294,7 @@ public class MainApp extends javax.swing.JFrame {
 
         jMenu3.setText("Ajuda");
 
-        jMenuItem9.setText("Sistema Info");
+        jMenuItem9.setText("Sistema Suporte");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem9ActionPerformed(evt);
@@ -443,6 +448,11 @@ public class MainApp extends javax.swing.JFrame {
         telaRelatorios.setVisible(true);
        
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        TelaAjuda tlj = new TelaAjuda(this, rootPaneCheckingEnabled);
+        tlj.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

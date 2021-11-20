@@ -12,8 +12,7 @@
 	<queryString>
 		<![CDATA[select * from venda
 
-where dataVenda = $P{DATA}
-]]>
+where dataVenda = $P{DATA}]]>
 	</queryString>
 	<field name="ID" class="java.lang.Long"/>
 	<field name="DATAVENDA" class="java.sql.Date"/>
