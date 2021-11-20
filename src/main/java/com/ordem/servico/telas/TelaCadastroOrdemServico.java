@@ -316,7 +316,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
 
         jLabel15.setText("Cor:");
 
-        jLabel16.setText("Número Série:");
+        jLabel16.setText("Número Série/ Chassi:");
 
         txtNumeroSerieEquip.setBackground(new java.awt.Color(252, 255, 252));
         txtNumeroSerieEquip.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -764,14 +764,20 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
                 ordem.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
 
                 var idOrdemSalva = new OrdemRepository().salvaOrdem(ordem);
-                JOptionPane.showMessageDialog(rootPane, "Dados da ordem salvos com sucesso", "Confirmado", 1);
-                limpar();
 
-                new GeraRelatorioUtil().geraViaOrdemServico(idOrdemSalva);
+                JOptionPane.showMessageDialog(rootPane, "Dados da ordem salvos com sucesso", "Confirmado", 1);
+
+                if (ordem.getTipo() == OrdemTipo.ORCAMENTO) {
+                    new GeraRelatorioUtil().geraReletorioOrcamento(idOrdemSalva);
+                } else {
+                    new GeraRelatorioUtil().geraViaOrdemServico(idOrdemSalva);
+                }
 
                 if (retornoUpdate != null) {
                     retornoUpdate.update(ordem);
                 }
+
+                limpar();
 
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Complete o preenchimento dos dados da ordem de serviço", "Incompleta", 0);
@@ -791,7 +797,6 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
             os.setTotal(new BigDecimal(String.valueOf(txtTotalGeral.getValue())));
             os.setItens(listaItens);
 
-
             if (os.getStatus() == OrdemStatus.FINALIZADA) {
                 var venda = new Venda();
 
@@ -799,7 +804,7 @@ public class TelaCadastroOrdemServico extends javax.swing.JInternalFrame impleme
                 venda.setObs("O.S Finalizada N° " + os.getId());
                 venda.setTotal(os.getTotal());
                 venda.setCliente(os.getCliente());
-              
+
                 var listItensVenda = new ArrayList<ItemVenda>();
 
                 os.getItens().forEach(it -> {

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2c91d2f2-d112-4d73-a812-f6bb78605483">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="39"/>
+	<property name="ireport.y" value="27"/>
 	<parameter name="OSNR" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -76,28 +76,28 @@ WHERE ID = $P{OSNR}]]>
 	<field name="EMAIL" class="java.lang.String"/>
 	<field name="REDESOCIAL" class="java.lang.String"/>
 	<title>
-		<band height="89" splitType="Stretch">
+		<band height="93" splitType="Stretch">
 			<line>
-				<reportElement x="0" y="63" width="555" height="1" forecolor="#999999" uuid="4d084022-1de1-495b-965e-16cd9129dd87"/>
+				<reportElement x="0" y="67" width="555" height="1" forecolor="#999999" uuid="4d084022-1de1-495b-965e-16cd9129dd87"/>
 				<graphicElement>
 					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="0" y="87" width="555" height="1" forecolor="#999999" uuid="aa1f4d27-3063-46f1-aefb-0826dc937fa9"/>
+				<reportElement x="0" y="91" width="555" height="1" forecolor="#999999" uuid="aa1f4d27-3063-46f1-aefb-0826dc937fa9"/>
 				<graphicElement>
 					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="366" y="5" width="189" height="14" uuid="f2c2390e-4d0c-4901-bef7-4288fc43c068"/>
+				<reportElement x="366" y="1" width="189" height="12" uuid="f2c2390e-4d0c-4901-bef7-4288fc43c068"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CONTATOS:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="126" y="66" width="113" height="20" uuid="adcd94cc-91c5-4b4b-85ef-702f06112093"/>
+				<reportElement x="126" y="70" width="113" height="20" uuid="adcd94cc-91c5-4b4b-85ef-702f06112093"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{ORDEM_ID}]]></textFieldExpression>
 			</textField>
@@ -134,33 +134,33 @@ WHERE ID = $P{OSNR}]]>
 				<textFieldExpression><![CDATA[$P{EMPRESA_ENDERECO}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="369" y="19" width="183" height="42" uuid="aab37eb5-4e27-4f27-9a95-da2ea4a21e7b"/>
+				<reportElement x="369" y="13" width="183" height="28" uuid="aab37eb5-4e27-4f27-9a95-da2ea4a21e7b"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{EMPRESA_CONTATOS}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2" y="66" width="124" height="20" forecolor="#666666" uuid="8489717a-ceda-43fa-8f65-6a11195c3027"/>
+				<reportElement x="2" y="70" width="124" height="20" forecolor="#666666" uuid="8489717a-ceda-43fa-8f65-6a11195c3027"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TIPO_DOCUMENTO}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="321" y="66" width="80" height="20" uuid="2b270685-9686-4eed-b5fc-89943f58de54"/>
+				<reportElement x="321" y="70" width="80" height="20" uuid="2b270685-9686-4eed-b5fc-89943f58de54"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{STATUS}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="400" y="66" width="154" height="20" uuid="281791c6-9a01-4d87-8156-8b52dd869ada"/>
+				<reportElement x="400" y="70" width="154" height="20" uuid="281791c6-9a01-4d87-8156-8b52dd869ada"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="277" y="66" width="44" height="20" uuid="de3b0b75-ebe3-4131-933b-a1179b76ec90"/>
+				<reportElement x="277" y="70" width="44" height="20" uuid="de3b0b75-ebe3-4131-933b-a1179b76ec90"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
@@ -633,6 +633,19 @@ WHERE ID = $P{OSNR}]]>
 				</textElement>
 				<text><![CDATA[TÉCNICO:]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement x="321" y="24" width="234" height="20" uuid="cc5ab198-9fe7-4490-838f-5067b2fbcbf1"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="EAN128" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$F{ID}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField>
+				<reportElement x="334" y="44" width="216" height="12" uuid="b4546afb-0735-4ca9-a7ea-e55f266db95c"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 </jasperReport>

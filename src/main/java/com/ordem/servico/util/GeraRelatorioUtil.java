@@ -5,12 +5,17 @@ import com.ordem.servico.models.Empresa;
 import com.ordem.servico.repository.ClienteRepository;
 import com.ordem.servico.repository.EmpresaRepository;
 import java.awt.Dialog.ModalExclusionType;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
@@ -71,12 +76,11 @@ public class GeraRelatorioUtil {
 
     public Connection getConexao() {
         Connection conexao = null;
-        final String path = System.getProperty("user.dir") + "\\GDMOS\\BANCO\\osData";
-
+        
         if (conexao == null) {
             try {
                 Class.forName("org.hsqldb.jdbcDriver");
-                conexao = DriverManager.getConnection("jdbc:hsqldb:file:" + path, "gdmos", "gdmos");
+                conexao = DriverManager.getConnection("jdbc:hsqldb:file:~/gdmOS/data", "gdmos", "gdmos");
 
             } catch (SQLException | ClassNotFoundException ex) {
                 System.out.println("Erro na conexão com banco de dados: " + ex.getMessage());
@@ -92,9 +96,20 @@ public class GeraRelatorioUtil {
 
             params.put("OSNR", osnr);
             params.put("TIPO_DOCUMENTO", "ORDEM DE SERVIÇO N°:");
-            params.put("EMPRESA_CONTATOS", empresa.getContato().getCelular() + "\n" + empresa.getContato().getEmail());
-            params.put("EMPRESA_ENDERECO", empresa.getEndereco().getLogradouro() + "\n" + empresa.getEndereco().getCidade());
+            
+            if (empresa != null) {
+                params.put("EMPRESA_CONTATOS", empresa.getContato().getCelular() + "\n"
+                        + empresa.getContato().getEmail());
 
+                params.put("EMPRESA_ENDERECO", empresa.getEndereco().getLogradouro() + " - "
+                        + empresa.getEndereco().getNumero()
+                        + "\n" + empresa.getEndereco().getCidade() + " - "
+                        + empresa.getEndereco().getUf());
+            } else {
+                params.put("EMPRESA_CONTATOS", "Cadastre os dados da empresa");
+                params.put("EMPRESA_ENDERECO", "Em configurações - Cadastre os dados da empresa");
+            }
+            
             JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
             jasperPrint.setOrientation(OrientationEnum.PORTRAIT);
             JasperViewer jv = new JasperViewer(jasperPrint, false);
@@ -179,6 +194,35 @@ public class GeraRelatorioUtil {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
+    }
+    
+       public void geraReletorioVendasDiario(String dta) {
+        InputStream rel = this.getClass().getResourceAsStream("/relatorios/fxcaixa_diario.jasper");
+        try {
+            Map<String, Object> params = new HashMap<>();
+            
+             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+             
+            params.put("DATA",  formatter.parse(dta));
+           
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(rel, params, getConexao());
+            jasperPrint.setOrientation(OrientationEnum.PORTRAIT);
+            JasperViewer jv = new JasperViewer(jasperPrint, false);
+
+            jv.setExtendedState(MAXIMIZED_BOTH);
+
+            jv.setTitle("Diário");
+
+            jv.setVisible(true);
+            jv.toFront();
+
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage() + "\n" + e.getMessage());
+
+        } catch (ParseException ex) {
+            Logger.getLogger(GeraRelatorioUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

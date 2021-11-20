@@ -121,7 +121,7 @@ public class TelaCadastroEquipamento extends javax.swing.JInternalFrame implemen
 
         jLabel3.setText("Marca:");
 
-        jLabel4.setText("Numero Série:");
+        jLabel4.setText("Numero Série /Chassi:");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add_orange.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {

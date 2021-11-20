@@ -426,7 +426,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel16">
           <Properties>
-            <Property name="text" type="java.lang.String" value="N&#xfa;mero S&#xe9;rie:"/>
+            <Property name="text" type="java.lang.String" value="N&#xfa;mero S&#xe9;rie/ Chassi:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNumeroSerieEquip">

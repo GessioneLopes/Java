@@ -2,7 +2,6 @@ package com.ordem.servico.telas;
 
 import com.ordem.servico.models.Cliente;
 import com.ordem.servico.models.ItemVenda;
-import com.ordem.servico.models.Produto;
 import com.ordem.servico.models.Venda;
 import com.ordem.servico.repository.ProdutoRepository;
 import com.ordem.servico.util.DataHora;
@@ -283,8 +282,10 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         if (!txtCodigoBar.getText().isEmpty()) {
 
             try {
-                var codigoBar = Long.parseLong(txtCodigoBar.getText());
-                var produto = produtoRepository.find(Produto.class, codigoBar);
+                var codigoBar = txtCodigoBar.getText();
+                var codigo = Long.parseLong(txtCodigoBar.getText());
+                
+                var produto = produtoRepository.findByCodBarAndId(codigo, codigoBar);
 
                 txtDescProduto.setText(produto.getNome() + " - " + produto.getMarca());
                 txtValorUnt.setText(numberFormat.format(produto.getValor()));
