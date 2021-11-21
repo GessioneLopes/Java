@@ -303,18 +303,35 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
                     item.setCodigo_interno(produto.getCodigo());
                     item.setVenda(venda);
 
-                    listaItens.add(item);
+                    var isAdicionado = listaItens.stream().anyMatch(it -> it.getCodigo_interno() == produto.getCodigo());
+                    if (isAdicionado) {
+                        var qtdeAtual = listaItens.stream()
+                                .filter(it -> it.getCodigo_interno() == produto.getCodigo())
+                                .findFirst().get()
+                                .getQtde();
+
+                        listaItens.removeIf(it -> it.getCodigo_interno() == produto.getCodigo());
+                        item.setQtde((int) txtQtdeSpiner.getValue() + qtdeAtual);
+                        item.setSubtotal(item.getPrecoUnit().multiply(new BigDecimal(item.getQtde())));
+                        listaItens.add(item);
+                    } else {
+                        listaItens.add(item);
+                    }
+
                     listaItemsOrdem();
 
                     txtCodigoBar.setText("");
                     txtCodigoBar.requestFocus();
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Produto sem estoque suficiente", "Sem Estoque", 0);
+                    txtCodigoBar.setText("");
+                    txtCodigoBar.requestFocus();
 
                 }
             } catch (HeadlessException | NumberFormatException ex) {
-                JOptionPane.showMessageDialog(rootPane, "Produto não encontrado "+ex.getMessage(), "Codigo inválido", 0);
-
+                JOptionPane.showMessageDialog(rootPane, "Produto não encontrado " + ex.getMessage(), "Codigo inválido", 0);
+                txtCodigoBar.setText("");
+                txtCodigoBar.requestFocus();
             }
         }
 
