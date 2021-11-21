@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import lombok.Data;
 
+
 @Entity
 @Data
 public class Produto implements Serializable {
@@ -38,6 +39,7 @@ public class Produto implements Serializable {
     private String nomeFornecedor;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  //  @Fetch(FetchMode.JOIN)
     private Estoque estoque;
 
 }

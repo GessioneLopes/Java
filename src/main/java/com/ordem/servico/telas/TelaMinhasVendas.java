@@ -2,12 +2,14 @@ package com.ordem.servico.telas;
 
 import com.ordem.servico.models.Cliente;
 import com.ordem.servico.models.ItemVenda;
+import com.ordem.servico.models.Produto;
 import com.ordem.servico.models.Venda;
 import com.ordem.servico.repository.ProdutoRepository;
 import com.ordem.servico.util.DataHora;
 import com.ordem.servico.util.RetornoUpdate;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -282,29 +284,37 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         if (!txtCodigoBar.getText().isEmpty()) {
 
             try {
-                var codigoBar = txtCodigoBar.getText();
+                String codigoBar = txtCodigoBar.getText();
                 var codigo = Long.parseLong(txtCodigoBar.getText());
-                
-                var produto = produtoRepository.findByCodBarAndId(codigo, codigoBar);
 
-                txtDescProduto.setText(produto.getNome() + " - " + produto.getMarca());
-                txtValorUnt.setText(numberFormat.format(produto.getValor()));
+                Produto produto = produtoRepository.findByCodBarAndId(codigo, codigoBar);
+                var produtoEstoque = produto.getEstoque().getAtual();
 
-                var item = new ItemVenda();
-                item.setDescr(produto.getNome());
-                item.setPrecoUnit(produto.getValor());
-                item.setQtde((Integer) txtQtdeSpiner.getValue());
-                item.setSubtotal(produto.getValor().multiply(new BigDecimal(item.getQtde())));
-                item.setCodigo_interno(produto.getCodigo());
-                item.setVenda(venda);
+                if (produtoEstoque >= ((int) txtQtdeSpiner.getValue())) {
 
-                listaItens.add(item);
-                listaItemsOrdem();
+                    txtDescProduto.setText(produto.getNome() + " - " + produto.getMarca());
+                    txtValorUnt.setText(numberFormat.format(produto.getValor()));
 
-                txtCodigoBar.setText("");
-                txtCodigoBar.requestFocus();
-            } catch (NullPointerException ex) {
-                JOptionPane.showMessageDialog(rootPane, "Produto não encontrado", "Codigo inválido", 0);
+                    var item = new ItemVenda();
+                    item.setDescr(produto.getNome());
+                    item.setPrecoUnit(produto.getValor());
+                    item.setQtde((Integer) txtQtdeSpiner.getValue());
+                    item.setSubtotal(produto.getValor().multiply(new BigDecimal(item.getQtde())));
+                    item.setCodigo_interno(produto.getCodigo());
+                    item.setVenda(venda);
+
+                    listaItens.add(item);
+                    listaItemsOrdem();
+
+                    txtCodigoBar.setText("");
+                    txtCodigoBar.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Produto sem estoque suficiente", "Sem Estoque", 0);
+
+                }
+            } catch (HeadlessException | NumberFormatException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Produto não encontrado "+ex.getMessage(), "Codigo inválido", 0);
+
             }
         }
 
