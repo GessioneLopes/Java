@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -112,12 +113,13 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         txtDescProduto = new javax.swing.JLabel();
         txtQtdeSpiner = new javax.swing.JSpinner();
         jLabel8 = new javax.swing.JLabel();
-        txtCodigoBar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         printcupom = new javax.swing.JCheckBox();
+        modoPromocao = new javax.swing.JCheckBox();
+        txtCodigoBar = new javax.swing.JTextField();
 
         setClosable(true);
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/menu-circulado-16.png"))); // NOI18N
@@ -251,15 +253,6 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendasBgTop.png"))); // NOI18N
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 80));
 
-        txtCodigoBar.setBackground(new java.awt.Color(250, 253, 242));
-        
-        txtCodigoBar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoBarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtCodigoBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 220, 32));
-
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Quantidade:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, 20));
@@ -277,66 +270,20 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         printcupom.setText("Imprimir Cupom");
         getContentPane().add(printcupom, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 480, -1, -1));
 
+        modoPromocao.setText("Modo Promoção");
+        modoPromocao.setEnabled(false);
+        getContentPane().add(modoPromocao, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, -1, -1));
+
+        txtCodigoBar.setBackground(new java.awt.Color(242, 253, 242));
+        txtCodigoBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoBarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtCodigoBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 220, 30));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtCodigoBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoBarActionPerformed
-        if (!txtCodigoBar.getText().isEmpty()) {
-
-            try {
-                String codigoBar = txtCodigoBar.getText();
-                var codigo = Long.parseLong(txtCodigoBar.getText());
-
-                Produto produto = produtoRepository.findByCodBarAndId(codigo, codigoBar);
-                var produtoEstoque = produto.getEstoque().getAtual();
-
-                if (produtoEstoque >= ((int) txtQtdeSpiner.getValue())) {
-
-                    txtDescProduto.setText(produto.getNome() + " - " + produto.getMarca());
-                    txtValorUnt.setText(numberFormat.format(produto.getValor()));
-
-                    var item = new ItemVenda();
-                    item.setDescr(produto.getNome());
-                    item.setPrecoUnit(produto.getValor());
-                    item.setQtde((Integer) txtQtdeSpiner.getValue());
-                    item.setSubtotal(produto.getValor().multiply(new BigDecimal(item.getQtde())));
-                    item.setCodigo_interno(produto.getCodigo());
-                    item.setVenda(venda);
-
-                    var isAdicionado = listaItens.stream().anyMatch(it -> it.getCodigo_interno() == produto.getCodigo());
-                    if (isAdicionado) {
-                        var qtdeAtual = listaItens.stream()
-                                .filter(it -> it.getCodigo_interno() == produto.getCodigo())
-                                .findFirst().get()
-                                .getQtde();
-
-                        listaItens.removeIf(it -> it.getCodigo_interno() == produto.getCodigo());
-                        item.setQtde((int) txtQtdeSpiner.getValue() + qtdeAtual);
-                        item.setSubtotal(item.getPrecoUnit().multiply(new BigDecimal(item.getQtde())));
-                        listaItens.add(item);
-                    } else {
-                        listaItens.add(item);
-                    }
-
-                    listaItemsOrdem();
-
-                    txtCodigoBar.setText("");
-                    txtCodigoBar.requestFocus();
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "Produto sem estoque suficiente", "Sem Estoque", 0);
-                    txtCodigoBar.setText("");
-                    txtCodigoBar.requestFocus();
-
-                }
-            } catch (HeadlessException | NumberFormatException ex) {
-                JOptionPane.showMessageDialog(rootPane, "Produto não encontrado " + ex.getMessage(), "Codigo inválido", 0);
-                txtCodigoBar.setText("");
-                txtCodigoBar.requestFocus();
-            }
-        }
-
-
-    }//GEN-LAST:event_txtCodigoBarActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (!listaItens.isEmpty()) {
@@ -393,6 +340,62 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
         txtCodigoBar.requestFocus();
     }//GEN-LAST:event_txtQtdeSpinerStateChanged
 
+    private void txtCodigoBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoBarActionPerformed
+        if (!txtCodigoBar.getText().isEmpty()) {
+
+            try {
+                String codigoBar = txtCodigoBar.getText();
+                var codigo = Long.parseLong(txtCodigoBar.getText());
+
+                Produto produto = produtoRepository.findByCodBarAndId(codigo, codigoBar);
+                var produtoEstoque = produto.getEstoque().getAtual();
+
+                if (produtoEstoque >= ((int) txtQtdeSpiner.getValue())) {
+
+                    txtDescProduto.setText(produto.getNome() + " - " + produto.getMarca());
+                    txtValorUnt.setText(numberFormat.format(produto.getValor()));
+
+                    var item = new ItemVenda();
+                    item.setDescr(produto.getNome());
+                    item.setPrecoUnit(produto.getValor());
+                    item.setQtde((Integer) txtQtdeSpiner.getValue());
+                    item.setSubtotal(produto.getValor().multiply(new BigDecimal(item.getQtde())));
+                    item.setCodigo_interno(produto.getCodigo());
+                    item.setVenda(venda);
+
+                    var isAdicionado = listaItens.stream().anyMatch(it -> it.getCodigo_interno() == produto.getCodigo());
+                    if (isAdicionado) {
+                        var qtdeAtual = listaItens.stream()
+                                .filter(it -> it.getCodigo_interno() == produto.getCodigo())
+                                .findFirst().get()
+                                .getQtde();
+
+                        listaItens.removeIf(it -> it.getCodigo_interno() == produto.getCodigo());
+                        item.setQtde((int) txtQtdeSpiner.getValue() + qtdeAtual);
+                        item.setSubtotal(item.getPrecoUnit().multiply(new BigDecimal(item.getQtde())));
+                        listaItens.add(item);
+                    } else {
+                        listaItens.add(item);
+                    }
+
+                    listaItemsOrdem();
+
+                    txtCodigoBar.setText("");
+                    txtCodigoBar.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Produto sem estoque suficiente", "Sem Estoque", 0);
+                    txtCodigoBar.setText("");
+                    txtCodigoBar.requestFocus();
+
+                }
+            } catch (HeadlessException | NoResultException | NumberFormatException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Produto não encontrado " + ex.getMessage(), "Codigo inválido", 0);
+                txtCodigoBar.setText("");
+                txtCodigoBar.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_txtCodigoBarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -410,6 +413,7 @@ public class TelaMinhasVendas extends javax.swing.JInternalFrame implements Reto
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JCheckBox modoPromocao;
     private javax.swing.JCheckBox printcupom;
     private javax.swing.JTable tabela;
     public javax.swing.JTextField txtCodigoBar;

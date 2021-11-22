@@ -20,6 +20,9 @@ import java.math.BigDecimal;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -161,6 +164,26 @@ public class Splash extends JWindow {
             sv.setTecnico(null);
             repository.saveOrUpdate(sv);
         }
+    }
+    
+     //Metodo para ser usado para limitar o tempo de uso do sistema, não sendo necessário sistema de serial.
+     //O metodo recebe uma data inicial (Aquisição) ex: 01/03/2023 07:30 que será subtraida de uma data futura LocalDateTime.now() (agora, hoje)
+     //O sistema verifica se a subtração passa de 180 dias, caso sim será bloqueado
+     //Este metodo não chamado em nenhum lugar no codigo, você pode chama-lo para teste. E o ideal é que essa data seja captura de um servidor online
+      public static long verificacaoValidadeUsoDoSistema() {
+        LocalDateTime tempoInicial = LocalDateTime.parse("01/03/2023 07:30", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        long periodo = ChronoUnit.DAYS.between(tempoInicial, LocalDateTime.now());
+
+        if (periodo >= 180) {
+            JOptionPane.showMessageDialog(null, "Lincença de 6 meses de uso expirada.\nWhatsapp 9898103-3497 para renovação", "Vencido", 0);
+            System.exit(0);
+        } else if (LocalDateTime.now().isBefore(tempoInicial)) {
+
+            JOptionPane.showMessageDialog(null, "Lincença de 6 meses de uso expirada.\nWhatsapp 9898103-3497 para renovação ", "Vencido", 0);
+            System.exit(0);
+        }
+
+        return periodo;
     }
 
 }

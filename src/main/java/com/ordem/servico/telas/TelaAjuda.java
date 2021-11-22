@@ -40,11 +40,11 @@ public class TelaAjuda extends javax.swing.JDialog {
         setTitle("Info");
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("GDM O.S - Versão 1.0");
+        jLabel1.setText("VITRINE O.S - Versão 1.0");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("GDM SISTEMAS");
+        jLabel2.setText("VITRINE SISTEMAS");
 
         jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -59,15 +59,15 @@ public class TelaAjuda extends javax.swing.JDialog {
         jLabel3.setText("SUPORTE ");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("deibidson@gmail.com");
+        jLabel4.setText("gessione13@gmail.com");
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("(98) 98103-3497");
+        jLabel5.setText("(62) 99376-7077");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        jLabel6.setText("Desenvolvido by Deibidson Mesquita");
+        jLabel6.setText("Desenvolvido by Gessione Lopes");
 
-        jLabel7.setText("Todos os direito reservados - 2021");
+        jLabel7.setText("Todos os direito reservados - 2023");
 
         jLabel8.setForeground(new java.awt.Color(0, 153, 0));
         jLabel8.setText("Sugestões de nova funcionalidades e relatos de bugs são muito bem vindas.");
@@ -95,7 +95,7 @@ public class TelaAjuda extends javax.swing.JDialog {
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 274, Short.MAX_VALUE)
                                 .addComponent(jButton1))
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

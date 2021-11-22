@@ -12,10 +12,12 @@
     </properties>
     
     <repositories>
+    
         <repository>
             <id>javaxt.com</id>
-            <url>http://www.javaxt.com/maven</url>
+            <url>https://www.javaxt.com/maven</url>
         </repository>
+ 
         
         <repository>
             <id>sonatype-oss-snapshot</id>
@@ -48,7 +50,7 @@
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
-            <version>1.6.1</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
@@ -74,7 +76,7 @@
         <dependency>
             <groupId>javaxt</groupId>
             <artifactId>javaxt-core</artifactId>
-            <version>1.10.6</version>
+            <version>1.11.2</version>
         </dependency>      
     
         <dependency>
@@ -90,19 +92,19 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.6.0</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.6.0</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.6.0</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
