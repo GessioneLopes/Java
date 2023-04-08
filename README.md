@@ -20,4 +20,4 @@ As classes do projeto podem ser editadas com qualquer IDE. O Uso do netbeans é 
 O Mysql pode ser facilmente adicionado em substituição do HSQLDB. Para isso edite o aquivo Hibernate.cfg.xml e HibernateUitl.java package util do projeto.
 # gdmosDesktop
 
-by Deibidson Mesquita
+by Gessione Lopes
